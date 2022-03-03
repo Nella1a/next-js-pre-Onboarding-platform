@@ -25,7 +25,7 @@ export default function Login() {
               <h2>Welcome Back</h2>
               <p>Sign in to continue your Pre-Onboarding </p>
             </div>
-            <form>
+            <form onSubmit={(event) => event.preventDefault}>
               <div>
                 {' '}
                 <label htmlFor="username">Username</label>

@@ -131,7 +131,7 @@ export const headerStyle = css`
       display: block;
       font-weight: bold;
       /* background-color: #43964f; */
-      background-color: #522d95;
+      /* background-color: #522d95; */
       letter-spacing: 0.5px;
       line-height: 18px;
       text-transform: uppercase;
@@ -139,9 +139,9 @@ export const headerStyle = css`
       font-size: 12px;
       min-height: 40px;
       padding: 10px 16px;
-      width: 7rem;
+      /* width: 5rem; */
       text-align: center;
-      color: #fff;
+      color: #522d95;
       border: none;
       border-radius: 4px;
     }
@@ -290,6 +290,45 @@ export const flexCenterWithWidthAndHeight = css`
           width: 100%;
           margin-top: 3rem;
         }
+      }
+    }
+  }
+`;
+
+/* *************************** */
+/*           Welcome           */
+/* *************************** */
+
+export const sectionLayout = css`
+  ${flexCenter}
+  background-color:#fff;
+  border: 1px solid red;
+  border-radius: 5px;
+
+  article {
+    width: 50%;
+    width: 100%;
+    border: 1px solid yellow;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f3f2f9;
+      border-radius: 25px;
+      width: 20rem;
+      height: 10rem;
+
+      button {
+        width: 80%;
+        /* background-color: #43964f; */
+        background-color: #30b565;
+        font-size: 12px;
+        font-weight: 400;
       }
     }
   }
