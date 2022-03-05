@@ -8,8 +8,12 @@ export const globalStyleBody = (theme) => css`
   :root {
     /* --backgroundColor: #fff; */
     /* --backgroundColor: #eae9ee; */
-    --backgroundColor: #dad3f4;
+    /* --backgroundColor: #dad3f4; */
     /* --backgroundColor: #6242e7; */
+    --backgroundColor: #e9e7f1;
+    /* --backgroundColor: #f2f2f2; */
+    --fontColorDark: #0e081c;
+    --fontColorParagraphAndLinks: #b6b6b6;
   }
 
   /* Reset sizing   */
@@ -30,6 +34,9 @@ export const globalStyleBody = (theme) => css`
     margin: 0;
   }
 
+  p {
+    color: var(--fontColorParagraphAndLinks);
+  }
   /* set up the body */
   body {
     line-height: 1.5; /* default for browser: 1.4 tends to be very small*/
@@ -41,7 +48,7 @@ export const globalStyleBody = (theme) => css`
 
     /* border: 1px solid black; */
     margin: 0 auto;
-    color: #000;
+    color: var(--fontColorDark);
   }
 
   /* make img easier to work with*/
@@ -97,7 +104,7 @@ const size = (width = '100%', height = '100%') => {
 };
 
 /* *************************** */
-/*   Header: Navigation Bar    */
+/*            Header           */
 /* *************************** */
 
 export const headerStyle = css`
@@ -105,52 +112,67 @@ export const headerStyle = css`
   width: 100%;
   /* ${marginCenter} */
   /* position: fixed; */
-  background-color: #fff;
+  /* background-color: #fff; */
+  /* background-color: #dad3f4; */
   ${marginCenter}
   margin: 1rem auto;
+  border-radius: 15px;
+  color: darkgray;
 
   nav {
     max-width: 95%;
-    width: inherit;
+    /* width: inherit; */
     ${marginCenter}
     /* margin: 0 auto; */
-    gap: 20px;
+    gap: 18px;
     align-items: center;
     display: flex;
     height: 4rem;
     color: #43964f;
-    justify-content: space-around;
+    justify-content: space-between;
 
-    img {
+    /* img {
       width: 80%;
       height: auto;
+    } */
+
+    div {
+      ${flexCenter} gap: .5rem;
     }
 
-    a {
-      text-decoration: none;
-      display: block;
-      font-weight: bold;
-      /* background-color: #43964f; */
-      /* background-color: #522d95; */
-      letter-spacing: 0.5px;
-      line-height: 18px;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 12px;
-      min-height: 40px;
-      padding: 10px 16px;
-      /* width: 5rem; */
-      text-align: center;
-      color: #522d95;
-      border: none;
-      border-radius: 4px;
+    div:nth-of-type(1) {
+      margin-left: 12rem;
     }
 
-    a:first-of-type {
+    div:nth-of-type(2) {
       margin-left: auto;
 
-      &:hover {
-        border-bottom: 3px solid red;
+      div {
+        border: 1px solid black;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      a {
+        text-decoration: none;
+        display: block;
+        font-weight: bold;
+        /* background-color: #43964f; */
+        /* background-color: #522d95; */
+        letter-spacing: 0.5px;
+        line-height: 18px;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
+        min-height: 40px;
+        padding: 10px 16px;
+        /* width: 5rem; */
+        text-align: center;
+        /* color: #522d95; */
+        color: var(--fontColorParagraphAndLinks);
+        border: none;
+        border-radius: 4px;
       }
     }
   }
@@ -164,8 +186,9 @@ export const flexCenterWithWidthAndHeight = css`
   ${flexCenter}
   width: 95%;
   height: 100vh;
-  /* border: 10px solid red; */
+  border: 10px solid red;
   margin: 0 auto;
+
   /* background: linear-gradient(
     to right,
     #e1dee8 0%,
@@ -226,7 +249,7 @@ export const flexCenterWithWidthAndHeight = css`
       padding: 1rem;
       display: flex;
       flex-direction: column;
-      gap: 5rem;
+      gap: 1.8rem;
       align-items: center;
       background-color: #f5f5f5;
       /* border-radius: 0 5% 5% 0; */
@@ -255,9 +278,13 @@ export const flexCenterWithWidthAndHeight = css`
         ${flexCenterColumn}
         /* width: 60%; */
 
+        div + div {
+          margin-top: 2rem;
+        }
+
         div {
           ${flexCenterColumn}
-          margin-top: 1.2rem;
+          /* margin-top: 1.2rem; */
           width: 100%;
 
           label {
@@ -268,10 +295,13 @@ export const flexCenterWithWidthAndHeight = css`
 
           input {
             width: 100%;
+            /* min-height: 25px; */
             min-height: 40px;
             border: none;
             background-color: #eae9ee;
+            /* background-color: transparent; */
 
+            /* border-bottom: 1px solid lightgray; */
             /* height: 3rem; */
           }
         }
@@ -295,41 +325,150 @@ export const flexCenterWithWidthAndHeight = css`
   }
 `;
 
+export const errorStyles = css`
+  color: red;
+`;
+
+/* *************************** */
+/*           Navigation        */
+/* *************************** */
+export const navigationStyle = css`
+  ul {
+    margin-top: 3rem;
+    height: 100%;
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+    justify-content: center;
+
+    li {
+      list-style: none;
+      display: flex;
+      gap: 0.8rem;
+
+      a {
+        text-decoration: none;
+        color: var(--fontColorParagraphAndLinks);
+      }
+      a:link,
+      a:visited,
+      a:active {
+        color: var(--fontColorParagraphAndLinks);
+      }
+    }
+  }
+`;
+
 /* *************************** */
 /*           Welcome           */
 /* *************************** */
 
-export const sectionLayout = css`
-  ${flexCenter}
-  background-color:#fff;
-  border: 1px solid red;
-  border-radius: 5px;
+export const sectionOneLayout = css`
+  min-width: 20%;
+  min-height: 100%;
+`;
 
-  article {
-    width: 50%;
-    width: 100%;
-    border: 1px solid yellow;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+export const sectionTwoLayout = css`
+  min-width: 80%;
 
-    div {
+  /* background-color: #dad3f4; */
+  /* background-color: #f2f7f5; */
+  background-color: #e9e7f1;
+  /* background-color: #d9dedb; */
+  border: 3px solid #fff;
+  border-radius: 30px 0 20px 0;
+  /* padding: 2rem; */
+  /* margin: 0 0.5rem 0.5rem 0; */
+  /* border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff; */
+  padding: 1.5rem;
+  /* -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16); */
+  h1 {
+    margin: 1.5rem 0 1.5rem 0;
+  }
+
+  div {
+    ${flexCenter}
+    /* border: 2px solid pink; */
+
+    h2 {
+      font-size: 16px;
+    }
+
+    article:nth-of-type(1) {
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      background-color: #f3f2f9;
-      border-radius: 25px;
-      width: 20rem;
-      height: 10rem;
+      align-items: center;
+      min-width: 30%;
+      /* border: 1px solid pink; */
+      width: 18rem;
+      height: 24rem;
+      border-radius: 20px;
+      background-color: #fff;
+    }
 
-      button {
-        width: 80%;
-        /* background-color: #43964f; */
-        background-color: #30b565;
-        font-size: 12px;
-        font-weight: 400;
+    article:nth-of-type(2) {
+      width: 100%;
+      /* width: 100%; */
+      /* border: 1px solid red; */
+      display: flex;
+      /* flex-direction: column; */
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: flex-end;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* gap: 1rem; */
+        /* background-color: #f3f2f9; */
+        background-color: #fff;
+        /* border-radius: 25px; */
+        width: 18rem;
+        height: 12rem;
+        border-radius: 20px;
+        padding: 1rem;
+
+        /* box-shadow: 0 2px 21px 0 rgb(0 0 0 / 10%); */
+
+        button {
+          width: 100%;
+          /* background-color: #43964f; */
+          background-color: #30b565;
+          font-size: 12px;
+          font-weight: 400;
+          border-radius: 5px;
+          color: #fff;
+          min-height: 30px;
+          margin-bottom: 0;
+        }
       }
     }
   }
+`;
+
+/* *************************** */
+/*           Welcome  Two      */
+/* *************************** */
+export const containerStyle = css`
+  width: 95%;
+  height: 100%;
+  background-color: #fff;
+  position: relative;
+  z-index: -1;
+`;
+
+export const headerWelcome = css`
+  border-radius: 5px;
+`;
+
+export const styleMain = css`
+  /* border: 2px solid black; */
+  display: flex;
+  height: 80vh;
 `;

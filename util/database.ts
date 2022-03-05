@@ -18,3 +18,32 @@ function connectOneTimeToDatabase() {
 }
 
 const sql = connectOneTimeToDatabase();
+
+type User = {
+  id: number;
+  username: string;
+};
+
+// create user in database
+export async function createUser(username: string, passwordHash: string) {
+  const [user] = await sql<[User]>`
+  INSERT INTO users
+  (username, password_hash)
+  VALUES
+  (${username}, ${passwordHash})
+  RETURNING
+  id,
+  username
+  `;
+  return camelcaseKeys(user);
+}
+
+// check if username already exists in database
+export async function getUserByUsername(username: string) {
+  const [user] = await sql<[User | undefined]>`
+
+  SELECT id FROM users WHERE username = ${username}
+
+  `;
+  return user && camelcaseKeys(user);
+}
