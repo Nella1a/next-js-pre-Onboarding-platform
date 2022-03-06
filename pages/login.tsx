@@ -9,6 +9,7 @@ import {
 } from '../components/elements';
 import Layout from '../components/Layout';
 import imgTest from '../public/imgTest.png';
+import { LoginResponseBody } from './api/login';
 
 type Errors = { message: string }[];
 
@@ -64,7 +65,8 @@ export default function Login() {
                 });
 
                 // get response from api & check for error message
-                const loginResponseBody = await loginResponse.json();
+                const loginResponseBody =
+                  (await loginResponse.json()) as LoginResponseBody;
                 if ('errors' in loginResponseBody) {
                   setErrors(loginResponseBody.errors);
                   return;

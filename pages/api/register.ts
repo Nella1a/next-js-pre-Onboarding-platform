@@ -1,10 +1,24 @@
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createUser, getUserByUsername } from '../../util/database';
+import { createUser, getUserByUsername, User } from '../../util/database';
+
+type RegisterRequestBody = {
+  username: string;
+  password: string;
+  csrfToken: string;
+};
+
+type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
+  body: RegisterRequestBody;
+};
+
+export type RegisterResponseBody =
+  | { errors: { message: string }[] }
+  | { user: User };
 
 export default async function registerHandler(
   request: NextApiRequest,
-  response: NextApiResponse,
+  response: NextApiResponse<RegisterResponseBody>,
 ) {
   if (request.method === 'POST') {
     // validation 1: check if un or pw is not string or empty

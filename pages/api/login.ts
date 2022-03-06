@@ -4,11 +4,26 @@ import {
   createUser,
   getUserByUsername,
   getUserByUserWithPasswordHashByUsername,
+  User,
 } from '../../util/database';
+
+type LoginRequestBody = {
+  username: string;
+  password: string;
+  csrfToken: string;
+};
+
+type LoginNextApiRequest = Omit<NextApiRequest, 'body'> & {
+  body: LoginRequestBody;
+};
+
+export type LoginResponseBody =
+  | { errors: { message: string }[] }
+  | { user: Pick<User, 'id'> };
 
 export default async function loginHandler(
   request: NextApiRequest,
-  response: NextApiResponse,
+  response: NextApiResponse<LoginResponseBody>,
 ) {
   if (request.method === 'POST') {
     // validation: check if un or pw is not string or empty

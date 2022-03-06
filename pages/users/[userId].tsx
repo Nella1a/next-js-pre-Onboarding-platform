@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function UserDetail(props: Props) {
-  if (props.user === null) {
+  if (!props.user) {
     return (
       <Layout>
         <Head>
@@ -34,11 +34,11 @@ export default function UserDetail(props: Props) {
     <Layout>
       <Head>
         <title>
-          User #{props.user?.id} welcome: {props.user?.username}
+          User #{props.user.id} welcome: {props.user.username}
         </title>
         <meta
           name="description"
-          content={`User #${props.user?.id} has a username of ${props.user?.username}`}
+          content={`User #${props.user.id} has a username of ${props.user.username}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -50,8 +50,7 @@ export default function UserDetail(props: Props) {
       </section>
       <section css={sectionTwoLayout}>
         <h1>
-          Hello:{' '}
-          {`${props.user?.username},  your userid is: ${props.user?.id} `}
+          Hello: {`${props.user.username},  your userid is: ${props.user.id} `}
         </h1>
         <div>
           <article>
