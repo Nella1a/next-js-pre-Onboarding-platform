@@ -52,7 +52,7 @@ export default function Register() {
                 event.preventDefault();
 
                 // send username & pw to api
-                const createUserResponse = await fetch('/api/register', {
+                const registerResponse = await fetch('/api/register', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -63,14 +63,16 @@ export default function Register() {
                   }),
                 });
 
-                // get response from api & check for error message
-                const createUserResponseBody = await createUserResponse.json();
-                if ('errors' in createUserResponseBody) {
-                  setErrors(createUserResponseBody.errors);
+                // response from api & check for error message
+                const registerResponseBody = await registerResponse.json();
+                if ('errors' in registerResponseBody) {
+                  setErrors(registerResponseBody.errors);
                   return;
                 }
                 // redirect user after login to welcome page
                 await router.push('/welcome');
+                console.log(registerResponseBody.user.id);
+                console.log(registerResponseBody.user.username);
               }}
             >
               <div>

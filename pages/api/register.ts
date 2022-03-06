@@ -34,7 +34,7 @@ export default async function registerHandler(
     // add new user to database
     const user = await createUser(request.body.username, passwordHash);
 
-    // send back created user from database
+    // send new user object to frontend
     response.status(201).json({ user: user });
     return;
   }

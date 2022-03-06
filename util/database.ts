@@ -6,6 +6,11 @@ import postgres from 'postgres';
 
 config();
 
+// Type needed for the connection function below
+declare module globalThis {
+  let postgresSqlClient: ReturnType<typeof postgres> | undefined;
+}
+
 // Connect only once to the database
 // https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
 function connectOneTimeToDatabase() {
@@ -19,10 +24,41 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
-type User = {
+export type User = {
   id: number;
   username: string;
 };
+
+export type UserWithPasswordHash = User & {
+  passwordHash: string;
+};
+
+// check if username already exists in database
+export async function getUserByUsername(username: string) {
+  const [user] = await sql<[id: number | undefined]>`
+
+  SELECT id FROM users WHERE username = ${username}
+
+  `;
+  return user && camelcaseKeys(user);
+}
+
+// get user with passwordhash
+export async function getUserByUserWithPasswordHashByUsername(
+  username: string,
+) {
+  const [user] = await sql<[UserWithPasswordHash | undefined]>`
+  SELECT
+    id,
+    username,
+    password_hash
+  FROM
+    users
+   WHERE
+    username = ${username}
+  `;
+  return user && camelcaseKeys(user);
+}
 
 // create user in database
 export async function createUser(username: string, passwordHash: string) {
@@ -38,12 +74,15 @@ export async function createUser(username: string, passwordHash: string) {
   return camelcaseKeys(user);
 }
 
-// check if username already exists in database
-export async function getUserByUsername(username: string) {
+export async function getUserById(id: number) {
   const [user] = await sql<[User | undefined]>`
-
-  SELECT id FROM users WHERE username = ${username}
-
-  `;
+    SELECT
+      id,
+      username
+    FROM
+      users
+     WHERE
+      id = ${id}
+    `;
   return user && camelcaseKeys(user);
 }

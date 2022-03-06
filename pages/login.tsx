@@ -38,12 +38,21 @@ export default function Login() {
               <p>Login to continue your Pre-Onboarding </p>
             </div>
 
+            {/* show error message if username or password does not match  */}
+            <div css={errorStyles}>
+              {errors.map((error) => {
+                return (
+                  <div key={`error-${error.message}`}>{error.message}</div>
+                );
+              })}
+            </div>
+
             <form
               onSubmit={async (event) => {
                 event.preventDefault();
 
                 // send username & pw to api
-                const createUserResponse = await fetch('/api/login', {
+                const loginResponse = await fetch('/api/login', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -55,13 +64,14 @@ export default function Login() {
                 });
 
                 // get response from api & check for error message
-                const createUserResponseBody = await createUserResponse.json();
-                if ('errors' in createUserResponseBody) {
-                  setErrors(createUserResponseBody.errors);
+                const loginResponseBody = await loginResponse.json();
+                if ('errors' in loginResponseBody) {
+                  setErrors(loginResponseBody.errors);
                   return;
                 }
-                // redirect user after login to welcome page
-                await router.push('/welcome');
+                // Login worked, clear errors and redirect to the welcome page
+                setErrors([]);
+                await router.push(`/users/${loginResponseBody.user.id}`);
               }}
             >
               <div>

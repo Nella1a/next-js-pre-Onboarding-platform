@@ -1,13 +1,17 @@
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createUser, getUserByUsername } from '../../util/database';
+import {
+  createUser,
+  getUserByUsername,
+  getUserByUserWithPasswordHashByUsername,
+} from '../../util/database';
 
 export default async function loginHandler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
   if (request.method === 'POST') {
-    // validation 1: check if un or pw is not string or empty
+    // validation: check if un or pw is not string or empty
     if (
       typeof request.body.username !== 'string' ||
       !request.body.username ||
@@ -17,25 +21,44 @@ export default async function loginHandler(
       response.status(400).json({
         errors: [{ message: 'Username or password not provided' }],
       });
-      return; // Always indlude a return in api route, important because it will prevent "Headers" already sent" error
+      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
     }
 
-    // validation 2: check if username already exists in database
-    if (await getUserByUsername(request.body.username)) {
-      response.status(409).json({
-        errors: [{ message: 'Username is already taken' }],
+    // get user with password_hash from database
+    const userWithPasswordHash = await getUserByUserWithPasswordHashByUsername(
+      request.body.username,
+    );
+
+    // Error-Handling:  user or password doesn't exist
+    if (!userWithPasswordHash) {
+      response.status(401).json({
+        errors: [{ message: 'Username or password does not match.' }],
       });
-      return; // Always indlude a return in api route,
+      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
     }
 
-    // create passwordHash
-    const passwordHash = await bcrypt.hash(request.body.password, 12);
+    // compare passwordHash
+    const passwordMatches = await bcrypt.compare(
+      request.body.password,
+      userWithPasswordHash.passwordHash,
+    );
 
-    // add new user to database
-    const user = await createUser(request.body.username, passwordHash);
+    // Error-Handling: password does not match
+    if (!passwordMatches) {
+      response.status(401).json({
+        errors: [{ message: 'Username or password does not match.' }],
+      });
+      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
+    }
 
-    // send back created user from database
-    response.status(201).json({ user: user });
+    // TODO: Create Session Cookie = A record that a user has correctly loged in at a specific point in time. And it will expire at a specific point in time
+
+    // send back user to frontend
+    response.status(201).json({
+      user: {
+        id: userWithPasswordHash.id,
+      },
+    });
     return;
   }
   response.status(405).json({
