@@ -21,7 +21,7 @@ export default function Welcome() {
         <h1>Welcome X</h1>
         <p>It's great to have you with us.</p>
         <section css={flexCenterWithWidthAndHeight}>
-          <article></article>
+          <article>Lorem Lorem </article>
           <article>
             <div>
               <h2>Text 1</h2>

@@ -11,7 +11,6 @@ import Header from '../../components/Header';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
 import { getUserById, User } from '../../util/database';
-import imgTest from '../public/imgTest.png';
 
 type Props = {
   user?: User | null;
@@ -50,7 +49,7 @@ export default function UserDetail(props: Props) {
       </section>
       <section css={sectionTwoLayout}>
         <h1>
-          Hello: {`${props.user.username},  your userid is: ${props.user.id} `}
+          Hello: {`${props.user.username},  userId is: ${props.user.id} `}
         </h1>
         <div>
           <article>

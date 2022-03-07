@@ -33,6 +33,11 @@ export type UserWithPasswordHash = User & {
   passwordHash: string;
 };
 
+export type Session = {
+  id: number;
+  token: string;
+};
+
 // check if username already exists in database
 export async function getUserByUsername(username: string) {
   const [user] = await sql<[id: number | undefined]>`
@@ -60,7 +65,7 @@ export async function getUserByUserWithPasswordHashByUsername(
   return user && camelcaseKeys(user);
 }
 
-// create user in database
+// create user to database
 export async function createUser(username: string, passwordHash: string) {
   const [user] = await sql<[User]>`
   INSERT INTO users
@@ -74,6 +79,7 @@ export async function createUser(username: string, passwordHash: string) {
   return camelcaseKeys(user);
 }
 
+// get user by id
 export async function getUserById(id: number) {
   const [user] = await sql<[User | undefined]>`
     SELECT
@@ -85,4 +91,18 @@ export async function getUserById(id: number) {
       id = ${id}
     `;
   return user && camelcaseKeys(user);
+}
+
+// add token to session table
+export async function createSession(token: string, userId: number) {
+  const [session] = await sql<[Session]>`
+  INSERT INTO sessions
+  (token, user_id)
+  VALUES
+  (${token}, ${userId})
+  RETURNING
+  id,
+  token
+  `;
+  return camelcaseKeys(session);
 }

@@ -1,6 +1,13 @@
+import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createUser, getUserByUsername, User } from '../../util/database';
+import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+import {
+  createSession,
+  createUser,
+  getUserByUsername,
+  User,
+} from '../../util/database';
 
 type RegisterRequestBody = {
   username: string;
@@ -31,7 +38,7 @@ export default async function registerHandler(
       response.status(400).json({
         errors: [{ message: 'Username or password not provided' }],
       });
-      return; // Always indlude a return in api route, important because it will prevent "Headers" already sent" error
+      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
     }
 
     // validation 2: check if username already exists in database
@@ -39,17 +46,37 @@ export default async function registerHandler(
       response.status(409).json({
         errors: [{ message: 'Username is already taken' }],
       });
-      return; // Always indlude a return in api route,
+      return; // Always include a return in api route,
     }
 
     // create passwordHash
     const passwordHash = await bcrypt.hash(request.body.password, 12);
 
-    // add new user to database
+    // add new user & passwordHash to database
     const user = await createUser(request.body.username, passwordHash);
 
-    // send new user object to frontend
-    response.status(201).json({ user: user });
+    // 1. Create a unique token (use node crypto)
+    const token = crypto.randomBytes(64).toString('base64');
+
+    // 2. Save token into sessions table
+    const session = await createSession(token, user.id);
+    console.log(session);
+
+    // 3. Serialize the Cookie (we need to do serialize bc we are in the backend)
+    const serializedCookie = await createSerializedRegisterSessionTokenCookie(
+      session.token,
+    );
+
+    // Add user to the response body
+    // 4. Add cookie to the header response
+    response
+      .status(201)
+      .setHeader('Set-Cookie', serializedCookie)
+      .json({
+        user: {
+          user: user,
+        },
+      });
     return;
   }
   response.status(405).json({

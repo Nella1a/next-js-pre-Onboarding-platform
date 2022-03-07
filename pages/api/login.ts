@@ -1,9 +1,13 @@
+import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import {
+  createSession,
   createUser,
   getUserByUsername,
   getUserByUserWithPasswordHashByUsername,
+  Session,
   User,
 } from '../../util/database';
 
@@ -66,14 +70,28 @@ export default async function loginHandler(
       return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
     }
 
-    // TODO: Create Session Cookie = A record that a user has correctly loged in at a specific point in time. And it will expire at a specific point in time
+    // 1. Create a unique token (use node crypto)
+    const token = crypto.randomBytes(64).toString('base64');
 
-    // send back user to frontend
-    response.status(201).json({
-      user: {
-        id: userWithPasswordHash.id,
-      },
-    });
+    // 2. Save token into sessions table
+    const session = await createSession(token, userWithPasswordHash.id);
+    console.log(session);
+
+    // 3. Serialize the Cookie (we need to do serialize bc we are in the backend)
+    const serializedCookie = await createSerializedRegisterSessionTokenCookie(
+      session.token,
+    );
+
+    // Add user to the response body
+    // 4. Add cookie to the header response
+    response
+      .status(201)
+      .setHeader('Set-Cookie', serializedCookie)
+      .json({
+        user: {
+          id: userWithPasswordHash.id,
+        },
+      });
     return;
   }
   response.status(405).json({
