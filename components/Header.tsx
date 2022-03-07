@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { headerStyle } from './elements';
 
-export default function Header() {
+export default function Header(props) {
   return (
     <header css={headerStyle}>
       <nav>
@@ -22,9 +22,10 @@ export default function Header() {
         </div>
         <div>
           <div>Foto</div>
-          <p>Jane Doe</p>
+          {props.userObject && <p>{props.userObject.username}</p>}
+          {/* <p>{props.userObject.username}Jane Doe</p> */}
 
-          <a>
+          <a href="/logout">
             {' '}
             <Image
               src="/img/right-from-bracket-solid.svg"

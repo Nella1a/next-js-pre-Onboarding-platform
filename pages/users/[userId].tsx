@@ -10,16 +10,16 @@ import {
 import Header from '../../components/Header';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
-import { getUserById, User } from '../../util/database';
+import { getUserById, getValidSessionByToken, User } from '../../util/database';
 
-type Props = {
-  user?: User | null;
-};
+// type Props = {
+//   user?: User | null;
+// };
 
-export default function UserDetail(props: Props) {
+export default function UserDetail(props) {
   if (!props.user) {
     return (
-      <Layout>
+      <Layout userObject={props.userObject}>
         <Head>
           <title>User not found</title>
           <meta name="description" content="User not found" />
@@ -30,7 +30,7 @@ export default function UserDetail(props: Props) {
     );
   }
   return (
-    <Layout>
+    <Layout userObject={props.userObject}>
       <Head>
         <title>
           User #{props.user.id} welcome: {props.user.username}
@@ -45,7 +45,7 @@ export default function UserDetail(props: Props) {
       {/* <h1>Welcome X</h1>
       <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
-        <Navigation />
+        <Navigation userId={props.user.id} />
       </section>
       <section css={sectionTwoLayout}>
         <h1>
@@ -90,6 +90,44 @@ export default function UserDetail(props: Props) {
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<{ user?: User }>> {
+  const token = context.req.cookies.sessionToken;
+
+  if (token) {
+    // 2. check if token is valid
+    // TO DO CHECK ROLE Of USER
+    const session = await getValidSessionByToken(token);
+    const user = await getUserById(session.userId);
+    if (session) {
+      // User id is not correct type
+      if (!session.userId || Array.isArray(session.userId)) {
+        return { props: {} };
+      }
+
+      // read user from database
+      const user = await getUserById(session.userId);
+
+      if (!user) {
+        context.res.statusCode = 404;
+        return {
+          // notFound: true, // also works, but generates a generic error page
+          props: {},
+        };
+      }
+      return {
+        props: {
+          user: user,
+        },
+      };
+    }
+  }
+  return {
+    props: {},
+  };
+}
+/*
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<{ user?: User }>> {
   // get userId from current login
   const userId = context.query.userId;
 
@@ -114,4 +152,4 @@ export async function getServerSideProps(
       user: user,
     },
   };
-}
+} */

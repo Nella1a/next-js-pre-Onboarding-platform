@@ -186,7 +186,7 @@ export const flexCenterWithWidthAndHeight = css`
   ${flexCenter}
   width: 95%;
   height: 100vh;
-  border: 10px solid red;
+  /* border: 10px solid red; */
   margin: 0 auto;
 
   /* background: linear-gradient(

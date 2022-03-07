@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
+import { getUserById, getValidSessionByToken } from '../util/database';
 import { styleMain } from './elements';
 import Header from './Header';
 
@@ -14,24 +15,39 @@ const backgroundStyle = css`
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
 `;
 
-type Props = {
-  children?: React.ReactNode;
-};
+// type Props = {
+//   children?: React.ReactNode;
+// };
 
-export default function Layout(props: Props) {
+export default function Layout(props) {
   return (
     <>
       <Head>
         {' '}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div css={backgroundStyle}>
-        <Header />
-        <main css={styleMain}>
+
+      {console.log('userobject:', props.userObject)}
+      {props.userObject ? (
+        <div css={backgroundStyle}>
+          {' '}
+          <Header userObject={props.userObject} />
+          <main css={styleMain}>
+            {props.children}
+            {/* <section>{props.children}</section> */}
+          </main>
+        </div>
+      ) : (
+        <main>
           {props.children}
           {/* <section>{props.children}</section> */}
         </main>
-      </div>
+      )}
+
+      {/* <main css={styleMain}>
+          {props.children}
+        </main>
+ */}
     </>
   );
 }

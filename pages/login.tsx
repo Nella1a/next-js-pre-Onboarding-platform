@@ -1,3 +1,5 @@
+// import cookie from 'cookie';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,12 +10,15 @@ import {
   flexCenterWithWidthAndHeight,
 } from '../components/elements';
 import Layout from '../components/Layout';
+import { productionBrowserSourceMaps } from '../next.config';
 import imgTest from '../public/imgTest.png';
+import { getValidSessionByToken } from '../util/database';
+// import { deleteSessionByToken } from '../util/database';
 import { LoginResponseBody } from './api/login';
 
 type Errors = { message: string }[];
 
-export default function Login() {
+export default function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
@@ -73,7 +78,8 @@ export default function Login() {
                 }
                 // Login worked, clear errors and redirect to the welcome page
                 setErrors([]);
-                await router.push(`/users/${loginResponseBody.user.id}`);
+                props.refreshUserProfile();
+                await router.push(`/`);
               }}
             >
               <div>
@@ -110,3 +116,62 @@ export default function Login() {
     </Layout>
   );
 }
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // 1. Check if there is a token
+  const token = context.req.cookies.sessionToken;
+
+  if (token) {
+    // 2. check if token is valid and redirect to welcome page ->
+    // thus user can't login multiple times
+    const session = await getValidSessionByToken(token);
+
+    if (session) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+  }
+  // 2. If token is NOT valid render the page
+  return {
+    props: {},
+  };
+}
+
+/* export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // 1. get the cookie from the context and get session token
+  const token = context.req.cookies.sessionToken;
+  console.log('cookie:', token);
+  // if cookie is set
+  if (token) {
+    // 2.  we want want to delete the session from our database
+    await deleteSessionByToken(token);
+
+    // 3. wie want to set the cookie destruction
+    // Send another respond header to client.
+    // setting the maxAge to -1 = delete cookie
+    context.res.setHeader(
+      'Set-Cookie',
+      cookie.serialize('sessionToken', '', {
+        maxAge: -1,
+        path: '/',
+      }),
+    );
+  }
+
+  // 4. we need to redirect to the page that linked to logout
+
+  return {
+    redirect: {
+      destination: '/',
+      permanent: false,
+    },
+  };
+
+  // return {
+  //   props: {},
+  // };
+} */

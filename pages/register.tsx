@@ -1,3 +1,4 @@
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,11 +9,13 @@ import {
   flexCenterWithWidthAndHeight,
 } from '../components/elements';
 import Layout from '../components/Layout';
+import { productionBrowserSourceMaps } from '../next.config';
 import imgTest from '../public/imgTest.png';
+import { getValidSessionByToken } from '../util/database';
 
 type Errors = { message: string }[];
 
-export default function Register() {
+export default function Register(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
@@ -70,7 +73,8 @@ export default function Register() {
                   return;
                 }
                 // redirect user after login to welcome page
-                await router.push('/welcome');
+                props.refreshUserProfile();
+                await router.push('/');
                 console.log(registerResponseBody.user.id);
                 console.log(registerResponseBody.user.username);
               }}
@@ -108,4 +112,30 @@ export default function Register() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // 1. Check if there is a token and valid
+
+  const token = context.req.cookies.sessionToken;
+
+  if (token) {
+    // 2. check if token is valid and redirect to welcome page ->
+    // thus user can't login multiple times
+    const session = await getValidSessionByToken(token);
+
+    if (session) {
+      return {
+        redirect: {
+          destination: '/index',
+
+          permanent: false,
+        },
+      };
+    }
+  }
+  // 2. If token is NOT valid render the page
+  return {
+    props: {},
+  };
 }
