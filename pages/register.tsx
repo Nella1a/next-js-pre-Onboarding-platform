@@ -11,11 +11,18 @@ import {
 import Layout from '../components/Layout';
 import { productionBrowserSourceMaps } from '../next.config';
 import imgTest from '../public/imgTest.png';
+import { createCsrfToken } from '../util/auth';
 import { getValidSessionByToken } from '../util/database';
 
 type Errors = { message: string }[];
 
-export default function Register(props) {
+type Props = {
+  refreshUserProfile: () => void;
+  userObject?: { username: string };
+  csrfToken: string;
+};
+
+export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
@@ -63,6 +70,7 @@ export default function Register(props) {
                   body: JSON.stringify({
                     username: username,
                     password: password,
+                    csrfToken: props.csrfToken,
                   }),
                 });
 
@@ -72,7 +80,22 @@ export default function Register(props) {
                   setErrors(registerResponseBody.errors);
                   return;
                 }
-                // redirect user after login to welcome page
+                // Get the query parameter from the Next.js router
+                const returnTo = router.query.returnTo;
+                console.log('returnTo', returnTo);
+
+                if (
+                  returnTo &&
+                  !Array.isArray(returnTo) &&
+                  // Security: Validate returnTo parameter against valid path
+                  // (because this is untrusted user input)
+                  /^\/[a-zA-Z0-9-?=/]*$/.test(returnTo)
+                ) {
+                  await router.push(returnTo);
+                  return;
+                }
+
+                // Login worked, redirect to the homepage using the Next.js router
                 props.refreshUserProfile();
                 await router.push('/');
                 console.log(registerResponseBody.user.id);
@@ -115,6 +138,20 @@ export default function Register(props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // Redirect from HTTP to HTTPS on Heroku
+  if (
+    context.req.headers.host &&
+    context.req.headers['x-forwarded-proto'] &&
+    context.req.headers['x-forwarded-proto'] !== 'https'
+  ) {
+    return {
+      redirect: {
+        destination: `https://${context.req.headers.host}/register`,
+        permanent: true,
+      },
+    };
+  }
+
   // 1. Check if there is a token and valid
 
   const token = context.req.cookies.sessionToken;
@@ -134,8 +171,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
   }
-  // 2. If token is NOT valid render the page
+  // 3. Generate CSRF token and render the page
   return {
-    props: {},
+    props: {
+      csrfToken: createCsrfToken(),
+    },
   };
 }

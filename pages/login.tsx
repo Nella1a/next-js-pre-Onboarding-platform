@@ -12,13 +12,20 @@ import {
 import Layout from '../components/Layout';
 import { productionBrowserSourceMaps } from '../next.config';
 import imgTest from '../public/imgTest.png';
+import { createCsrfToken } from '../util/auth';
 import { getValidSessionByToken } from '../util/database';
 // import { deleteSessionByToken } from '../util/database';
 import { LoginResponseBody } from './api/login';
 
 type Errors = { message: string }[];
 
-export default function Login(props) {
+type Props = {
+  refreshUserProfile: () => void;
+  userObject?: { username: string };
+  csrfToken: string;
+};
+
+export default function Login(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
@@ -66,6 +73,7 @@ export default function Login(props) {
                   body: JSON.stringify({
                     username: username,
                     password: password,
+                    csrfToken: props.csrfToken,
                   }),
                 });
 
@@ -118,6 +126,20 @@ export default function Login(props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // Redirect from HTTP to HTTPS on Heroku
+  if (
+    context.req.headers.host &&
+    context.req.headers['x-forwarded-proto'] &&
+    context.req.headers['x-forwarded-proto'] !== 'https'
+  ) {
+    return {
+      redirect: {
+        destination: `https://${context.req.headers.host}/login`,
+        permanent: true,
+      },
+    };
+  }
+
   // 1. Check if there is a token
   const token = context.req.cookies.sessionToken;
 
@@ -135,9 +157,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
   }
-  // 2. If token is NOT valid render the page
+  // 3. Generate CSRF token and render the page
   return {
-    props: {},
+    props: {
+      csrfToken: createCsrfToken(),
+    },
   };
 }
 

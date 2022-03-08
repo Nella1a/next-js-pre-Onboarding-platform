@@ -24,6 +24,10 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
+/* *************************** */
+/*             Types           */
+/* *************************** */
+
 export type User = {
   id: number;
   username: string;
@@ -38,6 +42,10 @@ export type Session = {
   token: string;
   userId: number;
 };
+
+/* *************************** */
+/*        Table: users         */
+/* *************************** */
 
 // check if username already exists in database
 export async function getUserByUsername(username: string) {
@@ -66,7 +74,7 @@ export async function getUserByUserWithPasswordHashByUsername(
   return user && camelcaseKeys(user);
 }
 
-// create user to database
+// add user to database
 export async function createUser(username: string, passwordHash: string) {
   const [user] = await sql<[User]>`
   INSERT INTO users
@@ -94,6 +102,11 @@ export async function getUserById(id: number) {
   return user && camelcaseKeys(user);
 }
 
+/* *************************** */
+/*       Join Tables:          */
+/* *************************** */
+
+// get user by session
 export async function getUserByValidSessionToken(token: string | undefined) {
   if (!token) return undefined;
   const [user] = await sql<[User | undefined]>`
@@ -111,6 +124,10 @@ export async function getUserByValidSessionToken(token: string | undefined) {
   return user && camelcaseKeys(user);
 }
 
+/* *************************** */
+/*    Table: sessions          */
+/* *************************** */
+
 export async function getValidSessionByToken(token: string | undefined) {
   if (!token) return undefined;
   const [session] = await sql<[Session | undefined]>`
@@ -118,7 +135,6 @@ export async function getValidSessionByToken(token: string | undefined) {
       *
     FROM
       sessions
-      users
     WHERE
       token = ${token} AND
       expiry_timestamp > now()
@@ -129,7 +145,7 @@ export async function getValidSessionByToken(token: string | undefined) {
   return session && camelcaseKeys(session);
 }
 
-// add token to session table
+// add new token to session
 export async function createSession(token: string, userId: number) {
   const [session] = await sql<[Session]>`
   INSERT INTO sessions
@@ -155,7 +171,7 @@ export async function deleteSessionByToken(token: string) {
   return session && camelcaseKeys(session);
 }
 
-// delete expired session from session table
+// delete expired session
 export async function deleteExpiredSessions() {
   const session = await sql<Session[]>`
 DELETE FROM

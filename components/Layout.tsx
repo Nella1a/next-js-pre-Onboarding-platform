@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
-import { getUserById, getValidSessionByToken } from '../util/database';
+import { getUserById, getValidSessionByToken, User } from '../util/database';
 import { styleMain } from './elements';
 import Header from './Header';
 
@@ -15,11 +15,12 @@ const backgroundStyle = css`
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
 `;
 
-// type Props = {
-//   children?: React.ReactNode;
-// };
+type Props = {
+  children?: React.ReactNode;
+  userObject?: User;
+};
 
-export default function Layout(props) {
+export default function Layout(props: Props) {
   return (
     <>
       <Head>

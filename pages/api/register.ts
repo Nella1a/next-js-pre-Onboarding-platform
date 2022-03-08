@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { verifyCsrfToken } from '../../util/auth';
 import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import {
   createSession,
@@ -33,12 +34,27 @@ export default async function registerHandler(
       typeof request.body.username !== 'string' ||
       !request.body.username ||
       typeof request.body.password !== 'string' ||
-      !request.body.password
+      !request.body.password ||
+      typeof request.body.csrfToken !== 'string' ||
+      !request.body.csrfToken
     ) {
       response.status(400).json({
-        errors: [{ message: 'Username or password not provided' }],
+        errors: [{ message: 'Username, password or CSRF token not provided' }],
       });
       return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
+    }
+    // Verify CSRF Token
+    const csrfTokenMatches = verifyCsrfToken(request.body.csrfToken);
+
+    if (!csrfTokenMatches) {
+      response.status(403).json({
+        errors: [
+          {
+            message: 'Invalid CSRF token',
+          },
+        ],
+      });
+      return; // Important: will prevent "Headers already sent" error
     }
 
     // validation 2: check if username already exists in database

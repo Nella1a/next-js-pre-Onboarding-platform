@@ -1,8 +1,13 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import { User } from '../util/database';
 import { headerStyle } from './elements';
 
-export default function Header(props) {
+type Props = {
+  userObject?: User;
+};
+
+export default function Header(props: Props) {
   return (
     <header css={headerStyle}>
       <nav>

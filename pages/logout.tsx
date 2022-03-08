@@ -18,17 +18,16 @@ export default function Logout() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // 1. get the cookie from the context and get session token
+  // 1. get cookie & session token from context
   const token = context.req.cookies.sessionToken;
   console.log('cookie:', token);
-  // if cookie is set
+  // check if cookie is set
   if (token) {
-    // 2.  we want want to delete the session from our database
+    // 2. delete the session from odatabase
     await deleteSessionByToken(token);
 
-    // 3. wie want to set the cookie destruction
-    // Send another respond header to client.
-    // setting the maxAge to -1 = delete cookie
+    // 3. set cookie destruction:
+    // Send another respond header to client with context.setting the maxAge to -1 = delete cookie
     context.res.setHeader(
       'Set-Cookie',
       cookie.serialize('sessionToken', '', {
@@ -38,7 +37,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     );
   }
 
-  // 4. we need to redirect to the page that linked to logout
+  // 4. redirect to login if no cookie is set
 
   return {
     redirect: {

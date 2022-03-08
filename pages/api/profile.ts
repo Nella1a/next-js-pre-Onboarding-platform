@@ -6,6 +6,7 @@ export default async function profileHandler(
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
+    // 1. Get current user from the cookie sessionToken
     const token = req.cookies.sessionToken;
 
     if (!token) {
@@ -19,15 +20,17 @@ export default async function profileHandler(
       return;
     }
 
+    // 2. Retrieve user by valid sessionToken
     const user = await getUserByValidSessionToken(token);
 
+    // 3. If user exists, return user and render page
     if (user) {
       res.status(200).json({
         user: user,
       });
       return;
     }
-
+    // 4. If user is undefined, send error message
     res.status(404).json({
       errors: [
         {

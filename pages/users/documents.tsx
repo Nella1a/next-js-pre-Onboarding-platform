@@ -4,7 +4,11 @@ import Image from 'next/image';
 import { sectionOneLayout, sectionTwoLayout } from '../../components/elements';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
-import { getUserById, getValidSessionByToken } from '../../util/database';
+import {
+  getUserById,
+  getUserByValidSessionToken,
+  getValidSessionByToken,
+} from '../../util/database';
 
 export default function Documents(props) {
   return (
@@ -44,24 +48,22 @@ export default function Documents(props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // 1. Check if there is a token
+  // 1. Get current user from the cookie sessionToken
   const token = context.req.cookies.sessionToken;
+  // 2. Retrieve user by valid sessionToken
+  const user = await getUserByValidSessionToken(token);
+  // TO DO CHECK ROLE Of USER
 
-  if (token) {
-    // 2. check if token is valid
-    // TO DO CHECK ROLE Of USER
-    const session = await getValidSessionByToken(token);
-    if (session) {
-      const user = await getUserById(session.userId);
-      return {
-        props: {
-          user: user,
-        },
-      };
-    }
+  // 3. If user exists, return user and render page
+  if (user) {
+    return {
+      props: {
+        user: user,
+      },
+    };
   }
 
-  // 3. if token is NOT valid redirect to login
+  // 4. If user is undefined ( = no token) redirect to login
   return {
     redirect: {
       destination: '/login',
