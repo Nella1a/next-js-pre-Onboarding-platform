@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { User } from '../util/database';
 import { headerStyle } from './elements';
 
@@ -11,7 +11,10 @@ export default function Header(props: Props) {
   return (
     <header css={headerStyle}>
       <nav>
-        <p>Logo</p>
+        <Link href="/">
+          <a>Logo</a>
+        </Link>
+
         {/* <Link href="/login">
           <a>Documents</a>
         </Link>

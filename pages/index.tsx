@@ -1,17 +1,10 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
-import {
-  flexCenterWithWidthAndHeight,
-  sectionOneLayout,
-  sectionTwoLayout,
-} from '../components/elements';
-import Header from '../components/Header';
+import { sectionOneLayout, sectionTwoLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
-import imgTest from '../public/imgTest.png';
-import { getUserById, getValidSessionByToken, User } from '../util/database';
+import { getUserById, getValidSessionByToken } from '../util/database';
 
 // type Props = {
 //   user: User;
@@ -45,7 +38,7 @@ export default function Home(props) {
             <div>
               <h2>Text 1</h2>
               <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <Link href="/documents">
+              <Link href="/documents" passHref>
                 <button>Documents</button>
               </Link>
             </div>

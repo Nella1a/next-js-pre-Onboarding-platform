@@ -1,8 +1,5 @@
-import { css } from '@emotion/react';
-import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getValidSessionByToken } from '../util/database';
 import { navigationStyle } from './elements';
 
 export default function Navigation(props) {
@@ -10,6 +7,28 @@ export default function Navigation(props) {
   return (
     <nav css={navigationStyle}>
       <ul>
+        <li>
+          <Image
+            src="/img/table-list-solid.svg"
+            alt="Documents Icon"
+            width="20"
+            height="20"
+          />
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+        </li>
+        <li>
+          <Image
+            src="/img/table-list-solid.svg"
+            alt="Documents Icon"
+            width="20"
+            height="20"
+          />
+          <Link href={`/users/${props.userId}`}>
+            <a>Profile</a>
+          </Link>
+        </li>
         <li>
           <Image
             src="/img/table-list-solid.svg"
@@ -30,17 +49,6 @@ export default function Navigation(props) {
           />
           <Link href="/welcome">
             <a>Updates</a>
-          </Link>
-        </li>
-        <li>
-          <Image
-            src="/img/table-list-solid.svg"
-            alt="Documents Icon"
-            width="20"
-            height="20"
-          />
-          <Link href={`/users/${props.userId}`}>
-            <a>Profile</a>
           </Link>
         </li>
       </ul>

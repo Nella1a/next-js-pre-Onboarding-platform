@@ -6,6 +6,7 @@ import {
   flexCenterWithWidthAndHeight,
   sectionOneLayout,
   sectionTwoLayout,
+  userProfileSectionTwoLayout,
 } from '../../components/elements';
 import Header from '../../components/Header';
 import Layout from '../../components/Layout';
@@ -16,7 +17,7 @@ import { getUserById, getValidSessionByToken, User } from '../../util/database';
 //   user?: User | null;
 // };
 
-export default function UserDetail(props) {
+export default function UserProfile(props) {
   if (!props.user) {
     return (
       <Layout userObject={props.userObject}>
@@ -47,38 +48,28 @@ export default function UserDetail(props) {
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} />
       </section>
-      <section css={sectionTwoLayout}>
-        <h1>
-          Hello: {`${props.user.username},  userId is: ${props.user.id} `}
-        </h1>
+      <section css={userProfileSectionTwoLayout}>
+        <h1>Your Profile </h1>
+        <p> {`${props.user.username},  userId is: ${props.user.id} `}</p>
         <div>
           <article>
-            <h2>Text 1</h2>
-            <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-            <button>Documents</button>
+            <div>pic</div>
+            <p>Username: {props.user.username}</p>
+            <p>Starting Date: </p>
+            <p>Position: </p>
+            <p>Team: </p>
+
+            <button>Upload Picture</button>
+            <button>save</button>
           </article>
           <article>
             <div>
-              <h2>Text 1</h2>
+              <h2>Text 3</h2>
               <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <Link href="/documents">
-                <button>Documents</button>
-              </Link>
-            </div>
-            <div>
-              <h2>Text 2</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Updates</button>
             </div>
             <div>
               <h2>Text 3</h2>
               <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Profile</button>
-            </div>
-            <div>
-              <h2>Text 3</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Profile</button>
             </div>
           </article>
         </div>
