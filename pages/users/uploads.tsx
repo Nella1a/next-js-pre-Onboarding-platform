@@ -113,7 +113,7 @@ export default function Uploads(props) {
                 </p>
               </div>
             </section>
-            <button>Go to Step 4: Review &#38; Submit </button>
+            <button>Step 4: Review &#38; Submit </button>
           </form>
         </div>
       </section>

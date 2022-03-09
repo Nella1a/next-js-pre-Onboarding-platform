@@ -4,13 +4,19 @@ import Link from 'next/link';
 import { sectionOneLayout, sectionTwoLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
-import { getUserById, getValidSessionByToken } from '../util/database';
+import {
+  getUserById,
+  getUserByValidSessionToken,
+  getValidSessionByToken,
+  User,
+} from '../util/database';
 
-// type Props = {
-//   user: User;
-// };
+type Props = {
+  user: User;
+  userObject: User;
+};
 
-export default function Home(props) {
+export default function Home(props: Props) {
   return (
     <Layout userObject={props.userObject}>
       <Head>
@@ -22,7 +28,7 @@ export default function Home(props) {
       {/* <h1>Welcome X</h1>
       <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
-        <Navigation userId={props.user.id} />
+        <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
       <section css={sectionTwoLayout}>
         <h1>
@@ -65,30 +71,24 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // 1. Check if there is a token
+  // 1. Get current user from the cookie sessionToken
   const token = context.req.cookies.sessionToken;
-
-  if (token) {
-    // 2. check if token is valid
-    // TO DO CHECK ROLE Of USER
-
-    const session = await getValidSessionByToken(token);
-    const user = await getUserById(session.userId);
-
-    if (session) {
-      return {
-        props: {
-          user: user,
-        },
-      };
-    }
+  // 2. Retrieve user by valid sessionToken
+  const user = await getUserByValidSessionToken(token);
+  // Error Handling: no session token
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
   }
 
-  // 3. if token is NOT valid redirect to login
+  // Good Case: valid token
   return {
-    redirect: {
-      destination: '/login',
-      permanent: false,
+    props: {
+      user: user,
     },
   };
 }

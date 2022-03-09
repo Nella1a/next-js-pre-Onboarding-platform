@@ -25,6 +25,7 @@ type Props = {
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userRole, setUserRole] = useState(0);
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
 
@@ -71,6 +72,7 @@ export default function Register(props: Props) {
                     username: username,
                     password: password,
                     csrfToken: props.csrfToken,
+                    userRole: userRole,
                   }),
                 });
 
@@ -121,6 +123,23 @@ export default function Register(props: Props) {
                   value={password}
                   onChange={(event) => setPassword(event.currentTarget.value)}
                 />
+              </div>
+              <div>
+                <label htmlFor="userRole">Register as</label>
+                <select
+                  id="userRole"
+                  name="userRole"
+                  value={userRole}
+                  data-test-id="registration-userRole"
+                  required
+                  onChange={(event) => {
+                    setUserRole(parseInt(event.currentTarget.value));
+                  }}
+                >
+                  <option value="0"> -- choose role -- </option>
+                  <option value="1">employer</option>
+                  <option value="2">new hire</option>
+                </select>
               </div>
               <button>Sign Up</button>
               <p>

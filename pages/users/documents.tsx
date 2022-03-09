@@ -25,13 +25,14 @@ export default function Documents(props) {
       {/* <h1>Welcome X</h1>
       <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
-        <Navigation userId={props.user.id} />
+        <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
       <section css={sectionTwoLayout}>
         <h1>
           {' '}
-          Personal Details: Hello {props.user.username} User_id: {props.user.id}{' '}
+          Personal Details: Hello {props.user.username} User_id: {props.user.id}
+          User_role: {props.user.roleId}{' '}
         </h1>
         <div css={formStyleContainer}>
           <form css={formStyle} onSubmit={(event) => event.preventDefault()}>

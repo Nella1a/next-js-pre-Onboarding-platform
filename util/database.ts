@@ -31,6 +31,7 @@ const sql = connectOneTimeToDatabase();
 export type User = {
   id: number;
   username: string;
+  roleId: number;
 };
 
 export type UserWithPasswordHash = User & {
@@ -42,6 +43,10 @@ export type Session = {
   token: string;
   userId: number;
 };
+
+/* *************************** */
+/*        Table: roles         */
+/* *************************** */
 
 /* *************************** */
 /*        Table: users         */
@@ -75,15 +80,20 @@ export async function getUserByUserWithPasswordHashByUsername(
 }
 
 // add user to database
-export async function createUser(username: string, passwordHash: string) {
+export async function createUser(
+  username: string,
+  passwordHash: string,
+  userRole: Number,
+) {
   const [user] = await sql<[User]>`
   INSERT INTO users
-  (username, password_hash)
+  (username, password_hash, role_id)
   VALUES
-  (${username}, ${passwordHash})
+  (${username}, ${passwordHash}, ${userRole})
   RETURNING
   id,
-  username
+  username,
+  role_id
   `;
   return camelcaseKeys(user);
 }
@@ -112,13 +122,17 @@ export async function getUserByValidSessionToken(token: string | undefined) {
   const [user] = await sql<[User | undefined]>`
     SELECT
       users.id,
-      users.username
+      users.username,
+      users.role_id
     FROM
       users,
-      sessions
+      sessions,
+      roles
+
     WHERE
       sessions.token = ${token} AND
       sessions.user_id = users.id AND
+      users.role_id = roles.id AND
       sessions.expiry_timestamp > now()
   `;
   return user && camelcaseKeys(user);

@@ -25,7 +25,7 @@ export default function Documents(props) {
       {/* <h1>Welcome X</h1>
       <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
-        <Navigation userId={props.user.id} />
+        <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
       <section css={sectionTwoLayout}>
@@ -168,7 +168,7 @@ export default function Documents(props) {
               </div>
             </section>
             <Link href="/users/uploads/" passHref>
-              <button>Go to Step 3: </button>
+              <button>Step 3: Uploads</button>
             </Link>
           </form>
         </div>

@@ -40,6 +40,19 @@ export default function Navigation(props) {
             <a>Documents</a>
           </Link>
         </li>
+        {props.userRole === 1 && (
+          <li>
+            <Image
+              src="/img/table-list-solid.svg"
+              alt="Documents Icon"
+              width="20"
+              height="20"
+            />
+            <Link href="/profiles/userDocuments">
+              <a>All User Documents</a>
+            </Link>
+          </li>
+        )}
         <li>
           <Image
             src="/img/table-list-solid.svg"
@@ -57,31 +70,3 @@ export default function Navigation(props) {
     </nav>
   );
 }
-
-// await router.push(`/users/${loginResponseBody.user.id}`);
-/*
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // 1. Check if there is a token
-  const token = context.req.cookies.sessionToken;
-
-  if (token) {
-    // 2. check if token is valid
-    // TO DO CHECK ROLE Of USER
-    const session = await getValidSessionByToken(token);
-    if (session) {
-      return {
-        props: {
-          userId: session.userId,
-        },
-      };
-    }
-  }
-
-  // 3. if token is NOT valid redirect to login
-  return {
-    redirect: {
-      destination: '/login',
-      permanent: false,
-    },
-  };
-} */

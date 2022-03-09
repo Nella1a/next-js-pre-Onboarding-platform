@@ -46,7 +46,7 @@ export default function UserProfile(props) {
       {/* <h1>Welcome X</h1>
       <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
-        <Navigation userId={props.user.id} />
+        <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
       <section css={userProfileSectionTwoLayout}>
         <h1>Your Profile </h1>
@@ -82,6 +82,9 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<{ user?: User }>> {
   const token = context.req.cookies.sessionToken;
+
+  const abec = context.resolvedUrl;
+  console.log('reslovedURL:', abec);
 
   if (token) {
     // 2. check if token is valid

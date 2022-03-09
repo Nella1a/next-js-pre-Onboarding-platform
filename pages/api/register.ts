@@ -14,6 +14,7 @@ type RegisterRequestBody = {
   username: string;
   password: string;
   csrfToken: string;
+  userRole: number;
 };
 
 type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
@@ -36,10 +37,15 @@ export default async function registerHandler(
       typeof request.body.password !== 'string' ||
       !request.body.password ||
       typeof request.body.csrfToken !== 'string' ||
-      !request.body.csrfToken
+      !request.body.csrfToken ||
+      !request.body.userRole
     ) {
       response.status(400).json({
-        errors: [{ message: 'Username, password or CSRF token not provided' }],
+        errors: [
+          {
+            message: 'Username, password, CSRF token or user role not provided',
+          },
+        ],
       });
       return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
     }
@@ -57,6 +63,8 @@ export default async function registerHandler(
       return; // Important: will prevent "Headers already sent" error
     }
 
+    // TO DO: check if role exist?
+
     // validation 2: check if username already exists in database
     if (await getUserByUsername(request.body.username)) {
       response.status(409).json({
@@ -69,7 +77,11 @@ export default async function registerHandler(
     const passwordHash = await bcrypt.hash(request.body.password, 12);
 
     // add new user & passwordHash to database
-    const user = await createUser(request.body.username, passwordHash);
+    const user = await createUser(
+      request.body.username,
+      passwordHash,
+      request.body.userRole,
+    );
 
     // 1. Create a unique token (use node crypto)
     const token = crypto.randomBytes(64).toString('base64');
