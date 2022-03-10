@@ -1,23 +1,19 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
 import {
-  flexCenterWithWidthAndHeight,
   sectionOneLayout,
-  sectionTwoLayout,
   userProfileSectionTwoLayout,
 } from '../../components/elements';
-import Header from '../../components/Header';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
 import { getUserById, getValidSessionByToken, User } from '../../util/database';
 
-// type Props = {
-//   user?: User | null;
-// };
+type Props = {
+  user?: User | null;
+  userObject: User;
+};
 
-export default function UserProfile(props) {
+export default function UserProfile(props: Props) {
   if (!props.user) {
     return (
       <Layout userObject={props.userObject}>
@@ -98,7 +94,7 @@ export async function getServerSideProps(
       }
 
       // read user from database
-      const user = await getUserById(session.userId);
+      // const user = await getUserById(session.userId);
 
       if (!user) {
         context.res.statusCode = 404;

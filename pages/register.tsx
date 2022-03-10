@@ -9,7 +9,6 @@ import {
   flexCenterWithWidthAndHeight,
 } from '../components/elements';
 import Layout from '../components/Layout';
-import { productionBrowserSourceMaps } from '../next.config';
 import imgTest from '../public/imgTest.png';
 import { createCsrfToken } from '../util/auth';
 import { getValidSessionByToken } from '../util/database';

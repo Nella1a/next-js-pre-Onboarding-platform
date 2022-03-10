@@ -1,9 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import {
-  flexStyle,
-  formStyle,
   formStyleContainer,
   sectionOneLayout,
   sectionTwoLayout,

@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import {
@@ -10,7 +10,12 @@ import {
 } from '../../components/elements';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
-import { getUserByValidSessionToken } from '../../util/database';
+import { getUserByValidSessionToken, User } from '../../util/database';
+
+// type Props = {
+//   user: User | null;
+//   userObject: User;
+// };
 
 export default function Documents(props) {
   // const [required, setRequired] = useState(true);
@@ -214,7 +219,9 @@ export default function Documents(props) {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<{ user?: User }>> {
   // 1. Get current user from the cookie sessionToken
   const token = context.req.cookies.sessionToken;
   // 2. Retrieve user by valid sessionToken

@@ -4,12 +4,7 @@ import Link from 'next/link';
 import { sectionOneLayout, sectionTwoLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
-import {
-  getUserById,
-  getUserByValidSessionToken,
-  getValidSessionByToken,
-  User,
-} from '../util/database';
+import { getUserByValidSessionToken, User } from '../util/database';
 
 type Props = {
   user: User;
