@@ -1,24 +1,42 @@
+import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
+// type Props = {
+//   user: User | null;
+//   userObject: User;
+// };
+import { useState } from 'react';
 import {
   flexStyle,
   formStyle,
   formStyleContainer,
   sectionOneLayout,
   sectionTwoLayout,
+  sectionTwoLayoutForm,
 } from '../../components/elements';
+// import FormCard from '../../components/FormCard';
+import FormCompleted from '../../components/FormCompleted';
+import FormStepOneValues from '../../components/FormsPages/formStepOneValues';
+import FormStepThreeValues from '../../components/FormsPages/formStepThreeValues';
+import FormStepTwoValues from '../../components/FormsPages/formStepTwoValues';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
 import { getUserByValidSessionToken, User } from '../../util/database';
 
-// type Props = {
-//   user: User | null;
-//   userObject: User;
-// };
+const displayFlexDiv = css`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid red;
+`;
 
 export default function Documents(props) {
-  // const [required, setRequired] = useState(true);
+  const [formStep, setFormStep] = useState(0);
+  const [formValues, setFormValues] = useState([{}]);
+  const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
+  const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
+  console.log('formStep Documents:', formStep);
+
   return (
     <Layout userObject={props.userObject}>
       <Head>
@@ -33,186 +51,70 @@ export default function Documents(props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
-      <section css={sectionTwoLayout}>
-        <h1>
-          {' '}
-          Personal Details: Hello {props.user.username} User_id: {props.user.id}
-          User_role: {props.user.roleId}{' '}
-        </h1>
-        <div css={formStyleContainer}>
-          <form css={formStyle} onSubmit={(event) => event.preventDefault()}>
-            <section>
-              {/* <h2>Personal Details </h2> */}
-              <p>
-                Required fields are followed by
-                <abbr title="required ">*</abbr>
-              </p>
+      <section css={sectionTwoLayoutForm}>
+        <div>
+          <h1>
+            {' '}
+            Personal Details: uName: {props.user.username} - uId:{' '}
+            {props.user.id} - uRole: {props.user.roleId}
+          </h1>
+          <div css={formStyleContainer}>
+            {/* <FormCard
+            currentStep={formStep}
+            prevFormStep={prevFormStep}
+            css={displayFlexDiv}
+          >*/}
+            {formStep === 0 && (
+              <FormStepOneValues
+                userId={props.user.id}
+                formStep={formStep}
+                currentStep={formStep}
+                nextFormStep={nextFormStep}
+                prevFormStep={prevFormStep}
+                user={props.user}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
+            )}
+            {formStep === 1 && (
+              <FormStepTwoValues
+                userId={props.user.id}
+                formStep={formStep}
+                currentStep={formStep}
+                nextFormStep={nextFormStep}
+                prevFormStep={prevFormStep}
+                user={props.user}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
+            )}
+            {formStep === 2 && (
+              <FormStepThreeValues
+                userId={props.user.id}
+                formStep={formStep}
+                currentStep={formStep}
+                nextFormStep={nextFormStep}
+                prevFormStep={prevFormStep}
+                user={props.user}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
+            )}
 
-              <div css={flexStyle}>
-                <p>
-                  <label htmlFor="firstName">
-                    <span>First Name: </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                    <input
-                      // id="firstName"
-                      name="lastName"
-                      data-test-id="userPersonalDetails-firstName"
-                      required
-                    />
-                  </label>
-                </p>
-                <p>
-                  <label htmlFor="lastName">
-                    <span>Last Name </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    data-test-id="userPersonalDetails-lastName"
-                    required
-                  />
-                </p>
-              </div>
-              <div css={flexStyle}>
-                <p>
-                  <label htmlFor="adress">
-                    <span>Adress: </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  <input
-                    id="adress"
-                    name="adress"
-                    data-test-id="userPersonalDetails-address"
-                    required
-                  />
-                </p>
-                <p>
-                  <label htmlFor="city">
-                    <span>City: </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  <input
-                    id="city"
-                    name="city"
-                    data-test-id="userPersonalDetails-city"
-                    required
-                  />
-                </p>
-              </div>
-              <div css={flexStyle}>
-                <p>
-                  <label htmlFor="postalCode">
-                    <span>Postal Code: </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  {/* <input  id="postalCode" name="postalCode" type="number" /> */}
-                  <input
-                    placeholder="Zip Code"
-                    title="Please enter a Zip Code"
-                    pattern="^\s*?\d{4}(?:[-\s]\d{4})?\s*?$"
-                    // To be friendly to the user, this also permits whitespace before/after the string, which the developer will need to trim serverside.
-                    data-test-id="userPersonalDetails-postalCode"
-                    required
-                  />
-                </p>
-                <p>
-                  <label htmlFor="country">
-                    <span>Country: </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  <input
-                    id="country"
-                    name="country"
-                    data-test-id="userPersonalDetails-country"
-                    required
-                  />
-                </p>
-              </div>
-
-              <div css={flexStyle}>
-                <p>
-                  <label htmlFor="Email">
-                    <span>Email </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  <input
-                    id="Email"
-                    name="Email"
-                    data-test-id="userPersonalDetails-email"
-                    required
-                  />
-                </p>
-                <p>
-                  <label htmlFor="Phone">
-                    <span>Phone </span>
-                    <strong>
-                      <abbr title="required" aria-label="required">
-                        *
-                      </abbr>
-                    </strong>
-                  </label>
-                  <input
-                    type="tel"
-                    id="Phone"
-                    name="Phone"
-                    data-test-id="userPersonalDetails-phone"
-                    required
-                  />
-                </p>
-              </div>
-              {/*   <div>
-                {!required ? (
-                  <Link href="/">
-                    <a>
-                      <input
-                        type="submit"
-                        data-test-id="checkout-confirm-order"
-                        value="Complete payment"
-                      />
-                    </a>
-                  </Link>
-                ) : (
-                  <input
-                    type="submit"
-                    data-test-id="checkout-confirm-order"
-                    value="Complete payment"
-                  />
-                )}
-              </div> */}
-            </section>
-            <Link href="/users/personalDetails/" passHref>
-              <button>Go to Step 2: </button>
-            </Link>
-          </form>
+            {formStep === 3 && (
+              <FormCompleted
+                userId={props.user.id}
+                currentStep={formStep}
+                formStep={formStep}
+                nextFormStep={nextFormStep}
+                prevFormStep={prevFormStep}
+                user={props.user}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
+            )}
+            {/* </FormCard> */}
+          </div>
         </div>
       </section>
     </Layout>

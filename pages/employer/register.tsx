@@ -7,11 +7,11 @@ import { useState } from 'react';
 import {
   errorStyles,
   flexCenterWithWidthAndHeight,
-} from '../components/elements';
-import Layout from '../components/Layout';
-import imgTest from '../public/imgTest.png';
-import { createCsrfToken } from '../util/auth';
-import { getValidSessionByToken } from '../util/database';
+} from '../../components/elements';
+import Layout from '../../components/Layout';
+import imgTest from '../../public/imgTest.png';
+import { createCsrfToken } from '../../util/auth';
+import { getValidSessionByToken } from '../../util/database';
 
 type Errors = { message: string }[];
 
@@ -143,7 +143,7 @@ export default function Register(props: Props) {
               <button>Sign Up</button>
               <p>
                 Already have an account?
-                <Link href="/login">
+                <Link href="/employer/login">
                   <a> Login Here</a>
                 </Link>
               </p>
@@ -164,7 +164,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   ) {
     return {
       redirect: {
-        destination: `https://${context.req.headers.host}/register`,
+        destination: `https://${context.req.headers.host}/employer/register`,
         permanent: true,
       },
     };
@@ -182,7 +182,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     if (session) {
       return {
         redirect: {
-          destination: '/index',
+          destination: '/',
 
           permanent: false,
         },

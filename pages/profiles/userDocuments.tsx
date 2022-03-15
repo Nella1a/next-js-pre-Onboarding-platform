@@ -1,16 +1,32 @@
+import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import AddNewJoiner from '../../components/AddNewJoiner';
 import {
+  flexStyle,
+  formStyle,
   formStyleContainer,
   sectionOneLayout,
   sectionTwoLayout,
 } from '../../components/elements';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
-import { getUserByValidSessionToken } from '../../util/database';
+import {
+  getAllNewJoiners,
+  getUserByValidSessionToken,
+} from '../../util/database';
+
+const styleNewHire = css`
+  display: flex;
+  gap: 0.5rem;
+`;
 
 export default function AllUserDocuments(props) {
   // const [required, setRequired] = useState(true);
+
+  // const addNewJoinerHandler() {
+
+  // }
 
   if (!props.user) {
     return (
@@ -37,15 +53,28 @@ export default function AllUserDocuments(props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
-      <section css={sectionTwoLayout}>
+      <section>
         <h1>
           {' '}
           Personal Details: Hello {props.user.username} User_id: {props.user.id}
           User_role: {props.user.roleId}{' '}
         </h1>
-        <div css={formStyleContainer}>
-          <h2>List of all new hires</h2>
+        <div>
+          <AddNewJoiner />
         </div>
+        <h2>List of all new hires</h2>
+
+        {props.newJoiners.map((joiner) => {
+          return (
+            <div key={`overview-${joiner.id}`} css={styleNewHire}>
+              <p> Id: {joiner.id} </p>
+              <p> userName: {joiner.username} </p>
+              <p> {joiner.roleId}</p>
+              roleId:{' '}
+            </div>
+          );
+        })}
+        {/* <button onClick={addNewJoinerHandler}>Add New Joiner</button> */}
       </section>
     </Layout>
   );
@@ -56,7 +85,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const token = context.req.cookies.sessionToken;
 
   const abec = context.resolvedUrl;
-  console.log('reslovedURL ffrom UserDocuments:', abec);
+  console.log('reslovedURL from UserDocuments:', abec);
 
   // 2. Retrieve user by valid sessionToken
   const user = await getUserByValidSessionToken(token);
@@ -72,11 +101,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  // Error Hanling: if user does not exist (= no token) redirect to login
+  // Error Handling: if user does not exist (= no token) redirect to login
   if (!user) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/employer/login',
         permanent: false,
       },
     };
@@ -84,9 +113,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   // Good Case: if user exists and has the right role return user and render page
   if (user && user.roleId === 1) {
+    // get all new joiners
+    const newJoiners = await getAllNewJoiners();
+    console.log('newJoiners', newJoiners);
+
     return {
       props: {
         user: user,
+        newJoiners: newJoiners,
       },
     };
   }

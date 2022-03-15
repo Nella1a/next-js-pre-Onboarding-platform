@@ -28,12 +28,15 @@ function MyApp({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <Global styles={globalStyleBody(theme)} />
+
         {/* Passing to every component pagesProps, userObject and refresUserProfile */}
+        {/* <FormProvider> */}
         <Component
           {...pageProps}
           userObject={user}
           refreshUserProfile={refreshUserProfile}
         />
+        {/* </FormProvider> */}
       </ThemeProvider>
       ;
     </>

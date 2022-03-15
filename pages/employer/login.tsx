@@ -8,14 +8,14 @@ import { useState } from 'react';
 import {
   errorStyles,
   flexCenterWithWidthAndHeight,
-} from '../components/elements';
-import Layout from '../components/Layout';
-import { productionBrowserSourceMaps } from '../next.config';
-import imgTest from '../public/imgTest.png';
-import { createCsrfToken } from '../util/auth';
-import { getValidSessionByToken } from '../util/database';
+} from '../../components/elements';
+import Layout from '../../components/Layout';
+// import { productionBrowserSourceMaps } from '../../next.config';
+import imgTest from '../../public/imgTest.png';
+import { createCsrfToken } from '../../util/auth';
+import { getValidSessionByToken } from '../../util/database';
 // import { deleteSessionByToken } from '../util/database';
-import { LoginResponseBody } from './api/login';
+import { LoginResponseBody } from '../api/login';
 
 type Errors = { message: string }[];
 
@@ -65,7 +65,7 @@ export default function Login(props: Props) {
                 event.preventDefault();
 
                 // send username & pw to api
-                const loginResponse = await fetch('/api/login', {
+                const loginResponse = await fetch('../api/login', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function Login(props: Props) {
               <button>Login</button>
               <p>
                 Don't have an account?
-                <Link href="/register">
+                <Link href="/employer/register">
                   <a> Register Here</a>
                 </Link>
               </p>
@@ -134,7 +134,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   ) {
     return {
       redirect: {
-        destination: `https://${context.req.headers.host}/login`,
+        destination: `https://${context.req.headers.host}/employer/login`,
         permanent: true,
       },
     };

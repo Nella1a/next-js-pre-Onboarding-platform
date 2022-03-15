@@ -44,6 +44,21 @@ export type Session = {
   userId: number;
 };
 
+export type NewJoiners = User & {
+  role: string;
+};
+
+export type FormValues = {
+  userId: number;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date;
+  socialSecNumber: number;
+  nationality: string;
+  email: string;
+  phone: number;
+};
+
 /* *************************** */
 /*        Table: roles         */
 /* *************************** */
@@ -138,6 +153,23 @@ export async function getUserByValidSessionToken(token: string | undefined) {
   return user && camelcaseKeys(user);
 }
 
+// Read all new joiners
+export async function getAllNewJoiners() {
+  const newJoiners = await sql`
+  SELECT
+  id,
+  username,
+  role_id
+  FROM
+  users
+  WHERE
+  users.role_id = 2
+
+
+  `;
+  return newJoiners && camelcaseKeys(newJoiners);
+}
+
 /* *************************** */
 /*    Table: sessions          */
 /* *************************** */
@@ -194,4 +226,32 @@ WHERE
   expiry_timestamp < NOW()
 RETURNING *
 `;
+}
+
+/* ****************************** */
+/* Table:  user personal details  */
+/* ****************************** */
+export async function formInputPersonalDetails(
+  userId: number,
+  dateOfBirth: Date,
+  socialSecNumber: number,
+  nationality: string,
+  email: string,
+  phone: number,
+) {
+  const formOne = await sql<FormValues[]>`
+  INSERT INTO user_personal_details
+  (user_id,
+  first_name,
+  last_name,
+  date_of_birth,
+  social_sec_nb,
+  nationality,
+  email,
+  phone)
+  VALUES
+  (${userId},${''}, ${''}, ${dateOfBirth},${socialSecNumber}, ${nationality},${email},${phone})
+  RETURNING *
+  `;
+  return formOne && camelcaseKeys(formOne);
 }

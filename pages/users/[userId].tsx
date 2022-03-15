@@ -45,29 +45,58 @@ export default function UserProfile(props: Props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
       <section css={userProfileSectionTwoLayout}>
-        <h1>Your Profile </h1>
-        <p> {`${props.user.username},  userId is: ${props.user.id} `}</p>
+        {/* <section css={sectionTwoLayout}> */}
         <div>
-          <article>
-            <div>pic</div>
-            <p>Username: {props.user.username}</p>
-            <p>Starting Date: </p>
-            <p>Position: </p>
-            <p>Team: </p>
-
-            <button>Upload Picture</button>
-            <button>save</button>
-          </article>
-          <article>
-            <div>
-              <h2>Text 3</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-            </div>
-            <div>
-              <h2>Text 3</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-            </div>
-          </article>
+          <h1>Your Profile </h1>
+          {/* <p> {`${props.user.username},  userId is: ${props.user.id} `}</p> */}
+          <div>
+            <article>
+              {' '}
+              <div>pic</div>
+              <p>Username: {props.user.username}</p>
+              <p>User Id: {props.user.id}</p>
+              <div>
+                {' '}
+                <label htmlFor="uploadImage">Upload Picture</label>
+                <input
+                  id="uploadImage"
+                  name="uploadImage"
+                  type="file"
+                  placeholder="upload picute"
+                />
+              </div>
+            </article>
+            {/*         <article>
+              <div>
+                <h2>Text 3</h2>
+                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+              </div>
+              <div>
+                <h2>Text 3</h2>
+                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+              </div>
+            </article> */}
+            <article>
+              <ul>
+                <div>
+                  <li>username:</li>
+                  <li>X</li>
+                </div>
+                <div>
+                  <li>Full Name:</li>
+                  <li>X</li>
+                </div>
+                <div>
+                  <li>Position:</li>
+                  <li>X</li>
+                </div>
+                <div>
+                  <li>Starting Date:</li>
+                  <li>X</li>
+                </div>
+              </ul>
+            </article>
+          </div>
         </div>
       </section>
     </Layout>

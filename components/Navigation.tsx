@@ -49,7 +49,7 @@ export default function Navigation(props) {
               height="20"
             />
             <Link href="/profiles/userDocuments">
-              <a>All User Documents</a>
+              <a>Dashboard</a>
             </Link>
           </li>
         )}

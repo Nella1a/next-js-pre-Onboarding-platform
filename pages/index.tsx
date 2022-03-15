@@ -25,40 +25,43 @@ export default function Home(props: Props) {
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
+
       <section css={sectionTwoLayout}>
-        <h1>
-          Hello {props.user.username} User_id: {props.user.id}{' '}
-        </h1>
         <div>
-          <article>
-            <h2>Text 1</h2>
-            <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-            <button>Documents</button>
-          </article>
-          <article>
-            <div>
+          <h1>
+            Hello {props.user.username} User_id: {props.user.id}{' '}
+          </h1>
+          <div>
+            <article>
               <h2>Text 1</h2>
               <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <Link href="/documents" passHref>
-                <button>Documents</button>
-              </Link>
-            </div>
-            <div>
-              <h2>Text 2</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Updates</button>
-            </div>
-            <div>
-              <h2>Text 3</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Profile</button>
-            </div>
-            <div>
-              <h2>Text 3</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Profile</button>
-            </div>
-          </article>
+              <button>Documents</button>
+            </article>
+            <article>
+              <div>
+                <h2>Text 1</h2>
+                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <Link href="/documents" passHref>
+                  <button>Documents</button>
+                </Link>
+              </div>
+              <div>
+                <h2>Text 2</h2>
+                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <button>Updates</button>
+              </div>
+              <div>
+                <h2>Text 3</h2>
+                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <button>Profile</button>
+              </div>
+              <div>
+                <h2>Text 3</h2>
+                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <button>Profile</button>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
     </Layout>
@@ -74,7 +77,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (!user) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/employer/login',
         permanent: false,
       },
     };
