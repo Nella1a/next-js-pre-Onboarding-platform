@@ -1,15 +1,12 @@
-import Head from 'next/head';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 import {
-  colorRequired,
+  errorStyles,
   flexStyle,
   formStyle,
-  formStyleContainer,
   hideForm,
   showForm,
 } from '../elements';
-import Layout from '../Layout';
 
 type FormOneRequestBody = {
   address: string;
@@ -30,7 +27,7 @@ type FormValuesTwo = {
   maritalStatus: number;
   sosContactfullName: string;
   sosContactPhone: number;
-  sosContactRelation: string;
+  sosContactRelation: number;
 };
 
 type Errors = { message: string }[];
@@ -38,50 +35,58 @@ type Errors = { message: string }[];
 export default function FormStepTwoValues(props) {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState();
+  const [zipCode, setZipCode] = useState('');
   const [country, setCountry] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState(0);
+  const [maritalStatus, setMaritalStatus] = useState('');
   const [sosContactfullName, setSosContactfullName] = useState('');
-  const [sosContactPhone, setSosContactPhone] = useState(0);
+  const [sosContactPhone, setSosContactPhone] = useState('');
   const [sosContactRelation, setSosContactRelation] = useState('');
   const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
+  console.log('maritalStatus:', maritalStatus);
 
   return (
     <>
       <h2> Step {props.currentStep + 1} of 4</h2>
+      {/* show error message if username or password does not match  */}
+      <div css={errorStyles}>
+        {errorsApi.map((error) => {
+          return <div key={`error-${error.message}`}>{error.message}</div>;
+        })}
+      </div>
       <form
         css={[formStyle, props.formStep === 1 ? showForm : hideForm]}
         onSubmit={async (event) => {
           event.preventDefault();
           // validations
 
-          // send input to api
-          const formInputResponse = await fetch('/api/formStepTwoValues', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              address: address,
-              city: city,
-              zipCode: parseInt(zipCode),
-              country: country,
-              maritalStatus: parseInt(maritalStatus),
-              sosContactfullName: sosContactfullName,
-              sosContactPhone: sosContactPhone,
-              sosContactRelation: sosContactRelation,
-            }),
-          });
+          // // send input to api
+          // const formInputResponse = await fetch('/api/formStepTwoValues', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify({
+          //     address: address,
+          //     city: city,
+          //     zipCode: parseInt(zipCode),
+          //     country: country,
+          //     maritalStatus: parseInt(maritalStatus),
+          //     sosContactfullName: sosContactfullName,
+          //     sosContactPhone: sosContactPhone,
+          //     sosContactRelation: parseInt(sosContactRelation),
+          //     userId: props.userId,
+          //   }),
+          // });
 
-          // get response from api & check for error message
-          const formInputResponseBody = await formInputResponse.json();
-          if ('errors' in formInputResponseBody) {
-            setErrorsApi(formInputResponseBody.errors);
-            return;
-          }
-          setErrorsApi([]);
-          console.log('Response from Api:', formInputResponseBody);
+          // // get response from api & check for error message
+          // const formInputResponseBody = await formInputResponse.json();
+          // if ('errors' in formInputResponseBody) {
+          //   setErrorsApi(formInputResponseBody.errors);
+          //   return;
+          // }
+          // setErrorsApi([]);
+          // console.log('Response from Api:', formInputResponseBody);
           props.nextFormStep();
         }}
       >
@@ -117,7 +122,9 @@ export default function FormStepTwoValues(props) {
                 <span>Postal Code: </span>
               </label>
               <input
-                id="zipCodee"
+                type="tel"
+                min="0"
+                id="zipCode"
                 data-test-id="useAddress-zipCode"
                 name="zipCode"
                 value={zipCode}
@@ -136,8 +143,8 @@ export default function FormStepTwoValues(props) {
               <input
                 id="country"
                 data-test-id="userAddress-country"
-                name="zipCode"
-                value={zipCode}
+                name="country"
+                value={country}
                 onChange={(event) =>
                   setCountry(event.currentTarget.value.trim())
                 }
@@ -188,6 +195,7 @@ export default function FormStepTwoValues(props) {
               </label>
               <input
                 type="tel"
+                min={0}
                 id="userSosContactPhone"
                 data-test-id="userSosContact-phone"
                 name="userSosContactPhone"

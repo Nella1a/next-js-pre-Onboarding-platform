@@ -34,6 +34,10 @@ export type User = {
   roleId: number;
 };
 
+export type UserAddress = {
+  address: { address: string; city: string; zipcode: number; country: string };
+};
+
 export type UserWithPasswordHash = User & {
   passwordHash: string;
 };
@@ -57,6 +61,11 @@ export type FormValues = {
   nationality: string;
   email: string;
   phone: number;
+};
+
+export type UserFullName = {
+  firstName: string;
+  lastName: string;
 };
 
 /* *************************** */
@@ -231,6 +240,27 @@ RETURNING *
 /* ****************************** */
 /* Table:  user personal details  */
 /* ****************************** */
+
+export async function AddUsersFirstAndLastName(
+  userId: number,
+  firstName: string,
+  lastName: string,
+) {
+  const fullName = await sql<UserFullName>`
+  INSERT INTO user_personal_details
+  (user_id,
+  first_name,
+  last_name
+ )
+  VALUES
+  (${userId},${firstName}, ${lastName})
+  RETURNING
+  first_name,
+  last_name
+  `;
+  return fullName && camelcaseKeys(fullName);
+}
+
 export async function formInputPersonalDetails(
   userId: number,
   dateOfBirth: Date,
@@ -254,4 +284,96 @@ export async function formInputPersonalDetails(
   RETURNING *
   `;
   return formOne && camelcaseKeys(formOne);
+}
+
+/* ****************************** */
+/*      Table:  user_address      */
+/* ****************************** */
+
+export async function AddUserAddress(
+  userId: number,
+  address: string,
+  city: string,
+  zipCode: number,
+  country: string,
+) {
+  const [userAddress] = await sql<UserAddress | undefined>`
+  INSERT INTO user_address
+  (user_Id, street_and_nbr, city, postal_code, country)
+  VALUES
+  (${userId}, ${address}, ${city}, ${zipCode}, ${country})
+  RETURNING *
+  `;
+  return userAddress && camelcaseKeys(userAddress);
+}
+
+export async function readUserAddress(userId: number) {
+  const [userAddress] = await sql<UserAddress | undefined>`
+  SELECT
+  street_and_nbr as address,
+  city as city,
+  postal_code as zipCode,
+  country as country
+  FROM
+  user_address
+  WHERE
+  user_id = ${userId}
+  `;
+  return userAddress && camelcaseKeys(userAddress);
+}
+
+/* ****************************** */
+/*      Table:   Civil Status     */
+/* ****************************** */
+
+export type MaritalStatus = {
+  maritalStatusId: number;
+  maritalStatus: number;
+};
+
+export async function AddUserMaritalStatus(
+  userId: number,
+  maritalStatus: number,
+) {
+  const [userMaritalStatus] = await sql<[MaritalStatus]>`
+
+  INSERT INTO civil_status
+    (user_id, user_marital_status_id)
+  VALUES
+   (${userId}, ${maritalStatus})
+   RETURNING
+   id,
+   user_marital_status_id
+  `;
+  return userMaritalStatus && camelcaseKeys(userMaritalStatus);
+}
+
+/* ****************************** */
+/*   Table: Emergency Contact     */
+/* ****************************** */
+export type SosContact = {
+  relation_id: number;
+  fullName: string;
+  phone: number;
+};
+
+export async function AddUserEmergencyContact(
+  userId: number,
+  contactFullName: string,
+  contactPhone: number,
+  contactRelation: number,
+) {
+  const [userEmergencyContact] = await sql<[SosContact]>`
+
+  INSERT INTO emergency_contact
+    (user_id, fullName, phone, relationship_id)
+  VALUES
+   (${userId}, ${contactFullName}, ${contactPhone}, ${contactRelation})
+   RETURNING
+   relationship_id,
+   fullName,
+   phone
+
+  `;
+  return userEmergencyContact && camelcaseKeys(userEmergencyContact);
 }

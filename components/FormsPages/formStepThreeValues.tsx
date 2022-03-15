@@ -1,15 +1,6 @@
-import Head from 'next/head';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-  flexStyle,
-  formStyle,
-  formStyleContainer,
-  hideForm,
-  showForm,
-  uploadformStyle,
-} from '../elements';
-import Layout from '../Layout';
+// import { useForm } from 'react-hook-form';
+import { flexStyle, formStyle, hideForm, showForm } from '../elements';
 
 type FormValuesTwo = {
   fileUploadOne: string;
@@ -18,7 +9,7 @@ type FormValuesTwo = {
 
 export default function FormStepThreeValues(props) {
   const [fileUploadOne, setFileUploadOne] = useState('');
-  const [fileUploadTwo, , setFileUploadTwo] = useState('');
+  const [fileUploadTwo, setFileUploadTwo] = useState('');
   // const [fileUploadThree, , setfileUploadThree] = useState('');
   const [fileUploadOneSelect, setFileUploadOneSelect] = useState();
   const [fileUploadTwoSelect, setFileUploadTwoSelect] = useState();

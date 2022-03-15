@@ -1,13 +1,12 @@
-import crypto from 'node:crypto';
+// import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { verifyCsrfToken } from '../../util/auth';
-import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+// import { verifyCsrfToken } from '../../util/auth';
+// import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import {
-  createSession,
+  AddUsersFirstAndLastName,
   createUser,
   getUserByUsername,
-  User,
 } from '../../util/database';
 
 type RegisterRequestBody = {
@@ -84,7 +83,15 @@ export default async function registerHandler(
       passwordHash,
       request.body.userRole,
     );
+    console.log('addNewJoiner:', addNewJoiner);
+    // add first & last name to database
 
+    const userFirstAndLastName = await AddUsersFirstAndLastName(
+      addNewJoiner.id,
+      request.body.newJoiner.firstName,
+      request.body.newJoiner.lastName,
+    );
+    console.log('UserFullName', userFirstAndLastName);
     // Add user to the response body
     /*  response.status(201).json({
       user: {

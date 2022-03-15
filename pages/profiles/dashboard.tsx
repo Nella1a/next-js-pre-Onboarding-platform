@@ -2,13 +2,7 @@ import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import AddNewJoiner from '../../components/AddNewJoiner';
-import {
-  flexStyle,
-  formStyle,
-  formStyleContainer,
-  sectionOneLayout,
-  sectionTwoLayout,
-} from '../../components/elements';
+import { sectionOneLayout } from '../../components/elements';
 import Layout from '../../components/Layout';
 import Navigation from '../../components/Navigation';
 import {
@@ -21,7 +15,7 @@ const styleNewHire = css`
   gap: 0.5rem;
 `;
 
-export default function AllUserDocuments(props) {
+export default function Dashboard(props) {
   // const [required, setRequired] = useState(true);
 
   // const addNewJoinerHandler() {

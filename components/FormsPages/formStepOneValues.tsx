@@ -1,16 +1,12 @@
-import Head from 'next/head';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 import {
-  colorRequired,
   errorStyles,
   flexStyle,
   formStyle,
-  formStyleContainer,
   hideForm,
   showForm,
 } from '../elements';
-import Layout from '../Layout';
 
 // type Props = {
 //   user: User | null;
@@ -59,37 +55,37 @@ export default function FormStepOneValues(props) {
       </div>
       <form
         css={[formStyle, props.formStep === 0 ? showForm : hideForm]}
-        onSubmit={async (event) => {
+        onSubmit={(event) => {
           event.preventDefault();
 
-          // validations
+          // // validations
 
-          // send input to api
-          const formInputResponse = await fetch('/api/formStepOneValues', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              // firstName: firstName,
-              // lastName: lastName,
-              dateOfBirth: dateOfBirth,
-              socialSecNumber: parseInt(socialSecNumber),
-              nationality: nationality,
-              email: email,
-              phone: parseInt(phone),
-              userId: props.userId,
-            }),
-          });
+          // // send input to api
+          // const formInputResponse = await fetch('/api/formStepOneValues', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify({
+          //     // firstName: firstName,
+          //     // lastName: lastName,
+          //     dateOfBirth: dateOfBirth,
+          //     socialSecNumber: parseInt(socialSecNumber),
+          //     nationality: nationality,
+          //     email: email,
+          //     phone: parseInt(phone),
+          //     userId: props.userId,
+          //   }),
+          // });
 
-          // get response from api & check for error message
-          const formInputResponseBody = await formInputResponse.json();
-          if ('errors' in formInputResponseBody) {
-            setErrorsApi(formInputResponseBody.errors);
-            return;
-          }
-          setErrorsApi([]);
-          console.log('Response from Api:', formInputResponseBody);
+          // // get response from api & check for error message
+          // const formInputResponseBody = await formInputResponse.json();
+          // if ('errors' in formInputResponseBody) {
+          //   setErrorsApi(formInputResponseBody.errors);
+          //   return;
+          // }
+          // setErrorsApi([]);
+          // console.log('Response from Api:', formInputResponseBody);
           props.nextFormStep();
         }}
       >
@@ -104,6 +100,7 @@ export default function FormStepOneValues(props) {
               id="email"
               name="email"
               value={email}
+              placeholder="janedoe@test.com"
               onChange={(event) => setEmail(event.currentTarget.value.trim())}
             />
           </p>
@@ -125,10 +122,11 @@ export default function FormStepOneValues(props) {
                 <span>Social Security No. </span>
               </label>
               <input
-                type="number"
+                type="tel"
                 id="socialSecNumber"
                 name="socialSecNumber"
-                maxLength={3}
+                placeholder="XXX DDMMYY"
+                maxLength={15}
                 value={socialSecNumber}
                 onChange={(event) =>
                   setSocialSecNumber(event.currentTarget.value)
@@ -145,7 +143,9 @@ export default function FormStepOneValues(props) {
                 id="nationality"
                 name="nationality"
                 value={nationality}
-                onChange={(event) => setNationality(event.currentTarget.value)}
+                onChange={(event) =>
+                  setNationality(event.currentTarget.value.trim())
+                }
               />
             </p>
             <p>
@@ -156,8 +156,10 @@ export default function FormStepOneValues(props) {
                 id="phone"
                 type="tel"
                 name="phone"
+                maxLength={15}
                 value={phone}
-                onChange={(event) => setPhone(event.currentTarget.value)}
+                placeholder="0043 06660 000 000"
+                onChange={(event) => setPhone(event.currentTarget.value.trim())}
               />
             </p>
           </div>

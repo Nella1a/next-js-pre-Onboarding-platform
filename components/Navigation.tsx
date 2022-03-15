@@ -48,7 +48,7 @@ export default function Navigation(props) {
               width="20"
               height="20"
             />
-            <Link href="/profiles/userDocuments">
+            <Link href="/profiles/dashboard">
               <a>Dashboard</a>
             </Link>
           </li>
