@@ -9,6 +9,14 @@ import {
   getUserByUsername,
 } from '../../util/database';
 
+/* *******************************************
+  Endpoint USER:
+  -  POST: Add new user to DB and return to FE
+  -  GET:  Read user
+  -  PUT:  Update user infos
+
+  ******************************************* */
+
 type RegisterRequestBody = {
   username: string;
   firstName: string;
@@ -101,7 +109,7 @@ export default async function registerHandler(
     return;
   } */
     response.status(201).json({
-      user: 'you did it',
+      user: userFirstAndLastName,
     });
     return;
   }

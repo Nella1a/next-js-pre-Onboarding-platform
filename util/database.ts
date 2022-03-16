@@ -34,10 +34,6 @@ export type User = {
   roleId: number;
 };
 
-export type UserAddress = {
-  address: { address: string; city: string; zipcode: number; country: string };
-};
-
 export type UserWithPasswordHash = User & {
   passwordHash: string;
 };
@@ -179,6 +175,25 @@ export async function getAllNewJoiners() {
   return newJoiners && camelcaseKeys(newJoiners);
 }
 
+type AllPersonalInfo = FormValues & UserAddress & MaritalStatus & SosContact;
+
+// read all personal infos
+export async function readUserAllPersonalInfo(userId: number) {
+  const allPersonalInfo = await sql<AllPersonalInfo>`
+  SELECT * FROM
+  civil_status,
+  user_personal_details,
+  user_address,
+  emergency_contact
+  WHERE
+  civil_status.user_id = ${userId} AND
+  user_personal_details.user_id = ${userId} AND
+  user_address.user_id = ${userId} AND
+  emergency_contact.user_id = ${userId}
+  `;
+  return allPersonalInfo && camelcaseKeys(allPersonalInfo);
+}
+
 /* *************************** */
 /*    Table: sessions          */
 /* *************************** */
@@ -290,6 +305,14 @@ export async function formInputPersonalDetails(
 /*      Table:  user_address      */
 /* ****************************** */
 
+export type UserAddress = {
+  userId: number;
+  address: string;
+  city: string;
+  zipcode: number;
+  country: string;
+};
+
 export async function AddUserAddress(
   userId: number,
   address: string,
@@ -352,7 +375,7 @@ export async function AddUserMaritalStatus(
 /*   Table: Emergency Contact     */
 /* ****************************** */
 export type SosContact = {
-  relation_id: number;
+  relationId: number;
   fullName: string;
   phone: number;
 };

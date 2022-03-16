@@ -29,8 +29,16 @@ type Errors = { message: string }[];
 
 export default function AddNewJoiner(props) {
   const requieredTrue = false;
+
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
   const [userRole, setUserRole] = useState(2);
+
+  /* TO Do: POST-Method nochmals anschauen ca. minute 52:00
+  I should post to the endpoint users , than receive the new user as a response from the API and update the State Variable = the representation of the new user inside the database; no need to reloade the page
+  // https://www.youtube.com/watch?v=0MmoyuO17QQ&list=PLMZMRynGmhsjXUZTmjuatMrVl_CKn-YuV&index=51
+
+
+  */
 
   const [newJoinerRegister, setNewJoinerRegister] = useState([{}]);
 
@@ -68,8 +76,10 @@ export default function AddNewJoiner(props) {
     setErrorsApi([]);
 
     console.log('Response from Api:', formInputResponseBody);
+    props.setAddNewJoiner(formInputResponseBody);
+
     // Reload page
-    router.reload();
+    // router.reload();
   };
 
   return (

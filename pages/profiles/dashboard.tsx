@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import { useState } from 'react';
 import AddNewJoiner from '../../components/AddNewJoiner';
 import { sectionOneLayout } from '../../components/elements';
 import Layout from '../../components/Layout';
@@ -16,8 +17,9 @@ const styleNewHire = css`
 `;
 
 export default function Dashboard(props) {
+  const [addNewJoiner, setAddNewJoiner] = useState([{}]);
   // const [required, setRequired] = useState(true);
-
+  console.log('NewJoiner:', addNewJoiner);
   // const addNewJoinerHandler() {
 
   // }
@@ -54,7 +56,7 @@ export default function Dashboard(props) {
           User_role: {props.user.roleId}{' '}
         </h1>
         <div>
-          <AddNewJoiner />
+          <AddNewJoiner setAddNewJoiner={setAddNewJoiner} />
         </div>
         <h2>List of all new hires</h2>
 
@@ -68,6 +70,12 @@ export default function Dashboard(props) {
             </div>
           );
         })}
+        <div>
+          New:{addNewJoiner && addNewJoiner.firstName}
+          {/* <p> Id: {addNewJoiner.firstName} </p>
+          <p> userName: {addNewJoiner.lastName} </p> */}
+          {/* <p> {addNewJoiner.roleId}</p> */}
+        </div>
         {/* <button onClick={addNewJoinerHandler}>Add New Joiner</button> */}
       </section>
     </Layout>

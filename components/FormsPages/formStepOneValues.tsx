@@ -55,12 +55,12 @@ export default function FormStepOneValues(props) {
       </div>
       <form
         css={[formStyle, props.formStep === 0 ? showForm : hideForm]}
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
 
           // // validations
 
-          // // send input to api
+          // // // send input to api
           // const formInputResponse = await fetch('/api/formStepOneValues', {
           //   method: 'POST',
           //   headers: {
