@@ -24,11 +24,9 @@ export type FormResponseBodyGet = {
 
 export type UserAddressResponseBody =
   | { errors: string }
-  | {
-      userFormInfo: AllPersonalInfo;
-    };
+  | { userFormInfo: AllPersonalInfo };
 
-type FormResponseBody = FormResponseBodyGet | UserAddressResponseBody;
+export type FormResponseBody = FormResponseBodyGet | UserAddressResponseBody;
 
 export default async function formInputHandler(
   request: FormNextApiRequest,
@@ -40,6 +38,27 @@ export default async function formInputHandler(
   if (!userId) {
     response.status(400).json({
       errors: 'no valid userId',
+    });
+    return;
+  }
+
+  if (request.method === 'PUT') {
+    // if the method is PUT update the form and response the updated form
+
+    // access the  from  formthe request object
+    const formRequestUpdate = request.body;
+
+    console.log('request body :', formRequestUpdate);
+    // // Error-Handling:
+    // if (userAllPersonalInfoResponse[0] === 0) {
+    //   response.status(401).json({
+    //     errors: [{ message: 'No data selected' }],
+    //   });
+    //   return;
+    // }
+
+    response.status(201).json({
+      userFormInfo: {},
     });
     return;
   }
@@ -62,6 +81,7 @@ export default async function formInputHandler(
     });
     return;
   }
+
   response.status(405).json({
     errors: 'Method not supported, try GET instead',
   });

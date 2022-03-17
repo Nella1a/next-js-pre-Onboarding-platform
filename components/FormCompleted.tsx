@@ -1,7 +1,11 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { FormResponseBodyGet } from '../pages/api/[userId]';
+import {
+  FormResponseBody,
+  FormResponseBodyGet,
+  UserAddressResponseBody,
+} from '../pages/api/[userId]';
 import { AllPersonalInfo } from '../util/database';
 import { sectionTwoLayout } from './elements';
 import Layout from './Layout';
@@ -13,11 +17,66 @@ const displayFlex = css`
 
 export default function FormCompleted(props) {
   const [userFormInfo, setUserFormInfo] = useState<AllPersonalInfo>('');
-  // const [addressOnEdit, setAddressOnEdit] = useState('');
-  // const [cityOnEdit, setCityOnEdit] = useState('');
-  // const [zipCodeOnEdit, setZipCodeOnEdit] = useState(0);
-  // const [countryOnEdit, setCountryOnEdit] = useState('');
+
+  // State Variable with the id of the animal on editMode
+  const [idFormEditId, setidFormEditId] = useState<number>();
+  // State Variables for the on Edit inputs
+  const [firstNameOnEdit, setFirstNameOnEdit] = useState('');
+  const [lastNameOnEdit, setLastNameOnEdit] = useState('');
+  const [emailOnEdit, setEmailOnEdit] = useState('');
+  const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState('');
+  const [socialSecNumberOnEdit, setSocialSecNumberOnEdit] = useState(0);
+  const [nationalityOnEdit, setNationalityOnEdit] = useState('');
+  const [phoneOnEdit, setPhoneOnEdit] = useState(0);
+  const [addressOnEdit, setAddressOnEdit] = useState('');
+  const [cityOnEdit, setCityOnEdit] = useState('');
+  const [zipCodeOnEdit, setZipCodeOnEdit] = useState(0);
+  const [countryOnEdit, setCountryOnEdit] = useState('');
+  const [maritalStatusOnEdit, setMaritalStatusOnEdit] = useState(0);
+  const [sosContactfullNameOnEdit, setSosContactfullNameOnEdit] = useState('');
+  const [sosContactPhoneOnEdit, setSosContactPhoneOnEdit] = useState(0);
+  const [sosContactRelationOnEdit, setSosContactRelationOnEdit] = useState(0);
+
   const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState('');
+
+  async function updateUserFormInputs(userId: number) {
+    const putResponse = await fetch(`/api/${props.userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        updateFormValues: {
+          userId: userId,
+          firstName: firstNameOnEdit,
+          lastName: lastNameOnEdit,
+          dateOfBirth: dateOfBirthOnEdit,
+          socialSecNb: socialSecNumberOnEdit,
+          nationality: nationalityOnEdit,
+          email: emailOnEdit,
+          userPhone: phoneOnEdit,
+          streetAndNbr: addressOnEdit,
+          city: cityOnEdit,
+          postalCode: zipCodeOnEdit,
+          country: cityOnEdit,
+          maritalStatusId: maritalStatusOnEdit,
+          fullname: sosContactfullNameOnEdit,
+          sosPhone: sosContactPhoneOnEdit,
+          relationshipId: sosContactRelationOnEdit,
+        },
+      }),
+    });
+    const putResponseBody =
+      (await putResponse.json()) as UserAddressResponseBody;
+    console.log('putREsponsebody: ', putResponseBody);
+
+    if ('error' in putResponseBody) {
+      setError(putResponseBody.errors);
+      return;
+    }
+    setUserFormInfo(putResponseBody.userFormInfo);
+  }
 
   // Get forminput from db
   useEffect(() => {
@@ -31,7 +90,6 @@ export default function FormCompleted(props) {
 
   console.log('userFormInfo_FE:', userFormInfo);
 
-  // console.log('userFormInfo_FE UserObject:', userFormInfo.formResponse);
   return (
     <Layout userObject={props.userObject}>
       <Head>
@@ -46,6 +104,32 @@ export default function FormCompleted(props) {
         <div>
           <h2>Part 2</h2>
           <p>
+            <label htmlFor="firstName">
+              <span>First Name </span>
+            </label>
+            <input
+              id="firstName"
+              name="firstname"
+              disabled={isDisabled}
+              value={isDisabled ? userFormInfo.firstName : emailOnEdit}
+              onChange={(event) =>
+                setFirstNameOnEdit(event.currentTarget.value)
+              }
+            />
+          </p>
+          <p>
+            <label htmlFor="lastName">
+              <span>Last Name </span>
+            </label>
+            <input
+              id="lastName"
+              name="lastName"
+              disabled={isDisabled}
+              value={isDisabled ? userFormInfo.lastName : emailOnEdit}
+              onChange={(event) => setLastNameOnEdit(event.currentTarget.value)}
+            />
+          </p>
+          <p>
             <label htmlFor="email">
               <span>Email </span>
             </label>
@@ -54,8 +138,8 @@ export default function FormCompleted(props) {
               id="email"
               name="email"
               disabled={isDisabled}
-              value={userFormInfo.email}
-              // onChange={(event) => setEmailOnEdit(event.currentTarget.value)}
+              value={isDisabled ? userFormInfo.email : emailOnEdit}
+              onChange={(event) => setEmailOnEdit(event.currentTarget.value)}
             />
           </p>
 
@@ -67,7 +151,10 @@ export default function FormCompleted(props) {
               id="dateOfBirth"
               name="dateOfBirth"
               disabled={isDisabled}
-              value={userFormInfo.dateOfBirth}
+              value={isDisabled ? userFormInfo.dateOfBirth : dateOfBirthOnEdit}
+              onChange={(event) =>
+                setDateOfBirthOnEdit(event.currentTarget.value)
+              }
             />
           </p>
           <p>
@@ -79,7 +166,12 @@ export default function FormCompleted(props) {
               id="socialSecNumber"
               name="socialSecNumber"
               disabled={isDisabled}
-              value={userFormInfo.socialSecNb}
+              value={
+                isDisabled ? userFormInfo.socialSecNb : socialSecNumberOnEdit
+              }
+              onChange={(event) =>
+                setSocialSecNumberOnEdit(parseInt(event.currentTarget.value))
+              }
             />
           </p>
 
@@ -91,10 +183,10 @@ export default function FormCompleted(props) {
               id="nationality"
               name="nationality"
               disabled={isDisabled}
-              value={userFormInfo.nationality}
-              // onChange={(event) =>
-              //   setNationality(event.currentTarget.value.trim())
-              // }
+              value={isDisabled ? userFormInfo.nationality : nationalityOnEdit}
+              onChange={(event) =>
+                setNationalityOnEdit(event.currentTarget.value)
+              }
             />
           </p>
           <p>
@@ -106,7 +198,10 @@ export default function FormCompleted(props) {
               type="tel"
               name="phone"
               disabled={isDisabled}
-              value={userFormInfo.userPhone}
+              value={isDisabled ? userFormInfo.userPhone : phoneOnEdit}
+              onChange={(event) =>
+                setPhoneOnEdit(parseInt(event.currentTarget.value))
+              }
             />
           </p>
         </div>
@@ -121,7 +216,8 @@ export default function FormCompleted(props) {
               data-test-id="userAddress-street"
               name="address"
               disabled={isDisabled}
-              value={userFormInfo.streetAndNbr}
+              value={isDisabled ? userFormInfo.streetAndNbr : addressOnEdit}
+              onChange={(event) => setAddressOnEdit(event.currentTarget.value)}
             />
           </p>
 
@@ -134,7 +230,8 @@ export default function FormCompleted(props) {
               data-test-id="userAddress-city"
               name="city"
               disabled={isDisabled}
-              value={userFormInfo.city}
+              value={isDisabled ? userFormInfo.city : cityOnEdit}
+              onChange={(event) => setCityOnEdit(event.currentTarget.value)}
             />
           </p>
           <p>
@@ -148,9 +245,12 @@ export default function FormCompleted(props) {
               data-test-id="useAddress-zipCode"
               name="zipCode"
               disabled={isDisabled}
-              value={userFormInfo.postalCode}
+              value={isDisabled ? userFormInfo.postalCode : zipCodeOnEdit}
               title="Please enter a Zip Code"
               pattern="^\s*?\d{4}(?:[-\s]\d{4})?\s*?$"
+              onChange={(event) =>
+                setZipCodeOnEdit(parseInt(event.currentTarget.value))
+              }
             />
           </p>
           <p>
@@ -162,7 +262,8 @@ export default function FormCompleted(props) {
               data-test-id="userAddress-country"
               name="country"
               disabled={isDisabled}
-              value={userFormInfo.country}
+              value={isDisabled ? userFormInfo.country : countryOnEdit}
+              onChange={(event) => setCountryOnEdit(event.currentTarget.value)}
             />
           </p>
           <p>
@@ -174,7 +275,12 @@ export default function FormCompleted(props) {
               data-test-id="userMartital-status"
               name="martitalStatus"
               disabled={isDisabled}
-              value={userFormInfo.maritalTypeId}
+              value={
+                isDisabled ? userFormInfo.maritalStatus : maritalStatusOnEdit
+              }
+              onChange={(event) =>
+                setMaritalStatusOnEdit(parseInt(event.currentTarget.value))
+              }
             >
               <option value="0">-- please select --</option>
               <option value="1">single</option>
@@ -197,7 +303,12 @@ export default function FormCompleted(props) {
               data-test-id="userSosContact-fullName"
               name="userSosContactFullName"
               disabled={isDisabled}
-              value={userFormInfo.fullname}
+              value={
+                isDisabled ? userFormInfo.fullname : sosContactfullNameOnEdit
+              }
+              onChange={(event) =>
+                setSosContactfullNameOnEdit(event.currentTarget.value)
+              }
             />
           </p>
           <p>
@@ -211,7 +322,10 @@ export default function FormCompleted(props) {
               data-test-id="userSosContact-phone"
               name="userSosContactPhone"
               disabled={isDisabled}
-              value={userFormInfo.sosPhone}
+              value={isDisabled ? userFormInfo.sosPhone : sosContactPhoneOnEdit}
+              onChange={(event) =>
+                setSosContactPhoneOnEdit(parseInt(event.currentTarget.value))
+              }
             />
           </p>
 
@@ -224,7 +338,14 @@ export default function FormCompleted(props) {
               data-test-id="userSosContact-relation"
               name="sosContactRelation"
               disabled={isDisabled}
-              value={userFormInfo.relationshipId}
+              value={
+                isDisabled
+                  ? userFormInfo.relationshipId
+                  : sosContactRelationOnEdit
+              }
+              onChange={(event) =>
+                setSosContactRelationOnEdit(parseInt(event.currentTarget.value))
+              }
             >
               <option value="0"> -- please select ---</option>
               <option value="1">friend</option>
@@ -238,29 +359,41 @@ export default function FormCompleted(props) {
         </div>
       </section>
       <section css={displayFlex}>
-        <button
-          onClick={() => {
-            // updateAnimal(animal.id).catch(() => {});
-            setIsDisabled(false);
-            // setAddressOnEdit(userAddress.address);
-            // setCityOnEdit(userAddress.city);
-            // setZipCodeOnEdit(userAddress.zipcode);
-            // setCountryOnEdit(userAddress.country);
-          }}
-        >
-          edit
-        </button>
-        <div>
-          {' '}
+        {isDisabled ? (
           <button
             onClick={() => {
-              // updateAnimal(animal.id).catch(() => {});
-              setIsDisabled(true);
+              // updateFormFields(props.userid).catch(() =>
+              setIsDisabled(false);
+              setEmailOnEdit(userFormInfo.email);
+              setDateOfBirthOnEdit(userFormInfo.dateOfBirth);
+              setSocialSecNumberOnEdit(userFormInfo.socialSecNb);
+              setNationalityOnEdit(userFormInfo.nationality);
+              setPhoneOnEdit(userFormInfo.userPhone);
+              setAddressOnEdit(userFormInfo.streetAndNbr);
+              setCityOnEdit(userFormInfo.city);
+              setZipCodeOnEdit(userFormInfo.postalCode);
+              setCountryOnEdit(userFormInfo.country);
+              setMaritalStatusOnEdit(userFormInfo.maritalStatus);
+              setSosContactfullNameOnEdit(userFormInfo.fullname);
+              setSosContactPhoneOnEdit(userFormInfo.sosPhone);
+              setSosContactRelationOnEdit(userFormInfo.relationshipId);
             }}
           >
-            Save and Submit
+            edit
           </button>
-        </div>
+        ) : (
+          <div>
+            {' '}
+            <button
+              onClick={() => {
+                updateUserFormInputs(props.userId).catch(() => {});
+                setIsDisabled(true);
+              }}
+            >
+              Save and Submit
+            </button>
+          </div>
+        )}
       </section>
     </Layout>
   );
