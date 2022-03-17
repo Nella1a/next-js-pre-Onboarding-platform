@@ -29,7 +29,7 @@ type FormValuesOne = {
 type Errors = { message: string }[];
 
 export default function FormStepOneValues(props) {
-  const requieredTrue = false;
+  // const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
   // const [firstName, setFirstName] = useState('');
   // const [lastName, setLastName] = useState('');
@@ -58,9 +58,9 @@ export default function FormStepOneValues(props) {
         onSubmit={async (event) => {
           event.preventDefault();
 
-          // // validations
+          // validations
 
-          // // // send input to api
+          // send input to api
           // const formInputResponse = await fetch('/api/formStepOneValues', {
           //   method: 'POST',
           //   headers: {

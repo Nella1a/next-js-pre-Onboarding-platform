@@ -2,8 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { navigationStyle } from './elements';
 
-export default function Navigation(props) {
-  console.log('props:', props.userId);
+type Props = {
+  userId: number;
+  userRole: number;
+};
+
+export default function Navigation(props: Props) {
+  console.log('props userId:', props.userId);
+  console.log('props RoleId:', props.userRole);
   return (
     <nav css={navigationStyle}>
       <ul>
@@ -25,7 +31,7 @@ export default function Navigation(props) {
             width="20"
             height="20"
           />
-          <Link href={`/users/${props.userId}`}>
+          <Link href={`/users/profiles/${props.userId}`}>
             <a>Profile</a>
           </Link>
         </li>
@@ -36,7 +42,7 @@ export default function Navigation(props) {
             width="20"
             height="20"
           />
-          <Link href="/users/documents">
+          <Link href={`/users/documents/${props.userId}`}>
             <a>Documents</a>
           </Link>
         </li>
@@ -48,7 +54,7 @@ export default function Navigation(props) {
               width="20"
               height="20"
             />
-            <Link href="/profiles/dashboard">
+            <Link href="/dashboard">
               <a>Dashboard</a>
             </Link>
           </li>

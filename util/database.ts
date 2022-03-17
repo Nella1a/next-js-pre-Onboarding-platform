@@ -56,7 +56,7 @@ export type FormValues = {
   socialSecNumber: number;
   nationality: string;
   email: string;
-  phone: number;
+  userPhone: number;
 };
 
 export type UserFullName = {
@@ -175,11 +175,14 @@ export async function getAllNewJoiners() {
   return newJoiners && camelcaseKeys(newJoiners);
 }
 
-type AllPersonalInfo = FormValues & UserAddress & MaritalStatus & SosContact;
+export type AllPersonalInfo = FormValues &
+  UserAddress &
+  MaritalStatus &
+  SosContact;
 
 // read all personal infos
 export async function readUserAllPersonalInfo(userId: number) {
-  const allPersonalInfo = await sql<AllPersonalInfo>`
+  const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
   SELECT * FROM
   civil_status,
   user_personal_details,
@@ -282,7 +285,7 @@ export async function formInputPersonalDetails(
   socialSecNumber: number,
   nationality: string,
   email: string,
-  phone: number,
+  userPhone: number,
 ) {
   const formOne = await sql<FormValues[]>`
   INSERT INTO user_personal_details
@@ -293,9 +296,9 @@ export async function formInputPersonalDetails(
   social_sec_nb,
   nationality,
   email,
-  phone)
+  user_phone)
   VALUES
-  (${userId},${''}, ${''}, ${dateOfBirth},${socialSecNumber}, ${nationality},${email},${phone})
+  (${userId},${''}, ${''}, ${dateOfBirth},${socialSecNumber}, ${nationality},${email},${userPhone})
   RETURNING *
   `;
   return formOne && camelcaseKeys(formOne);
@@ -361,12 +364,13 @@ export async function AddUserMaritalStatus(
   const [userMaritalStatus] = await sql<[MaritalStatus]>`
 
   INSERT INTO civil_status
-    (user_id, user_marital_status_id)
+    (user_id, marital_type_id)
   VALUES
-   (${userId}, ${maritalStatus})
+   (${userId}, (SELECT id FROM marital_status WHERE id = ${maritalStatus} ))
+
    RETURNING
    id,
-   user_marital_status_id
+   marital_type_id
   `;
   return userMaritalStatus && camelcaseKeys(userMaritalStatus);
 }
@@ -377,7 +381,7 @@ export async function AddUserMaritalStatus(
 export type SosContact = {
   relationId: number;
   fullName: string;
-  phone: number;
+  SosPhone: number;
 };
 
 export async function AddUserEmergencyContact(
@@ -389,13 +393,13 @@ export async function AddUserEmergencyContact(
   const [userEmergencyContact] = await sql<[SosContact]>`
 
   INSERT INTO emergency_contact
-    (user_id, fullName, phone, relationship_id)
+    (user_id, fullName, sos_phone, relationship_id)
   VALUES
    (${userId}, ${contactFullName}, ${contactPhone}, ${contactRelation})
    RETURNING
    relationship_id,
    fullName,
-   phone
+   sos_phone
 
   `;
   return userEmergencyContact && camelcaseKeys(userEmergencyContact);

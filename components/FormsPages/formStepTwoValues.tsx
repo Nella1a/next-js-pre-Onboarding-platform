@@ -8,27 +8,27 @@ import {
   showForm,
 } from '../elements';
 
-type FormOneRequestBody = {
-  address: string;
-  city: string;
-  zipCode: number;
-  country: string;
-  maritalStatus: number;
-  sosContactfullName: string;
-  sosContactPhone: number;
-  sosContactRelation: string;
-};
+// type FormOneRequestBody = {
+//   address: string;
+//   city: string;
+//   zipCode: number;
+//   country: string;
+//   maritalStatus: number;
+//   sosContactfullName: string;
+//   sosContactPhone: number;
+//   sosContactRelation: string;
+// };
 
-type FormValuesTwo = {
-  address: string;
-  city: string;
-  zipCode: number;
-  country: string;
-  maritalStatus: number;
-  sosContactfullName: string;
-  sosContactPhone: number;
-  sosContactRelation: number;
-};
+// type FormValuesTwo = {
+//   address: string;
+//   city: string;
+//   zipCode: number;
+//   country: string;
+//   maritalStatus: number;
+//   sosContactfullName: string;
+//   sosContactPhone: number;
+//   sosContactRelation: number;
+// };
 
 type Errors = { message: string }[];
 
@@ -60,7 +60,7 @@ export default function FormStepTwoValues(props) {
           event.preventDefault();
           // validations
 
-          // // send input to api
+          // send input to api
           // const formInputResponse = await fetch('/api/formStepTwoValues', {
           //   method: 'POST',
           //   headers: {

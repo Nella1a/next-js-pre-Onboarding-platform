@@ -9,6 +9,6 @@ exports.up = async (sql) => {
 
 exports.down = async (sql) => {
   await sql`
- DROP TABLE emergency_contact_type
+ DROP TABLE relationship_emergency_contact
  `;
 };

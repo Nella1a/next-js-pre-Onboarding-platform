@@ -3,10 +3,14 @@ import Head from 'next/head';
 import {
   sectionOneLayout,
   userProfileSectionTwoLayout,
-} from '../../components/elements';
-import Layout from '../../components/Layout';
-import Navigation from '../../components/Navigation';
-import { getUserById, getValidSessionByToken, User } from '../../util/database';
+} from '../../../components/elements';
+import Layout from '../../../components/Layout';
+import Navigation from '../../../components/Navigation';
+import {
+  getUserById,
+  getValidSessionByToken,
+  User,
+} from '../../../util/database';
 
 type Props = {
   user?: User | null;

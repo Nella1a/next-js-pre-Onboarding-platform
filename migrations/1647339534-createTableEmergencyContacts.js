@@ -3,7 +3,7 @@ exports.up = async (sql) => {
 CREATE TABLE emergency_contact(
 	id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   fullName varchar(50),
-  phone varchar(20),
+  sos_phone varchar(20),
   user_id integer REFERENCES users (id) ON DELETE CASCADE,
   relationship_id integer REFERENCES relationship_emergency_contact (id) ON DELETE CASCADE
 )

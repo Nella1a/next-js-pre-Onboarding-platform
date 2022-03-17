@@ -8,7 +8,7 @@ exports.up = async (sql) => {
 		social_sec_nb integer,
 		nationality varchar(30),
 		email varchar(320) UNIQUE,
-		phone varchar(20),
+		user_phone varchar(20),
 		user_id integer REFERENCES users (id) ON DELETE CASCADE
 	)
 	`;
