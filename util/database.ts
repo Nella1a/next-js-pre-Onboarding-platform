@@ -53,7 +53,7 @@ export type FormValues = {
   firstName: string;
   lastName: string;
   dateOfBirth: Date;
-  socialSecNumber: number;
+  socialSecNb: number;
   nationality: string;
   email: string;
   userPhone: number;
@@ -175,10 +175,25 @@ export async function getAllNewJoiners() {
   return newJoiners && camelcaseKeys(newJoiners);
 }
 
-export type AllPersonalInfo = FormValues &
-  UserAddress &
-  MaritalStatus &
-  SosContact;
+export type AllPersonalInfo = {
+  userId: number;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  socialSecNb: number;
+  nationality: string;
+  email: string;
+  userPhone: number;
+  streetAndNbr: string;
+  city: string;
+  postalCode: number;
+  country: string;
+  maritalStatusId: number;
+  maritalStatus: number;
+  relationshipId: number;
+  fullname: string;
+  sosPhone: number;
+};
 
 // read all personal infos
 export async function readUserAllPersonalInfo(userId: number) {
@@ -196,6 +211,42 @@ export async function readUserAllPersonalInfo(userId: number) {
   `;
   return allPersonalInfo && camelcaseKeys(allPersonalInfo);
 }
+
+// read all personal infos
+// export async function readUserAllPersonalInfo(userId: number) {
+//   const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
+//   SELECT
+//   user_personal_details.first_name as first_name,
+//   user_personal_details.last_name as last_name,
+//   user_personal_details.date_of_birth as date_of_birth,
+//   user_personal_details.social_sec_nb as social_sec_nb,
+//   user_personal_details.nationality as nationality,
+//   user_personal_details.email as email,
+//   user_personal_details.user_phone as user_phone,
+//   user_address.street_and_nbr as street_and_nbr,
+//   user_address.city as city,
+//   user_address.postal_code as postal_code,
+//   user_address.country as country,
+//   user_address.user_id as user_address_userId,
+//   civil_status.marital_status as marital_status,
+//   civil_status.id as civil_status_id,
+//   emergency_contact.fullName as fullName,
+//   emergency_contact.sos_phone as sos_phone,
+//   emergency_contact.relationship_id as relationship_id
+//   FROM
+//   user_personal_details,
+//   user_address,
+//   civil_status,
+//   emergency_contact,
+//   users
+//   WHERE
+//   users.id = ${userId} AND
+//   users.id = user_personal_details.user_id AND
+//   user_address.user_id AND
+//   emergency_contact.user_id AND civil_status.user_id
+//   `;
+//   return allPersonalInfo && camelcaseKeys(allPersonalInfo);
+// }
 
 /* *************************** */
 /*    Table: sessions          */
@@ -282,7 +333,7 @@ export async function AddUsersFirstAndLastName(
 export async function formInputPersonalDetails(
   userId: number,
   dateOfBirth: Date,
-  socialSecNumber: number,
+  socialSecNb: number,
   nationality: string,
   email: string,
   userPhone: number,
@@ -298,7 +349,7 @@ export async function formInputPersonalDetails(
   email,
   user_phone)
   VALUES
-  (${userId},${''}, ${''}, ${dateOfBirth},${socialSecNumber}, ${nationality},${email},${userPhone})
+  (${userId},${''}, ${''}, ${dateOfBirth},${socialSecNb}, ${nationality},${email},${userPhone})
   RETURNING *
   `;
   return formOne && camelcaseKeys(formOne);
@@ -310,24 +361,24 @@ export async function formInputPersonalDetails(
 
 export type UserAddress = {
   userId: number;
-  address: string;
+  streetAndNbr: string;
   city: string;
-  zipcode: number;
+  postalCode: number;
   country: string;
 };
 
 export async function AddUserAddress(
   userId: number,
-  address: string,
+  streetAndNbr: string,
   city: string,
-  zipCode: number,
+  postalCode: number,
   country: string,
 ) {
   const [userAddress] = await sql<UserAddress | undefined>`
   INSERT INTO user_address
   (user_Id, street_and_nbr, city, postal_code, country)
   VALUES
-  (${userId}, ${address}, ${city}, ${zipCode}, ${country})
+  (${userId}, ${streetAndNbr}, ${city}, ${postalCode}, ${country})
   RETURNING *
   `;
   return userAddress && camelcaseKeys(userAddress);
@@ -336,10 +387,10 @@ export async function AddUserAddress(
 export async function readUserAddress(userId: number) {
   const [userAddress] = await sql<UserAddress | undefined>`
   SELECT
-  street_and_nbr as address,
-  city as city,
-  postal_code as zipCode,
-  country as country
+  street_and_nbr,
+  city,
+  postal_code,
+  country
   FROM
   user_address
   WHERE
@@ -379,23 +430,23 @@ export async function AddUserMaritalStatus(
 /*   Table: Emergency Contact     */
 /* ****************************** */
 export type SosContact = {
-  relationId: number;
+  relationshipId: number;
   fullName: string;
   SosPhone: number;
 };
 
 export async function AddUserEmergencyContact(
   userId: number,
-  contactFullName: string,
-  contactPhone: number,
-  contactRelation: number,
+  fullName: string,
+  SosPhone: number,
+  relationshipId: number,
 ) {
   const [userEmergencyContact] = await sql<[SosContact]>`
 
   INSERT INTO emergency_contact
     (user_id, fullName, sos_phone, relationship_id)
   VALUES
-   (${userId}, ${contactFullName}, ${contactPhone}, ${contactRelation})
+   (${userId}, ${fullName}, ${SosPhone}, ${relationshipId})
    RETURNING
    relationship_id,
    fullName,

@@ -12,32 +12,41 @@ import { AllPersonalInfo, readUserAllPersonalInfo } from '../../util/database';
 //   sosContactRelation: number;
 // };
 
-// type FormTwoNextApiRequest = Omit<NextApiRequest, 'body'> & {
-//   body: FormTwoRequestBody;
-// };
+type FormRequestBody = { formResponse: Omit<AllPersonalInfo, 'id'> };
+
+type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
+  body: FormRequestBody;
+};
+
+export type FormResponseBodyGet = {
+  userFormInfo: AllPersonalInfo;
+};
 
 export type UserAddressResponseBody =
-  // | { errors: string }
-  { formResponse: AllPersonalInfo };
+  | { errors: string }
+  | {
+      userFormInfo: AllPersonalInfo;
+    };
+
+type FormResponseBody = FormResponseBodyGet | UserAddressResponseBody;
 
 export default async function formInputHandler(
-  request: NextApiRequest,
-  response: NextApiResponse<UserAddressResponseBody>,
+  request: FormNextApiRequest,
+  response: NextApiResponse<FormResponseBody>,
 ) {
   // * check if userId is a number
   const userId = Number(request.query.userId);
   console.log('userId:', userId);
   if (!userId) {
     response.status(400).json({
-      errors: [{ message: 'no valid userId' }],
+      errors: 'no valid userId',
     });
     return;
   }
 
   if (request.method === 'GET') {
     // read all personal information from db
-    const userAllPersonalInfoResponse: AllPersonalInfo =
-      await readUserAllPersonalInfo(userId);
+    const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
 
     console.log('UserAllPersonalINfo:', userAllPersonalInfoResponse);
     // // Error-Handling:
@@ -49,11 +58,11 @@ export default async function formInputHandler(
     // }
 
     response.status(201).json({
-      formResponse: userAllPersonalInfoResponse,
+      userFormInfo: userAllPersonalInfoResponse,
     });
     return;
   }
   response.status(405).json({
-    errors: [{ message: 'Method not supported, try GET instead' }],
+    errors: 'Method not supported, try GET instead',
   });
 }
