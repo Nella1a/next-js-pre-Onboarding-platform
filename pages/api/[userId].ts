@@ -82,7 +82,7 @@ export default async function formInputHandler(
         formRequestUpdate.email,
         formRequestUpdate.userPhone,
       );
-      console.log('updatePersonalInfoResponse :', updatePersonalInfoResponse);
+      // console.log('updatePersonalInfoResponse :', updatePersonalInfoResponse);
     }
 
     // *** update address *** //
@@ -93,14 +93,14 @@ export default async function formInputHandler(
       formRequestUpdate.postalCode ||
       formRequestUpdate.country
     ) {
-      const updateAddress = updateUserAddress(
+      const updateAddress = await updateUserAddress(
         userId,
         formRequestUpdate.streetAndNbr,
         formRequestUpdate.city,
         formRequestUpdate.postalCode,
         formRequestUpdate.country,
       );
-      console.log('Address::', updateAddress);
+      // console.log('Address::', updateAddress);
     }
 
     // *** update civil status *** //
@@ -109,10 +109,10 @@ export default async function formInputHandler(
         userId,
         formRequestUpdate.maritalStatus,
       );
-      console.log('Update: Martial Status:', updateMaritalStatus);
+      // console.log('Update: Martial Status:', updateMaritalStatus);
     }
 
-    // *** emergency contact *** //
+    // *** update emergency contact *** //
     if (
       formRequestUpdate.fullname ||
       formRequestUpdate.sosPhone ||
@@ -124,28 +124,23 @@ export default async function formInputHandler(
         formRequestUpdate.sosPhone,
         formRequestUpdate.relationshipId,
       );
-      console.log('Update: SOS Contact:', updateEmergencyContact);
+      // console.log('Update: SOS Contact:', updateEmergencyContact);
     }
 
-    // update forminput
+    // *** get updated form values and return *** //
+    const updatedForm = await readUserAllPersonalInfo(userId);
+
     response.status(201).json({
-      userFormInfo: {},
+      userFormInfo: updatedForm,
     });
     return;
   }
-
+  // *** GET-Method ** //
   if (request.method === 'GET') {
     // read all personal information from db
     const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
 
-    console.log('UserAllPersonalINfo:', userAllPersonalInfoResponse);
-    // // Error-Handling:
-    // if (userAllPersonalInfoResponse[0] === 0) {
-    //   response.status(401).json({
-    //     errors: [{ message: 'No data selected' }],
-    //   });
-    //   return;
-    // }
+    // console.log('UserAllPersonalINfo:', userAllPersonalInfoResponse);
 
     response.status(201).json({
       userFormInfo: userAllPersonalInfoResponse,

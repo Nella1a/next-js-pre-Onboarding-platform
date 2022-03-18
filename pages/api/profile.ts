@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUserByValidSessionToken } from '../../util/database';
+import {
+  getUserByValidSessionToken,
+  readUserFirstName,
+} from '../../util/database';
 
 export default async function profileHandler(
   req: NextApiRequest,
@@ -22,11 +25,15 @@ export default async function profileHandler(
 
     // 2. Retrieve user by valid sessionToken
     const user = await getUserByValidSessionToken(token);
+    const userFirstName = await readUserFirstName(user.id);
+
+    console.log('Profile_userFirstName:', userFirstName);
 
     // 3. If user exists, return user and render page
     if (user) {
       res.status(200).json({
         user: user,
+        userFirstName: userFirstName,
       });
       return;
     }

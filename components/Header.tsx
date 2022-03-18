@@ -5,6 +5,7 @@ import { headerStyle } from './elements';
 
 type Props = {
   userObject?: User;
+  userFirstName?: string;
 };
 
 export default function Header(props: Props) {
@@ -30,7 +31,8 @@ export default function Header(props: Props) {
         </div>
         <div>
           <div>Foto</div>
-          {props.userObject && <p>{props.userObject.username}</p>}
+          {/* {props.userObject && <p>{props.userObject.username}</p>} */}
+          <p>{props.userFirstName}</p>
           {/* <p>{props.userObject.username}Jane Doe</p> */}
 
           <a href="/logout">

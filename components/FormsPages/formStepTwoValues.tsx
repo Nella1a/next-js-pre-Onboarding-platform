@@ -61,32 +61,32 @@ export default function FormStepTwoValues(props) {
           // validations
 
           // send input to api
-          // const formInputResponse = await fetch('/api/formStepTwoValues', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify({
-          //     address: address,
-          //     city: city,
-          //     zipCode: parseInt(zipCode),
-          //     country: country,
-          //     maritalStatus: parseInt(maritalStatus),
-          //     sosContactfullName: sosContactfullName,
-          //     sosContactPhone: sosContactPhone,
-          //     sosContactRelation: parseInt(sosContactRelation),
-          //     userId: props.userId,
-          //   }),
-          // });
+          const formInputResponse = await fetch('/api/formStepTwoValues', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              address: address,
+              city: city,
+              zipCode: parseInt(zipCode),
+              country: country,
+              maritalStatus: parseInt(maritalStatus),
+              sosContactfullName: sosContactfullName,
+              sosContactPhone: sosContactPhone,
+              sosContactRelation: parseInt(sosContactRelation),
+              userId: props.userId,
+            }),
+          });
 
-          // // get response from api & check for error message
-          // const formInputResponseBody = await formInputResponse.json();
-          // if ('errors' in formInputResponseBody) {
-          //   setErrorsApi(formInputResponseBody.errors);
-          //   return;
-          // }
-          // setErrorsApi([]);
-          // console.log('Response from Api:', formInputResponseBody);
+          // get response from api & check for error message
+          const formInputResponseBody = await formInputResponse.json();
+          if ('errors' in formInputResponseBody) {
+            setErrorsApi(formInputResponseBody.errors);
+            return;
+          }
+          setErrorsApi([]);
+          console.log('Response from Api:', formInputResponseBody);
           props.nextFormStep();
         }}
       >

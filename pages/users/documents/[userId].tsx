@@ -18,6 +18,7 @@ import { getUserByValidSessionToken, User } from '../../../util/database';
 export type Props = {
   user: User;
   userObject: User;
+  userFirstName: string;
 };
 
 export default function Documents(props: Props) {
@@ -28,7 +29,7 @@ export default function Documents(props: Props) {
   console.log('formStep Documents:', formStep);
 
   return (
-    <Layout userObject={props.userObject}>
+    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
       <Head>
         <title>Welcome</title>
         <meta name="description" content="Landing page" />

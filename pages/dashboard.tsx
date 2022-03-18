@@ -28,7 +28,7 @@ export default function Dashboard(props) {
 
   if (!props.user) {
     return (
-      <Layout userObject={props.userObject}>
+      <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
         <Head>
           <title>User not found</title>
           <meta name="description" content="User not found" />
@@ -38,7 +38,7 @@ export default function Dashboard(props) {
     );
   }
   return (
-    <Layout userObject={props.userObject}>
+    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
       <Head>
         <title>Welcome</title>
         <meta name="description" content="Landing page" />

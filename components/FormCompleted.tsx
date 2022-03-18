@@ -60,7 +60,7 @@ export default function FormCompleted(props) {
           streetAndNbr: addressOnEdit,
           city: cityOnEdit,
           postalCode: zipCodeOnEdit,
-          country: cityOnEdit,
+          country: countryOnEdit,
           maritalStatusId: maritalStatusOnEdit,
           fullname: sosContactfullNameOnEdit,
           sosPhone: sosContactPhoneOnEdit,
@@ -70,13 +70,30 @@ export default function FormCompleted(props) {
     });
     const putResponseBody =
       (await putResponse.json()) as UserAddressResponseBody;
-    console.log('putREsponsebody: ', putResponseBody);
+    // console.log('putREsponsebody: ', putResponseBody);
 
     if ('errors' in putResponseBody) {
       setError(putResponseBody.errors);
       return;
     }
     setUserFormInfo(putResponseBody.userFormInfo);
+
+    // update state variable
+    setFirstNameOnEdit(putResponseBody.userFormInfo.firstName);
+    setLastNameOnEdit(putResponseBody.userFormInfo.lastName);
+    setEmailOnEdit(putResponseBody.userFormInfo.email);
+    setDateOfBirthOnEdit(putResponseBody.userFormInfo.dateOfBirth);
+    setSocialSecNumberOnEdit(putResponseBody.userFormInfo.socialSecNb);
+    setNationalityOnEdit(putResponseBody.userFormInfo.nationality);
+    setPhoneOnEdit(putResponseBody.userFormInfo.userPhone);
+    setAddressOnEdit(putResponseBody.userFormInfo.streetAndNbr);
+    setCityOnEdit(putResponseBody.userFormInfo.city);
+    setZipCodeOnEdit(putResponseBody.userFormInfo.postalCode);
+    setCountryOnEdit(putResponseBody.userFormInfo.country);
+    setMaritalStatusOnEdit(putResponseBody.userFormInfo.maritalStatus);
+    setSosContactfullNameOnEdit(putResponseBody.userFormInfo.fullname);
+    setSosContactPhoneOnEdit(putResponseBody.userFormInfo.sosPhone);
+    setSosContactRelationOnEdit(putResponseBody.userFormInfo.relationshipId);
   }
 
   // Read forminput from db
@@ -89,7 +106,7 @@ export default function FormCompleted(props) {
     fetchData().catch(() => {});
   }, [props.userId]);
 
-  console.log('userFormInfo_FE:', userFormInfo);
+  // console.log('userFormInfo_FE:', userFormInfo);
 
   return (
     <Layout userObject={props.userObject}>
@@ -110,7 +127,7 @@ export default function FormCompleted(props) {
             </label>
             <input
               id="firstName"
-              name="firstname"
+              name="firstName"
               disabled={isDisabled}
               value={isDisabled ? userFormInfo.firstName : firstNameOnEdit}
               onChange={(event) =>

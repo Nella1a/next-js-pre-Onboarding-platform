@@ -15,12 +15,13 @@ import {
 type Props = {
   user?: User | null;
   userObject: User;
+  userFirstName: string;
 };
 
 export default function UserProfile(props: Props) {
   if (!props.user) {
     return (
-      <Layout userObject={props.userObject}>
+      <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
         <Head>
           <title>User not found</title>
           <meta name="description" content="User not found" />
@@ -31,7 +32,7 @@ export default function UserProfile(props: Props) {
     );
   }
   return (
-    <Layout userObject={props.userObject}>
+    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
       <Head>
         <title>
           User #{props.user.id} welcome: {props.user.username}

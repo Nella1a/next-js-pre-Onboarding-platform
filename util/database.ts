@@ -212,6 +212,19 @@ export async function readUserAllPersonalInfo(userId: number) {
   return allPersonalInfo && camelcaseKeys(allPersonalInfo);
 }
 
+// read firstname
+export async function readUserFirstName(userId: number) {
+  const [userFirstName] = await sql`
+  SELECT
+  first_name
+  FROM
+  user_personal_details
+  WHERE
+  user_personal_details.user_id = ${userId}
+  `;
+  return userFirstName && camelcaseKeys(userFirstName);
+}
+
 // read all personal infos
 // export async function readUserAllPersonalInfo(userId: number) {
 //   const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
@@ -332,6 +345,8 @@ export async function AddUsersFirstAndLastName(
 
 export async function formInputPersonalDetails(
   userId: number,
+  // firstName: string,
+  // lastName: string,
   dateOfBirth: Date,
   socialSecNb: number,
   nationality: string,
@@ -341,15 +356,13 @@ export async function formInputPersonalDetails(
   const formOne = await sql<FormValues[]>`
   INSERT INTO user_personal_details
   (user_id,
-  first_name,
-  last_name,
   date_of_birth,
   social_sec_nb,
   nationality,
   email,
   user_phone)
   VALUES
-  (${userId},${''}, ${''}, ${dateOfBirth},${socialSecNb}, ${nationality},${email},${userPhone})
+  (${userId}, ${dateOfBirth},${socialSecNb}, ${nationality},${email},${userPhone})
   RETURNING *
   `;
   return formOne && camelcaseKeys(formOne);

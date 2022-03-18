@@ -18,6 +18,7 @@ const backgroundStyle = css`
 type Props = {
   children?: React.ReactNode;
   userObject?: User;
+  userFirstName?: string;
 };
 
 export default function Layout(props: Props) {
@@ -29,10 +30,14 @@ export default function Layout(props: Props) {
       </Head>
 
       {console.log('userobject:', props.userObject)}
+      {console.log('FirstName:', props.userFirstName)}
       {props.userObject ? (
         <div css={backgroundStyle}>
           {' '}
-          <Header userObject={props.userObject} />
+          <Header
+            userObject={props.userObject}
+            userFirstName={props.userFirstName}
+          />
           <main css={styleMain}>
             {props.children}
             {/* <section>{props.children}</section> */}

@@ -58,6 +58,8 @@ export default async function formInputHandler(
     // send formInput to database
     const formOneResponse: FormValues = await formInputPersonalDetails(
       request.body.userId,
+      // request.body.firstName,
+      // request.body.lastName,
       request.body.dateOfBirth,
       request.body.socialSecNumber,
       request.body.nationality,

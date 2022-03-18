@@ -9,11 +9,12 @@ import { getUserByValidSessionToken, User } from '../util/database';
 type Props = {
   user: User;
   userObject: User;
+  userFirstName: string;
 };
 
 export default function Home(props: Props) {
   return (
-    <Layout userObject={props.userObject}>
+    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
       <Head>
         <title>Welcome</title>
         <meta name="description" content="Landing page" />
