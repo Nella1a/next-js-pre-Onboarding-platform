@@ -355,6 +355,37 @@ export async function formInputPersonalDetails(
   return formOne && camelcaseKeys(formOne);
 }
 
+// UPDATE
+export async function updateUserPersonalInfo(
+  userId: number,
+  firstName: string,
+  lastName: string,
+  dateOfBirth: string,
+  socialSecNb: number,
+  nationality: string,
+  email: string,
+  userPhone: number,
+) {
+  const updateFormiInput = await sql`
+
+UPDATE
+user_personal_details
+
+SET
+  first_name = ${firstName},
+  last_name = ${lastName},
+  date_of_birth = ${dateOfBirth},
+  social_sec_nb =  ${socialSecNb},
+  nationality = ${nationality},
+  email =  ${email},
+  user_phone = ${userPhone}
+WHERE
+  user_Id = ${userId}
+  RETURNING *
+`;
+  return updateFormiInput && camelcaseKeys(updateFormiInput);
+}
+
 /* ****************************** */
 /*      Table:  user_address      */
 /* ****************************** */
@@ -367,6 +398,7 @@ export type UserAddress = {
   country: string;
 };
 
+// CREATE
 export async function AddUserAddress(
   userId: number,
   streetAndNbr: string,
@@ -384,6 +416,7 @@ export async function AddUserAddress(
   return userAddress && camelcaseKeys(userAddress);
 }
 
+// READ
 export async function readUserAddress(userId: number) {
   const [userAddress] = await sql<UserAddress | undefined>`
   SELECT
@@ -399,6 +432,31 @@ export async function readUserAddress(userId: number) {
   return userAddress && camelcaseKeys(userAddress);
 }
 
+// UPDATE
+export async function updateUserAddress(
+  userId: number,
+  streetAndNbr: string,
+  city: string,
+  postalCode: number,
+  country: string,
+) {
+  const updateAddress = await sql`
+
+UPDATE
+user_address
+
+SET
+  street_and_nbr = ${streetAndNbr},
+  city = ${city},
+  postal_code = ${postalCode},
+  country = ${country}
+WHERE
+ user_id = ${userId}
+  RETURNING *
+`;
+  return updateAddress && camelcaseKeys(updateAddress);
+}
+
 /* ****************************** */
 /*      Table:   Civil Status     */
 /* ****************************** */
@@ -408,6 +466,7 @@ export type MaritalStatus = {
   maritalStatus: number;
 };
 
+// CREATE
 export async function AddUserMaritalStatus(
   userId: number,
   maritalStatus: number,
@@ -426,6 +485,25 @@ export async function AddUserMaritalStatus(
   return userMaritalStatus && camelcaseKeys(userMaritalStatus);
 }
 
+// UPDATE
+export async function updateUserMaritalStatus(
+  userId: number,
+  maritalStatus: number,
+) {
+  const updateMaritalStatus = await sql`
+
+UPDATE
+civil_status
+
+SET
+  marital_type_id = ${maritalStatus}
+WHERE
+ user_id = ${userId}
+  RETURNING *
+`;
+  return updateMaritalStatus && camelcaseKeys(updateMaritalStatus);
+}
+
 /* ****************************** */
 /*   Table: Emergency Contact     */
 /* ****************************** */
@@ -435,6 +513,7 @@ export type SosContact = {
   SosPhone: number;
 };
 
+// CREATE
 export async function AddUserEmergencyContact(
   userId: number,
   fullName: string,
@@ -454,4 +533,27 @@ export async function AddUserEmergencyContact(
 
   `;
   return userEmergencyContact && camelcaseKeys(userEmergencyContact);
+}
+
+// UPDATE
+export async function updateUserEmergencyContact(
+  userId: number,
+  fullName: string,
+  sosPhone: number,
+  relationshipId: number,
+) {
+  const updateEmergencyContact = await sql`
+
+UPDATE
+emergency_contact
+
+SET
+fullName = ${fullName},
+sos_phone = ${sosPhone},
+relationship_id = ${relationshipId}
+WHERE
+ user_id = ${userId}
+  RETURNING *
+`;
+  return updateEmergencyContact && camelcaseKeys(updateEmergencyContact);
 }

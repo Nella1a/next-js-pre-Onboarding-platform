@@ -1,5 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { AllPersonalInfo, readUserAllPersonalInfo } from '../../util/database';
+import {
+  AllPersonalInfo,
+  readUserAllPersonalInfo,
+  updatePersonalInfoById,
+  updateUserAddress,
+  updateUserEmergencyContact,
+  updateUserMaritalStatus,
+  updateUserPersonalInfo,
+} from '../../util/database';
 
 // type FormTwoRequestBody = {
 //   address: string;
@@ -12,7 +20,9 @@ import { AllPersonalInfo, readUserAllPersonalInfo } from '../../util/database';
 //   sosContactRelation: number;
 // };
 
-type FormRequestBody = { formResponse: Omit<AllPersonalInfo, 'id'> };
+// type FormRequestBody = { formResponse: Omit<AllPersonalInfo, 'id'> };
+
+type FormRequestBody = { formResponse: AllPersonalInfo };
 
 type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
   body: FormRequestBody;
@@ -45,18 +55,79 @@ export default async function formInputHandler(
   if (request.method === 'PUT') {
     // if the method is PUT update the form and response the updated form
 
-    // access the  from  formthe request object
-    const formRequestUpdate = request.body;
+    // access the body from the request object
+    const formRequestUpdate = request.body.formResponse;
 
     console.log('request body :', formRequestUpdate);
-    // // Error-Handling:
-    // if (userAllPersonalInfoResponse[0] === 0) {
-    //   response.status(401).json({
-    //     errors: [{ message: 'No data selected' }],
-    //   });
-    //   return;
-    // }
+    console.log('request body name:', formRequestUpdate.firstName);
+    console.log('request body name:', formRequestUpdate.lastName);
 
+    // update personal infos
+    if (
+      formRequestUpdate.firstName ||
+      formRequestUpdate.lastName ||
+      formRequestUpdate.dateOfBirth ||
+      formRequestUpdate.socialSecNb ||
+      formRequestUpdate.nationality ||
+      formRequestUpdate.email ||
+      formRequestUpdate.userPhone
+    ) {
+      const updatePersonalInfoResponse = await updateUserPersonalInfo(
+        formRequestUpdate.userId,
+        formRequestUpdate.firstName,
+        formRequestUpdate.lastName,
+        formRequestUpdate.dateOfBirth,
+        formRequestUpdate.socialSecNb,
+        formRequestUpdate.nationality,
+        formRequestUpdate.email,
+        formRequestUpdate.userPhone,
+      );
+      console.log('updatePersonalInfoResponse :', updatePersonalInfoResponse);
+    }
+
+    // *** update address *** //
+    if (
+      formRequestUpdate.userId ||
+      formRequestUpdate.streetAndNbr ||
+      formRequestUpdate.city ||
+      formRequestUpdate.postalCode ||
+      formRequestUpdate.country
+    ) {
+      const updateAddress = updateUserAddress(
+        userId,
+        formRequestUpdate.streetAndNbr,
+        formRequestUpdate.city,
+        formRequestUpdate.postalCode,
+        formRequestUpdate.country,
+      );
+      console.log('Address::', updateAddress);
+    }
+
+    // *** update civil status *** //
+    if (formRequestUpdate.maritalStatus) {
+      const updateMaritalStatus = await updateUserMaritalStatus(
+        userId,
+        formRequestUpdate.maritalStatus,
+      );
+      console.log('Update: Martial Status:', updateMaritalStatus);
+    }
+
+    // *** emergency contact *** //
+    if (
+      formRequestUpdate.fullname ||
+      formRequestUpdate.sosPhone ||
+      formRequestUpdate.relationshipId
+    ) {
+      const updateEmergencyContact = await updateUserEmergencyContact(
+        userId,
+        formRequestUpdate.fullname,
+        formRequestUpdate.sosPhone,
+        formRequestUpdate.relationshipId,
+      );
+      console.log('Update: SOS Contact:', updateEmergencyContact);
+    }
+
+    // update forminput
     response.status(201).json({
       userFormInfo: {},
     });

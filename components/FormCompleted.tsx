@@ -40,6 +40,7 @@ export default function FormCompleted(props) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState('');
 
+  // Update forminput
   async function updateUserFormInputs(userId: number) {
     const putResponse = await fetch(`/api/${props.userId}`, {
       method: 'PUT',
@@ -47,7 +48,7 @@ export default function FormCompleted(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        updateFormValues: {
+        formResponse: {
           userId: userId,
           firstName: firstNameOnEdit,
           lastName: lastNameOnEdit,
@@ -71,14 +72,14 @@ export default function FormCompleted(props) {
       (await putResponse.json()) as UserAddressResponseBody;
     console.log('putREsponsebody: ', putResponseBody);
 
-    if ('error' in putResponseBody) {
+    if ('errors' in putResponseBody) {
       setError(putResponseBody.errors);
       return;
     }
     setUserFormInfo(putResponseBody.userFormInfo);
   }
 
-  // Get forminput from db
+  // Read forminput from db
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/${props.userId}`);
@@ -102,7 +103,7 @@ export default function FormCompleted(props) {
       <section css={[sectionTwoLayout, displayFlex]}>
         {console.log('userAddress:')}
         <div>
-          <h2>Part 2</h2>
+          <h2>Part 1</h2>
           <p>
             <label htmlFor="firstName">
               <span>First Name </span>
@@ -111,7 +112,7 @@ export default function FormCompleted(props) {
               id="firstName"
               name="firstname"
               disabled={isDisabled}
-              value={isDisabled ? userFormInfo.firstName : emailOnEdit}
+              value={isDisabled ? userFormInfo.firstName : firstNameOnEdit}
               onChange={(event) =>
                 setFirstNameOnEdit(event.currentTarget.value)
               }
@@ -125,7 +126,7 @@ export default function FormCompleted(props) {
               id="lastName"
               name="lastName"
               disabled={isDisabled}
-              value={isDisabled ? userFormInfo.lastName : emailOnEdit}
+              value={isDisabled ? userFormInfo.lastName : lastNameOnEdit}
               onChange={(event) => setLastNameOnEdit(event.currentTarget.value)}
             />
           </p>
@@ -364,6 +365,8 @@ export default function FormCompleted(props) {
             onClick={() => {
               // updateFormFields(props.userid).catch(() =>
               setIsDisabled(false);
+              setFirstNameOnEdit(userFormInfo.firstName);
+              setLastNameOnEdit(userFormInfo.lastName);
               setEmailOnEdit(userFormInfo.email);
               setDateOfBirthOnEdit(userFormInfo.dateOfBirth);
               setSocialSecNumberOnEdit(userFormInfo.socialSecNb);
