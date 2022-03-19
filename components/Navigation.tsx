@@ -1,5 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import iconContract from '../public/img/menu/iconContract.svg';
+import iconDashboard from '../public/img/menu/iconDashboard.svg';
+import iconDocuments from '../public/img/menu/iconDocuments.svg';
+import iconHome from '../public/img/menu/iconHome.svg';
+import iconProfile from '../public/img/menu/iconProfile.png';
+import iconUpdates from '../public/img/menu/iconUpdates.svg';
 import { navigationStyle } from './elements';
 
 type Props = {
@@ -14,19 +20,14 @@ export default function Navigation(props: Props) {
     <nav css={navigationStyle}>
       <ul>
         <li>
-          <Image
-            src="/img/table-list-solid.svg"
-            alt="Documents Icon"
-            width="20"
-            height="20"
-          />
+          <Image src={iconHome} alt="Home Icon" width="20" height="20" />
           <Link href="/">
             <a>Home</a>
           </Link>
         </li>
         <li>
           <Image
-            src="/img/table-list-solid.svg"
+            src={iconProfile}
             alt="Documents Icon"
             width="20"
             height="20"
@@ -37,7 +38,19 @@ export default function Navigation(props: Props) {
         </li>
         <li>
           <Image
-            src="/img/table-list-solid.svg"
+            src={iconContract}
+            alt="Documents Icon"
+            width="20"
+            height="20"
+          />
+          <Link href={`/users/profiles/${props.userId}`}>
+            <a>Contract</a>
+          </Link>
+        </li>
+
+        <li>
+          <Image
+            src={iconDocuments}
             alt="Documents Icon"
             width="20"
             height="20"
@@ -49,7 +62,7 @@ export default function Navigation(props: Props) {
         {props.userRole === 1 && (
           <li>
             <Image
-              src="/img/table-list-solid.svg"
+              src={iconDashboard}
               alt="Documents Icon"
               width="20"
               height="20"
@@ -61,7 +74,7 @@ export default function Navigation(props: Props) {
         )}
         <li>
           <Image
-            src="/img/table-list-solid.svg"
+            src={iconUpdates}
             alt="Documents Icon"
             width="20"
             height="20"

@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import header_icon_logout from '../public/img/header_icon_logout.png';
+import logo_header from '../public/img/logo_header.png';
 import { User } from '../util/database';
 import { headerStyle } from './elements';
 
@@ -12,8 +14,8 @@ export default function Header(props: Props) {
   return (
     <header css={headerStyle}>
       <nav>
-        <Link href="/">
-          <a>Logo</a>
+        <Link href="/" passHref>
+          <Image src={logo_header} alt="company logo" width="121" height="26" />
         </Link>
 
         {/* <Link href="/login">
@@ -27,21 +29,24 @@ export default function Header(props: Props) {
         </Link> */}
         <div>
           {' '}
-          <p>Good to have you on the team</p>
+          <p>
+            Hello <strong>{props.userFirstName}</strong> Good to have you on the
+            team
+          </p>
         </div>
         <div>
           <div>Foto</div>
-          {/* {props.userObject && <p>{props.userObject.username}</p>} */}
-          <p>{props.userFirstName}</p>
+          {props.userObject && <p>{props.userObject.username}</p>}
+
           {/* <p>{props.userObject.username}Jane Doe</p> */}
 
           <a href="/logout">
             {' '}
             <Image
-              src="/img/right-from-bracket-solid.svg"
-              alt="Documents Icon"
-              width="20"
-              height="20"
+              src={header_icon_logout}
+              alt="icon logout"
+              width="28"
+              height="30"
             />
           </a>
         </div>

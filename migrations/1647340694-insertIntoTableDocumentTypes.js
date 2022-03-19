@@ -1,7 +1,7 @@
 exports.up = async (sql) => {
   await sql`
  INSERT INTO document_types
-  (name)
+  (doc_name)
  VALUES
   ('contract_signed'),
   ('state_id'),

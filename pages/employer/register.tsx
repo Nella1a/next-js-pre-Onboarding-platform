@@ -7,9 +7,11 @@ import { useState } from 'react';
 import {
   errorStyles,
   flexCenterWithWidthAndHeight,
+  registerFlexCenterWithWidthAndHeight,
 } from '../../components/elements';
 import Layout from '../../components/Layout';
-import imgTest from '../../public/imgTest.png';
+import login_image_left from '../../public/img/login_image_left.png';
+import logo_login from '../../public/img/logo_login.png';
 import { createCsrfToken } from '../../util/auth';
 import { getValidSessionByToken } from '../../util/database';
 
@@ -24,7 +26,9 @@ type Props = {
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userRole, setUserRole] = useState(0);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  // const [userRole, setUserRole] = useState(0);
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
 
@@ -35,16 +39,24 @@ export default function Register(props: Props) {
         <meta name="Login Page" content="Login to website " />
       </Head>
 
-      <div css={flexCenterWithWidthAndHeight}>
+      <div css={registerFlexCenterWithWidthAndHeight}>
         <section>
           <article>
-            <Image src={imgTest} alt="icon" width="161" height="97" />
-            <h2>Pre-Onboarding</h2>
-            <p>Sign in to start your Pre-Onboarding Process</p>
+            <div>
+              <Image
+                src={login_image_left}
+                alt="icon"
+                width="296"
+                height="563"
+              />
+            </div>
           </article>
           <article>
             <div>
-              <h2>Create account</h2>
+              <Image src={logo_login} alt="icon" width="166" height="36" />
+            </div>
+            <div>
+              <h1>Create account</h1>
               <p>Creat your account and start your Pre-Onboarding </p>
             </div>
 
@@ -71,7 +83,7 @@ export default function Register(props: Props) {
                     username: username,
                     password: password,
                     csrfToken: props.csrfToken,
-                    userRole: userRole,
+                    // userRole: userRole,
                   }),
                 });
 
@@ -104,26 +116,52 @@ export default function Register(props: Props) {
               }}
             >
               <div>
-                {' '}
-                <label htmlFor="username">Username</label>
-                <input
-                  id="username"
-                  name="username"
-                  value={username}
-                  onChange={(event) => setUsername(event.currentTarget.value)}
-                />
+                <p>
+                  {' '}
+                  <label htmlFor="firstName">First name</label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    value={firstName}
+                    onChange={(event) =>
+                      setFirstName(event.currentTarget.value)
+                    }
+                  />
+                </p>
+                <p>
+                  <label htmlFor="lastName">last name</label>
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    value={lastName}
+                    onChange={(event) => setLastName(event.currentTarget.value)}
+                  />
+                </p>
               </div>
               <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.currentTarget.value)}
-                />
+                <p>
+                  {' '}
+                  <label htmlFor="username">Username</label>
+                  <input
+                    id="username"
+                    name="username"
+                    value={username}
+                    onChange={(event) => setUsername(event.currentTarget.value)}
+                  />
+                </p>
+
+                <p>
+                  <label htmlFor="password">Password</label>
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.currentTarget.value)}
+                  />
+                </p>
               </div>
-              <div>
+              {/* <div>
                 <label htmlFor="userRole">Register as</label>
                 <select
                   id="userRole"
@@ -139,7 +177,7 @@ export default function Register(props: Props) {
                   <option value="1">employer</option>
                   <option value="2">new hire</option>
                 </select>
-              </div>
+              </div> */}
               <button>Sign Up</button>
               <p>
                 Already have an account?

@@ -1,9 +1,16 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
-import { sectionOneLayout, sectionTwoLayout } from '../components/elements';
+import {
+  indexSectionTwoLayout,
+  sectionOneLayout,
+  sectionTwoLayout,
+} from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
+import homeProfile from '../public/img/home/homeProfile.png';
+import homeTeam from '../public/img/home/homeTeam.png';
 import { getUserByValidSessionToken, User } from '../util/database';
 
 type Props = {
@@ -27,42 +34,35 @@ export default function Home(props: Props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
-      <section css={sectionTwoLayout}>
+      <section css={indexSectionTwoLayout}>
+        {/* <h1>
+          Hello {props.user.username} User_id: {props.user.id}{' '}
+        </h1> */}
         <div>
-          <h1>
-            Hello {props.user.username} User_id: {props.user.id}{' '}
-          </h1>
           <div>
-            <article>
-              <h2>Text 1</h2>
-              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-              <button>Documents</button>
-            </article>
-            <article>
-              <div>
-                <h2>Text 1</h2>
-                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                <Link href="/documents" passHref>
-                  <button>Documents</button>
-                </Link>
-              </div>
-              <div>
-                <h2>Text 2</h2>
-                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                <button>Updates</button>
-              </div>
-              <div>
-                <h2>Text 3</h2>
-                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                <button>Profile</button>
-              </div>
-              <div>
-                <h2>Text 3</h2>
-                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                <button>Profile</button>
-              </div>
-            </article>
+            <Image
+              src={homeTeam}
+              alt="image group of employers"
+              width="460"
+              height="320"
+            />
           </div>
+          <article>
+            <div>
+              <Image src={homeProfile} alt="" width="460" height="146" />
+            </div>
+            <div>
+              <h2>This is your profile</h2>
+              <p>
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum
+              </p>
+            </div>
+            <Link href="/" passHref>
+              <button>Documents</button>
+            </Link>
+          </article>
         </div>
       </section>
     </Layout>

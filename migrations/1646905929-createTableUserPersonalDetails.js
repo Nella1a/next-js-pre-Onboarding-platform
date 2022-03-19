@@ -9,6 +9,7 @@ exports.up = async (sql) => {
 		nationality varchar(30),
 		email varchar(320) UNIQUE,
 		user_phone varchar(20),
+		image_url varchar(100),
 		user_id integer REFERENCES users (id) ON DELETE CASCADE
 	)
 	`;

@@ -2,7 +2,7 @@ exports.up = async (sql) => {
   await sql`
 	CREATE TABLE document_types(
 		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-		name varchar(30) NOT NULL
+		doc_name varchar(100) NOT NULL
 	)
 	`;
 };

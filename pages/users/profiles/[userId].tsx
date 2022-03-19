@@ -1,5 +1,8 @@
+import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
+// import Image from 'next/image';
+import { useState } from 'react';
 import {
   sectionOneLayout,
   userProfileSectionTwoLayout,
@@ -18,7 +21,47 @@ type Props = {
   userFirstName: string;
 };
 
+const divContainerforImage = css`
+  position: relative;
+  padding: 1rem;
+
+  img {
+    display: block;
+    border-radius: 50%;
+    width: 400px;
+    height: auto;
+    margin: 1rem;
+  }
+`;
+
 export default function UserProfile(props: Props) {
+  const [cloudinaryUpload, setCloudinaryUpload] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('file', cloudinaryUpload);
+    formData.append('upload_preset', 'wc3os1wn');
+
+    const cloudinaryResponse = await fetch(
+      'https://api.cloudinary.com/v1_1/dirx112go/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
+
+    const formDataResponse = await cloudinaryResponse.json();
+    // setCloudinaryUpload(formDataResponse);
+    console.log('Cloudinary:Response:', formDataResponse.url);
+
+    if ('error' in formDataResponse) {
+      console.log('Fehler up dote');
+    }
+
+    setImageUrl(formDataResponse.url);
+  };
+
   if (!props.user) {
     return (
       <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
@@ -39,7 +82,7 @@ export default function UserProfile(props: Props) {
         </title>
         <meta
           name="description"
-          content={`User #${props.user.id} has a username of ${props.user.username}`}
+          content={`User ${props.user.id} has a username of ${props.user.username}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -57,7 +100,9 @@ export default function UserProfile(props: Props) {
           <div>
             <article>
               {' '}
-              <div>pic</div>
+              <div css={divContainerforImage}>
+                <img src={imageUrl} alt="plant" />
+              </div>
               <p>Username: {props.user.username}</p>
               <p>User Id: {props.user.id}</p>
               <div>
@@ -67,8 +112,11 @@ export default function UserProfile(props: Props) {
                   id="uploadImage"
                   name="uploadImage"
                   type="file"
-                  placeholder="upload picute"
+                  onChange={(event) => {
+                    setCloudinaryUpload(event.target.files[0]);
+                  }}
                 />
+                <button onClick={uploadImage}>Upload Image</button>
               </div>
             </article>
             {/*         <article>
