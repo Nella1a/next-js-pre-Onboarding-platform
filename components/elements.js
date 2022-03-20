@@ -48,7 +48,7 @@ export const globalStyleBody = (theme) => css`
     line-height: 1.5; /* default for browser: 1.4 tends to be very small*/
     font-size: ${theme.typography.medium};
     min-height: 100vh;
-    max-width: 1350px;
+    /* max-width: 1350px; */
     font-family: ${theme.font};
     background-color: var(--colorMainBlue);
     margin: 0 auto;
@@ -88,7 +88,7 @@ export const globalStyleBody = (theme) => css`
     /* text-transform: uppercase; */
     font-weight: bold;
     display: block;
-    min-height: 40px;
+    min-height: 2.5rem;
     background-color: var(--highlightsPink);
     color: var(--fontColorWhite);
     border: none;
@@ -141,7 +141,7 @@ const displayFlex = (
 export const styleMain = css`
   /* border: 2px solid black; */
   display: flex;
-  height: 90vh;
+  min-height: 100vh;
 `;
 
 /* *************************** */
@@ -156,7 +156,7 @@ export const headerStyle = css`
   /* background-color: #fff; */
   /* background-color: #dad3f4; */
   ${marginCenter}
-  margin: 1rem 0 auto;
+  /* margin: 1rem 0 auto; */
   /* border-radius: 15px; */
 
   /* border: 2px solid blue; */
@@ -477,28 +477,32 @@ export const navigationStyle = css`
     margin-top: 3rem;
     height: 100%;
     display: flex;
-    gap: 2rem;
+    /* gap: 2rem; */
     flex-direction: column;
     justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
     li {
       list-style: none;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 0.8rem;
-      line-height: 1.5rem;
+      gap: 0.5rem;
+      line-height: 4rem;
       border-bottom: 1px solid var(--outLineMenue);
+      padding-left: 1rem;
+
+      :hover {
+        border-left: 5px solid var(--highlightsPink);
+      }
 
       a {
         text-decoration: none;
         color: var(--fontColorWhite);
         display: block;
         width: 100%;
-
-        :hover {
-          border-right: 3px solid var(--highlightsPink);
-        }
       }
       a:link,
       a:visited,
@@ -514,7 +518,7 @@ export const navigationStyle = css`
 /* *************************** */
 
 export const sectionOneLayout = css`
-  min-width: 15%;
+  width: 15rem;
   min-height: 100%;
   background-color: var(--colorMainBlue);
 `;
@@ -531,6 +535,7 @@ export const sectionTwoLayout = css`
     background-color: #fff;
     height: 95%;
     padding: 1.5rem;
+    border: 1px solid red;
 
     h1 {
       margin: 0 0 1.5rem 0;
@@ -540,64 +545,62 @@ export const sectionTwoLayout = css`
 
     div {
       ${displayFlex()}
-      /* border: 2px solid pink; */
+      border: 2px solid pink;
       margin: 0 auto;
 
       h2 {
         font-size: 16px;
       }
 
-      article:nth-of-type(1) {
+      /* article:nth-of-type(1) {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         min-width: 30%;
         /* border: 1px solid pink; */
-        width: 18rem;
-        height: 24rem;
-        border-radius: 20px;
-        background-color: var(--backgroundColorLightGray);
-      }
+      width: 18rem;
+      height: 24rem;
+      border-radius: 20px;
+      background-color: var(--backgroundColorLightGray);
+    }
+    */ article:nth-of-type(2) {
+      width: 28.75rem;
+      /* width: 100%; */
+      /* border: 1px solid red; */
+      display: flex;
+      /* flex-direction: column; */
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: flex-end;
 
-      article:nth-of-type(2) {
-        width: 100%;
-        /* width: 100%; */
-        /* border: 1px solid red; */
+      div {
         display: flex;
-        /* flex-direction: column; */
-        flex-wrap: wrap;
-        gap: 1rem;
+        flex-direction: column;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: center;
+        /* gap: 1rem; */
+        /* background-color: #f3f2f9; */
+        background-color: var(--backgroundColorLightGray);
+        /* border-radius: 25px; */
+        width: 18rem;
+        height: 12rem;
+        border-radius: 20px;
+        padding: 1rem;
 
-        div {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          /* gap: 1rem; */
-          /* background-color: #f3f2f9; */
-          background-color: var(--backgroundColorLightGray);
-          /* border-radius: 25px; */
-          width: 18rem;
-          height: 12rem;
-          border-radius: 20px;
-          padding: 1rem;
+        /* box-shadow: 0 2px 21px 0 rgb(0 0 0 / 10%); */
 
-          /* box-shadow: 0 2px 21px 0 rgb(0 0 0 / 10%); */
-
-          button {
-            width: 100%;
-            /* background-color: #43964f; */
-            background-color: #30b565;
-            font-size: 12px;
-            font-weight: 400;
-            border-radius: 5px;
-            color: var(--fontColorWhite);
-            min-height: 30px;
-            margin: 0 1rem;
-          }
+        button {
+          width: 100%;
+          /* background-color: #43964f; */
+          background-color: #30b565;
+          font-size: 12px;
+          font-weight: 400;
+          border-radius: 5px;
+          color: var(--fontColorWhite);
+          min-height: 30px;
+          margin: 0 1rem;
         }
       }
     }
@@ -609,15 +612,14 @@ export const indexSectionTwoLayout = css`
   background-color: #eae9ee;
   padding: 1.5rem;
 
-  div {
-    background-color: #fff;
+  > div {
     /* height: 100%; */
     /* margin: 0 auto; */
-    padding: 1.5rem;
+    /* padding: 1.5rem; */
     display: flex;
     margin: 0.5rem;
-    gap: 1rem;
-
+    gap: 1.5rem;
+    border: 1px solid red;
     div {
       /* margin: 0 auto; */
 
@@ -628,35 +630,64 @@ export const indexSectionTwoLayout = css`
         align-items: center;
         min-width: 30%;
         /* border: 1px solid pink; */
-      width: 50%;
+      width: 28.75rem;
       /* width: 18rem;
       height: 24rem; */
       border-radius: 20px;
-      background-color: var(--backgroundColorLightGray);
     }
     article {
-      width: 50%;
+      width: 28.75rem;
       display: flex;
       flex-direction: column;
       /* flex-wrap: wrap; */
-      gap: 1rem;
+      /* gap: 1rem; */
       align-items: center;
-      justify-content: flex-end;
+      justify-content: center;
+      border: 2px solid yellow;
+      background-color: var(--fontColorWhite);
 
-      div {
+      div:nth-of-type(2) {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
+        /* gap: 1rem; */
+        height: 100%;
+        padding: 1rem;
+
+        h2 {
+          width: 100%;
+          font-size: 1rem;
+          text-align: left;
+        }
+
+        p {
+          color: var(--fontColorGrey);
+          font-size: 0.75rem;
+          /* margin: 1rem 0; */
+        }
       }
 
       button {
-        /* width: 100%; */
+        width: 9.5rem;
         font-size: 12px;
         font-weight: 400;
-        border-radius: 5px;
-        min-height: 30px;
+        border-radius: 20px;
+        /* min-height: 2rem; */
         margin: 0 1rem;
+        align-self: flex-end;
+        display: flex;
+        gap: 0.15rem;
+        padding-left: 0.8rem;
+        span {
+          display: inline-block;
+          display: flex;
+          align-items: center;
+          height: 100%;
+        }
+        span:nth-of-type(2) {
+          font-weight: 600;
+        }
       }
     }
   }
@@ -727,22 +758,29 @@ export const userProfileSectionTwoLayout = css`
           width: 100%;
           padding: 0;
           list-style: none;
+          margin: 0;
+          padding: 0;
 
-          div {
+          /* div {
             display: flex;
             align-items: center;
             justify-content: flex-start;
             background-color: var(--backgroundColorLightGray);
-            gap: 1rem;
+            /* gap: 1rem; */
             padding: 0.5rem;
             margin: 1rem;
             border-radius: 5px;
-          }
+          } */
 
           li {
             display: flex;
             align-items: center;
-            height: 4rem;
+            line-height: 4rem;
+            padding: none;
+
+            a {
+              display: inline-block;
+            }
           }
         }
 

@@ -11,6 +11,7 @@ import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import homeProfile from '../public/img/home/homeProfile.png';
 import homeTeam from '../public/img/home/homeTeam.png';
+import iconProfile from '../public/img/menu/iconProfile.png';
 import { getUserByValidSessionToken, User } from '../util/database';
 
 type Props = {
@@ -58,10 +59,135 @@ export default function Home(props: Props) {
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum
               </p>
+              <Link href="/" passHref>
+                <button>
+                  <span>
+                    {' '}
+                    <Image
+                      src={iconProfile}
+                      alt="image group of employers"
+                      width="20"
+                      height="20"
+                    />
+                  </span>
+                  <span>Documents</span>
+                </button>
+              </Link>
             </div>
-            <Link href="/" passHref>
-              <button>Documents</button>
-            </Link>
+          </article>
+        </div>
+        {/* / *** ** * / */}
+        <div>
+          <article>
+            <div>
+              <Image src={homeProfile} alt="" width="460" height="146" />
+            </div>
+            <div>
+              <h2>This is your profile</h2>
+              <p>
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum
+              </p>
+              <Link href="/" passHref>
+                <button>
+                  <span>
+                    {' '}
+                    <Image
+                      src={iconProfile}
+                      alt="image group of employers"
+                      width="20"
+                      height="20"
+                    />
+                  </span>
+                  <span>Documents</span>
+                </button>
+              </Link>
+            </div>
+          </article>
+          <article>
+            <div>
+              <Image src={homeProfile} alt="" width="460" height="146" />
+            </div>
+            <div>
+              <h2>This is your profile</h2>
+              <p>
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum
+              </p>
+              <Link href="/" passHref>
+                <button>
+                  <span>
+                    {' '}
+                    <Image
+                      src={iconProfile}
+                      alt="image group of employers"
+                      width="20"
+                      height="20"
+                    />
+                  </span>
+                  <span>Documents</span>
+                </button>
+              </Link>
+            </div>
+          </article>
+        </div>
+        {/* / **** *** / */}
+        <div>
+          <article>
+            <div>
+              <Image src={homeProfile} alt="" width="460" height="146" />
+            </div>
+            <div>
+              <h2>This is your profile</h2>
+              <p>
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum
+              </p>
+              <Link href="/" passHref>
+                <button>
+                  <span>
+                    {' '}
+                    <Image
+                      src={iconProfile}
+                      alt="image group of employers"
+                      width="20"
+                      height="20"
+                    />
+                  </span>
+                  <span>Documents</span>
+                </button>
+              </Link>
+            </div>
+          </article>
+          <article>
+            <div>
+              <Image src={homeProfile} alt="" width="460" height="146" />
+            </div>
+            <div>
+              <h2>This is your profile</h2>
+              <p>
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                Lorem Ipsum Lorem Ipsum
+              </p>
+              <Link href="/" passHref>
+                <button>
+                  <span>
+                    {' '}
+                    <Image
+                      src={iconProfile}
+                      alt="image group of employers"
+                      width="20"
+                      height="20"
+                    />
+                  </span>
+                  <span>Documents</span>
+                </button>
+              </Link>
+            </div>
           </article>
         </div>
       </section>

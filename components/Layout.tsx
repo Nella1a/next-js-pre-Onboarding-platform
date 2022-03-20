@@ -10,7 +10,7 @@ const backgroundStyle = css`
   height: 100%;
   width: 100%;
   background-color: #fff;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
 `;
