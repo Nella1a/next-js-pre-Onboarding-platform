@@ -1,6 +1,13 @@
 import { useState } from 'react';
 // import { useForm } from 'react-hook-form';
-import { flexStyle, formStyle, hideForm, showForm } from '../elements';
+import {
+  flexStyle,
+  formStyle,
+  hideForm,
+  showForm,
+  uploadFlexStyle,
+  uploadFormStyle,
+} from '../elements';
 
 type FormValuesTwo = {
   fileUploadOne: string;
@@ -36,10 +43,10 @@ export default function FormStepThreeValues(props) {
           props.nextFormStep();
         }}
       >
-        <section>
-          <div css={flexStyle}>
+        <section css={uploadFormStyle}>
+          <div>
             <p>
-              <label htmlFor="fileUploadOne"> </label>
+              <label htmlFor="fileUploadOne">Document 1</label>
               <input
                 type="file"
                 id="fileUploadOne"
@@ -50,6 +57,8 @@ export default function FormStepThreeValues(props) {
                   setFileUploadOne(event.currentTarget.value)
                 }
               />
+            </p>
+            <p>
               <select
                 id="fileUploadOnes"
                 data-test-id="fileUpload-one"
@@ -67,32 +76,38 @@ export default function FormStepThreeValues(props) {
               </select>
             </p>
           </div>
-          <p>
-            <label htmlFor="fileUploadTwo"> </label>
-            <input
-              type="file"
-              id="fileUploadTwo"
-              data-test-id="userFileUpload-two"
-              name="fileUploadTwo"
-              value={fileUploadTwo}
-              onChange={(event) => setFileUploadTwo(event.currentTarget.value)}
-            />
-            <select
-              id="fileUploadTwo"
-              data-test-id="fileUpload-one"
-              name="fileUploadTwo"
-              value={fileUploadTwoSelect}
-              onChange={(event) =>
-                setFileUploadTwoSelect(event.currentTarget.value)
-              }
-            >
-              <option value="0">-- please select ---</option>
-              <option value="1">contract</option>
-              <option value="2">ID</option>
-              <option value="2">BankCard</option>
-              <option value="4">other</option>
-            </select>
-          </p>
+          <div>
+            <p>
+              <label htmlFor="fileUploadTwo">Document 2 </label>
+              <input
+                type="file"
+                id="fileUploadTwo"
+                data-test-id="userFileUpload-two"
+                name="fileUploadTwo"
+                value={fileUploadTwo}
+                onChange={(event) =>
+                  setFileUploadTwo(event.currentTarget.value)
+                }
+              />
+            </p>
+            <p>
+              <select
+                id="fileUploadTwo"
+                data-test-id="fileUpload-one"
+                name="fileUploadTwo"
+                value={fileUploadTwoSelect}
+                onChange={(event) =>
+                  setFileUploadTwoSelect(event.currentTarget.value)
+                }
+              >
+                <option value="0">-- please select ---</option>
+                <option value="1">contract</option>
+                <option value="2">ID</option>
+                <option value="2">BankCard</option>
+                <option value="4">other</option>
+              </select>
+            </p>
+          </div>
         </section>
         <button>Step 4: Review &#38; Submit </button>
       </form>

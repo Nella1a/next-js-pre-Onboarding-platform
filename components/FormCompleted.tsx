@@ -7,7 +7,7 @@ import {
   UserAddressResponseBody,
 } from '../pages/api/[userId]';
 import { AllPersonalInfo } from '../util/database';
-import { sectionTwoLayout } from './elements';
+import { sectionFormCompletedLayout, sectionTwoLayout } from './elements';
 import Layout from './Layout';
 
 const displayFlex = css`
@@ -116,11 +116,11 @@ export default function FormCompleted(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2> Step {props.currentStep + 1} of 4</h2>
-      <h2>Review your inputs! 🎉</h2>
-      <section css={[sectionTwoLayout, displayFlex]}>
+      {/* <h2>Review your inputs! 🎉</h2> */}
+      <section css={sectionFormCompletedLayout}>
         {console.log('userAddress:')}
-        <div>
-          <h2>Part 1</h2>
+        <h2>Personal Details</h2>
+        <article>
           <p>
             <label htmlFor="firstName">
               <span>First Name </span>
@@ -222,9 +222,34 @@ export default function FormCompleted(props) {
               }
             />
           </p>
-        </div>
-        <div>
-          <h2> Part 2</h2>
+          <p>
+            <label htmlFor="maritalStatus">
+              <span>Marital Status:</span>
+            </label>
+            <select
+              id="maritalStatus"
+              data-test-id="userMartital-status"
+              name="martitalStatus"
+              disabled={isDisabled}
+              value={
+                isDisabled ? userFormInfo.maritalStatus : maritalStatusOnEdit
+              }
+              onChange={(event) =>
+                setMaritalStatusOnEdit(parseInt(event.currentTarget.value))
+              }
+            >
+              <option value="0">-- please select --</option>
+              <option value="1">single</option>
+              <option value="2">married</option>
+              <option value="3">registered Partnership</option>
+              <option value="4">divorced</option>
+              <option value="5">widowed</option>
+              <option value="6">widowed</option>
+            </select>
+          </p>
+        </article>
+        <h2> Address</h2>
+        <article>
           <p>
             <label htmlFor="address">
               <span>Adress: </span>
@@ -284,34 +309,9 @@ export default function FormCompleted(props) {
               onChange={(event) => setCountryOnEdit(event.currentTarget.value)}
             />
           </p>
-          <p>
-            <label htmlFor="maritalStatus">
-              <span>Marital Status:</span>
-            </label>
-            <select
-              id="maritalStatus"
-              data-test-id="userMartital-status"
-              name="martitalStatus"
-              disabled={isDisabled}
-              value={
-                isDisabled ? userFormInfo.maritalStatus : maritalStatusOnEdit
-              }
-              onChange={(event) =>
-                setMaritalStatusOnEdit(parseInt(event.currentTarget.value))
-              }
-            >
-              <option value="0">-- please select --</option>
-              <option value="1">single</option>
-              <option value="2">married</option>
-              <option value="3">registered Partnership</option>
-              <option value="4">divorced</option>
-              <option value="5">widowed</option>
-              <option value="6">widowed</option>
-            </select>
-          </p>
-
-          <p>Emergency Contact</p>
-
+        </article>
+        <h2>Emergency Contact</h2>
+        <article>
           <p>
             <label htmlFor="userSosContactFullName">
               <span>Full Name </span>
@@ -374,9 +374,9 @@ export default function FormCompleted(props) {
               <option value="6">other</option>
             </select>
           </p>
-        </div>
+        </article>
       </section>
-      <section css={displayFlex}>
+      <section>
         {isDisabled ? (
           <button
             onClick={() => {

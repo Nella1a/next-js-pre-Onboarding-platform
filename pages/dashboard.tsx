@@ -123,7 +123,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        user: user,
+        // user: user,
+
         newJoiners: newJoiners,
       },
     };

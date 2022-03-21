@@ -19,20 +19,21 @@ type Props = {
   user?: User | null;
   userObject: User;
   userFirstName: string;
+  cloudKey: string;
 };
 
-const divContainerforImage = css`
-  position: relative;
-  padding: 1rem;
+// const divContainerforImage = css`
+//   position: relative;
+//   padding: 1rem;
 
-  img {
-    display: block;
-    border-radius: 50%;
-    width: 400px;
-    height: auto;
-    margin: 1rem;
-  }
-`;
+//   img {
+//     display: block;
+//     border-radius: 50%;
+//     width: 400px;
+//     height: auto;
+//     margin: 1rem;
+//   }
+// `;
 
 export default function UserProfile(props: Props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
@@ -44,7 +45,7 @@ export default function UserProfile(props: Props) {
     formData.append('upload_preset', 'wc3os1wn');
 
     const cloudinaryResponse = await fetch(
-      'https://api.cloudinary.com/v1_1/dirx112go/image/upload',
+      `https://api.cloudinary.com/v1_1/${props.cloudKey}}/image/upload`,
       {
         method: 'POST',
         body: formData,
@@ -86,70 +87,57 @@ export default function UserProfile(props: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       {/* <h1>Welcome X</h1>
       <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
+
       <section css={userProfileSectionTwoLayout}>
         {/* <section css={sectionTwoLayout}> */}
+
+        {/* <p> {`${props.user.username},  userId is: ${props.user.id} `}</p> */}
         <div>
-          <h1>Your Profile </h1>
-          {/* <p> {`${props.user.username},  userId is: ${props.user.id} `}</p> */}
-          <div>
-            <article>
-              {' '}
-              <div css={divContainerforImage}>
-                <img src={imageUrl} alt="plant" />
-              </div>
-              <p>Username: {props.user.username}</p>
-              <p>User Id: {props.user.id}</p>
+          <article>
+            {' '}
+            <div>
+              {/* <div css={divContainerforImage}> */}
+              <img src={imageUrl} alt="plant" />
+            </div>
+            <p>Username: {props.user.username}</p>
+            <p>User Id: {props.user.id}</p>{' '}
+            <label htmlFor="uploadImage"> </label>
+            <input
+              id="uploadImage"
+              name="uploadImage"
+              type="file"
+              onChange={(event) => {
+                setCloudinaryUpload(event.target.files[0]);
+              }}
+            />
+            <button onClick={uploadImage}>Upload Image</button>
+          </article>
+          <article>
+            <h2>User Profile</h2>
+            <ul>
               <div>
-                {' '}
-                <label htmlFor="uploadImage">Upload Picture</label>
-                <input
-                  id="uploadImage"
-                  name="uploadImage"
-                  type="file"
-                  onChange={(event) => {
-                    setCloudinaryUpload(event.target.files[0]);
-                  }}
-                />
-                <button onClick={uploadImage}>Upload Image</button>
-              </div>
-            </article>
-            {/*         <article>
-              <div>
-                <h2>Text 3</h2>
-                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <li>Username:</li>
+                <li>X</li>
               </div>
               <div>
-                <h2>Text 3</h2>
-                <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <li>Full Name:</li>
+                <li>X</li>
               </div>
-            </article> */}
-            <article>
-              <ul>
-                <div>
-                  <li>username:</li>
-                  <li>X</li>
-                </div>
-                <div>
-                  <li>Full Name:</li>
-                  <li>X</li>
-                </div>
-                <div>
-                  <li>Position:</li>
-                  <li>X</li>
-                </div>
-                <div>
-                  <li>Starting Date:</li>
-                  <li>X</li>
-                </div>
-              </ul>
-            </article>
-          </div>
+              <div>
+                <li>Position:</li>
+                <li>X</li>
+              </div>
+              <div>
+                <li>Starting Date:</li>
+                <li>X</li>
+              </div>
+            </ul>
+          </article>
         </div>
       </section>
     </Layout>
@@ -158,11 +146,13 @@ export default function UserProfile(props: Props) {
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<{ user?: User }>> {
+): Promise<GetServerSidePropsResult<{ user?: User; cloudKey?: string }>> {
   const token = context.req.cookies.sessionToken;
 
   const abec = context.resolvedUrl;
   console.log('reslovedURL:', abec);
+
+  const cloudKey = process.env.CLOUDKEY;
 
   if (token) {
     // 2. check if token is valid
@@ -188,6 +178,7 @@ export async function getServerSideProps(
       return {
         props: {
           user: user,
+          cloudKey: cloudKey,
         },
       };
     }

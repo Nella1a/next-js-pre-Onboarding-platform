@@ -61,31 +61,31 @@ export default function FormStepOneValues(props) {
           // validations
 
           // send input to api
-          const formInputResponse = await fetch('/api/formStepOneValues', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              // firstName: firstName,
-              // lastName: lastName,
-              dateOfBirth: dateOfBirth,
-              socialSecNumber: parseInt(socialSecNumber),
-              nationality: nationality,
-              email: email,
-              phone: parseInt(phone),
-              userId: props.userId,
-            }),
-          });
+          // const formInputResponse = await fetch('/api/formStepOneValues', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify({
+          //     // firstName: firstName,
+          //     // lastName: lastName,
+          //     dateOfBirth: dateOfBirth,
+          //     socialSecNumber: parseInt(socialSecNumber),
+          //     nationality: nationality,
+          //     email: email,
+          //     phone: parseInt(phone),
+          //     userId: props.userId,
+          //   }),
+          // });
 
-          // get response from api & check for error message
-          const formInputResponseBody = await formInputResponse.json();
-          if ('errors' in formInputResponseBody) {
-            setErrorsApi(formInputResponseBody.errors);
-            return;
-          }
-          setErrorsApi([]);
-          console.log('Response from Api:', formInputResponseBody);
+          // // get response from api & check for error message
+          // const formInputResponseBody = await formInputResponse.json();
+          // if ('errors' in formInputResponseBody) {
+          //   setErrorsApi(formInputResponseBody.errors);
+          //   return;
+          // }
+          // setErrorsApi([]);
+          // console.log('Response from Api:', formInputResponseBody);
           props.nextFormStep();
         }}
       >
@@ -134,6 +134,7 @@ export default function FormStepOneValues(props) {
               />
             </p>
           </div>
+
           <div css={flexStyle}>
             <p>
               <label htmlFor="nationality">

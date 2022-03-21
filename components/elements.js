@@ -71,7 +71,8 @@ export const globalStyleBody = (theme) => css`
     color: var(--outLineMenue);
   }
 
-  input {
+  input,
+  select {
     min-height: 3.5rem;
     padding: 1rem;
     border: 1px solid var(--backGroundColorGrey);
@@ -85,6 +86,7 @@ export const globalStyleBody = (theme) => css`
     font: inherit;
     line-height: 1.5;
     letter-spacing: 0.5px;
+    border-radius: 20px;
     /* text-transform: uppercase; */
     font-weight: bold;
     display: block;
@@ -92,6 +94,10 @@ export const globalStyleBody = (theme) => css`
     background-color: var(--highlightsPink);
     color: var(--fontColorWhite);
     border: none;
+
+    :hover {
+      background-color: var(--colorMainBlue);
+    }
   }
 `;
 
@@ -323,7 +329,7 @@ export const flexCenterWithWidthAndHeight = css`
           width: 100%;
           min-height: 3rem;
           margin-top: 1.2rem;
-          border-radius: 20px;
+
           font-size: 1.8rem;
           margin: 1rem 0;
         }
@@ -455,7 +461,6 @@ export const registerFlexCenterWithWidthAndHeight = css`
           width: 100%;
           min-height: 3rem;
           margin-top: 1.2rem;
-          border-radius: 20px;
           font-size: 1.8rem;
           margin: 1rem 0;
         }
@@ -594,11 +599,11 @@ export const sectionTwoLayout = css`
         button {
           width: 100%;
           /* background-color: #43964f; */
-          background-color: #30b565;
+
           font-size: 12px;
           font-weight: 400;
           border-radius: 5px;
-          color: var(--fontColorWhite);
+
           min-height: 30px;
           margin: 0 1rem;
         }
@@ -611,6 +616,9 @@ export const indexSectionTwoLayout = css`
   min-width: 85%;
   background-color: #eae9ee;
   padding: 1.5rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
 
   > div {
     /* height: 100%; */
@@ -619,7 +627,7 @@ export const indexSectionTwoLayout = css`
     display: flex;
     margin: 0.5rem;
     gap: 1.5rem;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     div {
       /* margin: 0 auto; */
 
@@ -672,8 +680,8 @@ export const indexSectionTwoLayout = css`
         width: 9.5rem;
         font-size: 12px;
         font-weight: 400;
-        border-radius: 20px;
-        /* min-height: 2rem; */
+
+        min-height: 2.1rem;
         margin: 0 1rem;
         align-self: flex-end;
         display: flex;
@@ -698,113 +706,84 @@ export const indexSectionTwoLayout = css`
 /* *************************** */
 
 export const userProfileSectionTwoLayout = css`
-  min-width: 85%;
-  background-color: #eae9ee;
+  width: 100%;
+  background-color: var(--backGroundColorGrey);
   padding: 1.5rem;
 
-  > div:first-child {
-    background-color: #fff;
-    height: 95%;
-    padding: 1.5rem;
-    /* border: 5px solid yellow; */
+  > div:first-of-type {
+    width: 70%;
+    ${displayFlex('flex', 'row', '', 'flex-start')}
+    border: 2px solid red;
+    gap: 2rem;
 
-    h1 {
-      margin: 0 0 1.5rem 0;
-      font-size: 20px;
-      background-color: #30b565;
+    h2 {
+      font-size: 16px;
     }
 
-    div:first-of-type {
-      /* ${displayFlex()} */
-      ${displayFlex('flex', 'row', 'space-around', 'center')}
-      /* border: 1px solid red; */
+    article:nth-of-type(1) {
+      ${displayFlex('flex', 'column', 'flex-start', 'center')};
+      width: 15rem;
+      height: 26rem;
+      border-radius: 20px;
+      /* background-color: var(--backgroundColorLightGray); */
+      /* padding: 1rem; */
+      /* border: 5px solid lightblue; */
 
-      h2 {
-        font-size: 16px;
-      }
-
-      article:nth-of-type(1) {
-        ${displayFlex('flex', 'column', 'center', 'center')};
-        width: 40%;
-        /* width: 18rem; */
-        height: 26rem;
-        border-radius: 20px;
-        background-color: var(--backgroundColorLightGray);
+      div:first-of-type {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 1px solid grey;
+        margin-bottom: 1rem;
+        position: relative;
         padding: 1rem;
 
-        div:first-of-type {
-          width: 200px;
-          height: 200px;
+        img {
+          display: block;
           border-radius: 50%;
-          /* border: 1px solid grey; */
-          margin-bottom: 1rem;
-        }
-        div:nth-of-type(2) {
-          text-align: center;
-          margin-top: 0.5rem;
+          width: 400px;
+          height: auto;
+          margin: 1rem;
         }
       }
+      input[type='file'] {
+        border: none;
+      }
+    }
 
-      article:nth-of-type(2) {
-        width: 40%;
-        ${displayFlex('flex', 'column', 'flex-end', 'center')};
-        /* width: 100%; */
-        /* border: 1px solid red; */
-        /* flex-direction: column; */
-        flex-wrap: wrap;
-        gap: 1rem;
+    article:nth-of-type(2) {
+      width: 30rem;
+      height: 100%;
 
-        ul {
-          width: 100%;
-          padding: 0;
-          list-style: none;
-          margin: 0;
-          padding: 0;
+      ${displayFlex('flex', 'column', 'flex-end', 'center')};
+      /* border: 5px solid lightblue; */
 
-          /* div {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            background-color: var(--backgroundColorLightGray);
-            /* gap: 1rem; */
-            padding: 0.5rem;
-            margin: 1rem;
-            border-radius: 5px;
-          } */
+      h2 {
+        width: 100%;
+        text-align: left;
+        background-color: var(--colorMainBlue);
+        color: var(--backGroundColorGrey);
+        padding: 1.5rem;
+        border-radius: 12px 12px 0 0;
+      }
 
-          li {
-            display: flex;
-            align-items: center;
-            line-height: 4rem;
-            padding: none;
-
-            a {
-              display: inline-block;
-            }
-          }
-        }
-
-        /* div {
+      ul {
+        background-color: var(--fontColorWhite);
+        width: 100%;
+        padding: 0;
+        list-style: none;
+        margin: 0;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        border-radius: 0 0 12px 12px;
+        div {
           display: flex;
-          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          background-color: var(--backgroundColorLightGray);
-          width: 18rem;
-          height: 12rem;
-          padding: 1rem;
-
-          button {
-            width: 100%;
-            background-color: #30b565;
-            font-size: 12px;
-            font-weight: 400;
-            border-radius: 5px;
-            color: var(--fontColorWhite);
-            min-height: 30px;
-            margin: 1rem 0;
-          }
-        } */
+          gap: 4rem;
+          border-radius: 5px;
+        }
       }
     }
   }
@@ -816,13 +795,17 @@ export const userProfileSectionTwoLayout = css`
 
 export const sectionTwoLayoutForm = css`
   min-width: 85%;
+
   background-color: #eae9ee;
   padding: 1.5rem;
 
   > div {
     background-color: #fff;
+    width: 85%;
+    min-width: 57.5rem;
     height: 95%;
     padding: 1.5rem;
+    border-radius: 20px;
 
     h1 {
       margin: 0 0 1.5rem 0;
@@ -844,14 +827,6 @@ export const formStyleContainer = css`
 
   button {
     ${size('17.65rem', '1.47rem')}
-    /* background-color: #ed943b; */
-    background-color: #78C951;
-    border: none;
-    color: var(--fontColorWhite);
-
-    &:hover {
-      background-color: #ff6900;
-    }
   }
 `;
 
@@ -880,8 +855,9 @@ export const formStyle = css`
   input,
   select {
     width: 100%;
-    height: 40px;
+    /* height: 40px; */
     border: 1px solid grey;
+    border-radius: 12px;
   }
 `;
 
@@ -898,41 +874,87 @@ export const flexStyle = css`
 /*             Uploads         */
 /* *************************** */
 
-export const uploadformStyle = css`
-  ${displayFlex('flex', 'column', 'space-between', 'center')}
-  gap: 1rem;
-  margin-top: 4rem;
-  width: 100%;
+export const uploadFormStyle = css`
+  margin: 0 auto;
 
-  section {
-    width: 70%;
-    background-color: #eae9ee;
-    padding: 1rem;
-    border-radius: 20px;
-    border: 5px solid var(--backGroundColorWhite);
-    margin: 0 auto;
+  div {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 
-    div {
-      margin-bottom: 2.5rem;
+    p {
+      width: 60%;
     }
-  }
 
-  p,
-  label,
-  input {
-    margin-bottom: 0;
-  }
-
-  input,
-  select {
-    width: 100%;
-    height: 40px;
-    border: none;
+    p + p {
+      width: 30%;
+      align-self: center;
+      margin-top: 0.8rem;
+    }
   }
 `;
 
-export const colorRequired = css`
-  color: red;
+/* *************************** */
+/*        FormCompleted        */
+/* *************************** */
+
+export const sectionFormCompletedLayout = css`
+  min-width: 85%;
+  /* background-color: #eae9ee; */
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  /* gap: 1rem; */
+
+  /* -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16); */
+
+  h1 {
+    margin: 0 0 1.5rem 0;
+    font-size: 20px;
+    background-color: #30b565;
+  }
+
+  article {
+    display: flex;
+    /* flex-direction: column; */
+    background-color: #fff;
+    width: 100%;
+    height: 95%;
+    /* padding: 1.5rem; */
+    /* border: 1px solid var(--backGroundColorGrey); */
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+
+    label {
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    input,
+    select {
+      border-radius: 14px;
+      padding: 0.5rem;
+      border: 1px solid var(--backGroundColorGrey);
+      min-height: 2.5rem;
+      border: none;
+    }
+
+    p {
+      display: flex;
+      flex-direction: column;
+    }
+
+    button {
+      width: 100%;
+      font-size: 12px;
+      font-weight: 400;
+      border-radius: 5px;
+      min-height: 30px;
+      margin: 0 1rem;
+    }
+  }
 `;
 
 /* *************************** */

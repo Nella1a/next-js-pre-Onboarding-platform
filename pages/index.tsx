@@ -9,9 +9,18 @@ import {
 } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
+import homeContract from '../public/img/home/homeContract.png';
+import homeDashboard from '../public/img/home/homeDashboard.png';
+import homeDocuments from '../public/img/home/homeDocuments.png';
+import homeNews from '../public/img/home/homeNews.png';
 import homeProfile from '../public/img/home/homeProfile.png';
 import homeTeam from '../public/img/home/homeTeam.png';
+import iconContract from '../public/img/menu/iconContract.svg';
+import iconDashboard from '../public/img/menu/iconDashboard.svg';
+import iconDocuments from '../public/img/menu/iconDocuments.svg';
+import iconHome from '../public/img/menu/iconHome.svg';
 import iconProfile from '../public/img/menu/iconProfile.png';
+import iconUpdates from '../public/img/menu/iconUpdates.svg';
 import { getUserByValidSessionToken, User } from '../util/database';
 
 type Props = {
@@ -70,7 +79,7 @@ export default function Home(props: Props) {
                       height="20"
                     />
                   </span>
-                  <span>Documents</span>
+                  <span>Profile</span>
                 </button>
               </Link>
             </div>
@@ -80,10 +89,10 @@ export default function Home(props: Props) {
         <div>
           <article>
             <div>
-              <Image src={homeProfile} alt="" width="460" height="146" />
+              <Image src={homeContract} alt="" width="460" height="146" />
             </div>
             <div>
-              <h2>This is your profile</h2>
+              <h2>Here you'll find your contract</h2>
               <p>
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
@@ -94,23 +103,23 @@ export default function Home(props: Props) {
                   <span>
                     {' '}
                     <Image
-                      src={iconProfile}
+                      src={iconContract}
                       alt="image group of employers"
                       width="20"
                       height="20"
                     />
                   </span>
-                  <span>Documents</span>
+                  <span>Contract</span>
                 </button>
               </Link>
             </div>
           </article>
           <article>
             <div>
-              <Image src={homeProfile} alt="" width="460" height="146" />
+              <Image src={homeDocuments} alt="" width="460" height="146" />
             </div>
             <div>
-              <h2>This is your profile</h2>
+              <h2>Fill out your Personal Details</h2>
               <p>
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
@@ -137,10 +146,10 @@ export default function Home(props: Props) {
         <div>
           <article>
             <div>
-              <Image src={homeProfile} alt="" width="460" height="146" />
+              <Image src={homeDashboard} alt="" width="460" height="146" />
             </div>
             <div>
-              <h2>This is your profile</h2>
+              <h2>All new hires</h2>
               <p>
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
@@ -151,23 +160,23 @@ export default function Home(props: Props) {
                   <span>
                     {' '}
                     <Image
-                      src={iconProfile}
+                      src={iconDashboard}
                       alt="image group of employers"
                       width="20"
                       height="20"
                     />
                   </span>
-                  <span>Documents</span>
+                  <span>Dashboard</span>
                 </button>
               </Link>
             </div>
           </article>
           <article>
             <div>
-              <Image src={homeProfile} alt="" width="460" height="146" />
+              <Image src={homeNews} alt="" width="460" height="146" />
             </div>
             <div>
-              <h2>This is your profile</h2>
+              <h2>News and Updates</h2>
               <p>
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
@@ -178,13 +187,13 @@ export default function Home(props: Props) {
                   <span>
                     {' '}
                     <Image
-                      src={iconProfile}
+                      src={iconUpdates}
                       alt="image group of employers"
                       width="20"
                       height="20"
                     />
                   </span>
-                  <span>Documents</span>
+                  <span>Updates</span>
                 </button>
               </Link>
             </div>
