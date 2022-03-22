@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-// import Image from 'next/image';
-import { useState } from 'react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import {
   sectionOneLayout,
   userProfileSectionTwoLayout,
@@ -12,14 +12,21 @@ import Navigation from '../../../components/Navigation';
 import {
   getUserById,
   getValidSessionByToken,
+  readUserProfileImage,
   User,
 } from '../../../util/database';
+
+type CloudUrl = {
+  imageUrl: string;
+};
 
 type Props = {
   user?: User | null;
   userObject: User;
   userFirstName: string;
+  imgUrl: CloudUrl;
   cloudKey: string;
+  uploadPreset: string;
 };
 
 // const divContainerforImage = css`
@@ -37,15 +44,20 @@ type Props = {
 
 export default function UserProfile(props: Props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(props.imgUrl.imageUrl);
+  const [userId, setUserId] = useState<number>(0);
+  const [errors, setErrors] = useState('');
 
+  console.log('Props.ImageUrl:', props.imgUrl.imageUrl);
+  console.log('ImageUrl typeof:', imageUrl);
   const uploadImage = async () => {
+    console.log('userIdFE:', userId);
     const formData = new FormData();
     formData.append('file', cloudinaryUpload);
-    formData.append('upload_preset', 'wc3os1wn');
+    formData.append('upload_preset', props.uploadPreset);
 
     const cloudinaryResponse = await fetch(
-      `https://api.cloudinary.com/v1_1/${props.cloudKey}}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${props.cloudKey}/image/upload`,
       {
         method: 'POST',
         body: formData,
@@ -55,13 +67,46 @@ export default function UserProfile(props: Props) {
     const formDataResponse = await cloudinaryResponse.json();
     // setCloudinaryUpload(formDataResponse);
     console.log('Cloudinary:Response:', formDataResponse.url);
+    console.log('Cloudinary:Response: Type', typeof formDataResponse.url);
 
     if ('error' in formDataResponse) {
       console.log('Fehler up dote');
     }
+    // const imageUrlCloud = formDataResponse.url;
 
     setImageUrl(formDataResponse.url);
+    console.log('ImageUrl StateVariable:', imageUrl);
+
+    // Add image url to DB
+    const addImageUrlToDB = await fetch(`/api/profile/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        imageUrl: formDataResponse.url,
+        userId: userId,
+      }),
+    });
+    const addImageUrlToDBResponseBody = await addImageUrlToDB.json();
+
+    console.log('addImageUrlToDBResponseBody', addImageUrlToDBResponseBody);
+
+    if ('errors' in addImageUrlToDBResponseBody) {
+      setErrors(addImageUrlToDBResponseBody.errors);
+      return;
+    }
   };
+
+  // read image url from DB
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch(`/api/profile/${userId}`);
+  //     const responseBody = await response.json();
+  //     setImageUrl(responseBody.url);
+  //   };
+  //   fetchData().catch(() => {});
+  // }, []);
 
   if (!props.user) {
     return (
@@ -75,6 +120,7 @@ export default function UserProfile(props: Props) {
       </Layout>
     );
   }
+
   return (
     <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
       <Head>
@@ -101,8 +147,12 @@ export default function UserProfile(props: Props) {
           <article>
             {' '}
             <div>
-              {/* <div css={divContainerforImage}> */}
-              <img src={imageUrl} alt="plant" />
+              <Image
+                src={imageUrl ? imageUrl : '/imgTest.png'}
+                width={300}
+                height={300}
+                alt="text"
+              />
             </div>
             <p>Username: {props.user.username}</p>
             <p>User Id: {props.user.id}</p>{' '}
@@ -112,6 +162,7 @@ export default function UserProfile(props: Props) {
               name="uploadImage"
               type="file"
               onChange={(event) => {
+                setUserId(props.user.id);
                 setCloudinaryUpload(event.target.files[0]);
               }}
             />
@@ -146,13 +197,21 @@ export default function UserProfile(props: Props) {
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<{ user?: User; cloudKey?: string }>> {
+): Promise<
+  GetServerSidePropsResult<{
+    user?: User;
+    cloudKey?: string;
+    imgUrl?: string;
+    uploadPrese: string;
+  }>
+> {
   const token = context.req.cookies.sessionToken;
 
-  const abec = context.resolvedUrl;
-  console.log('reslovedURL:', abec);
+  // const userId = context.query.userId;
+  // console.log('reslovedURL:', abec);
 
   const cloudKey = process.env.CLOUDKEY;
+  const uploadPreset = process.env.UPLOAD_PRESET;
 
   if (token) {
     // 2. check if token is valid
@@ -175,10 +234,24 @@ export async function getServerSideProps(
           props: {},
         };
       }
+
+      // const uploadPreset = process.env.UPLOAD_PRESET;
+      // if (typeof uploadPreset === 'undefined') {
+      //   return {
+      //     props: {
+      //       errors: 'upload-preset is undefined',
+      //     },
+      //   };
+      // }
+
+      const imageUrlInDB: string = await readUserProfileImage(session.userId);
+      console.log('imageUrlInDB:', imageUrlInDB);
       return {
         props: {
           user: user,
           cloudKey: cloudKey,
+          imgUrl: imageUrlInDB,
+          uploadPreset: uploadPreset,
         },
       };
     }
@@ -187,32 +260,3 @@ export async function getServerSideProps(
     props: {},
   };
 }
-/*
-export async function getServerSideProps(
-  context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<{ user?: User }>> {
-  // get userId from current login
-  const userId = context.query.userId;
-
-  // User id is not correct type
-  if (!userId || Array.isArray(userId)) {
-    return { props: {} };
-  }
-
-  // read user from database
-  const user = await getUserById(parseInt(userId));
-
-  if (!user) {
-    context.res.statusCode = 404;
-    return {
-      // notFound: true, // also works, but generates a generic error page
-      props: {},
-    };
-  }
-
-  return {
-    props: {
-      user: user,
-    },
-  };
-} */

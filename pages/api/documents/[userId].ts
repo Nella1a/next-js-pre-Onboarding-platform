@@ -2,12 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {
   AllPersonalInfo,
   readUserAllPersonalInfo,
-  updatePersonalInfoById,
   updateUserAddress,
   updateUserEmergencyContact,
   updateUserMaritalStatus,
   updateUserPersonalInfo,
-} from '../../util/database';
+} from '../../../util/database';
 
 // type FormTwoRequestBody = {
 //   address: string;
@@ -118,7 +117,7 @@ export default async function formInputHandler(
       formRequestUpdate.sosPhone ||
       formRequestUpdate.relationshipId
     ) {
-      const updateEmergencyContact = await updateUserEmergencyContact(
+      await updateUserEmergencyContact(
         userId,
         formRequestUpdate.fullname,
         formRequestUpdate.sosPhone,
@@ -149,6 +148,6 @@ export default async function formInputHandler(
   }
 
   response.status(405).json({
-    errors: 'Method not supported, try GET instead',
+    errors: 'Method not supported',
   });
 }

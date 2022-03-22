@@ -1,19 +1,17 @@
-import { css } from '@emotion/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import {
-  FormResponseBody,
   FormResponseBodyGet,
   UserAddressResponseBody,
-} from '../pages/api/[userId]';
+} from '../pages/api/documents/[userId]';
 import { AllPersonalInfo } from '../util/database';
-import { sectionFormCompletedLayout, sectionTwoLayout } from './elements';
+import { sectionFormCompletedLayout } from './elements';
 import Layout from './Layout';
 
-const displayFlex = css`
-  display: flex;
-  gap: 0.5rem;
-`;
+// const displayFlex = css`
+//   display: flex;
+//   gap: 0.5rem;
+// `;
 
 export default function FormCompleted(props) {
   const [userFormInfo, setUserFormInfo] = useState<AllPersonalInfo>('');
@@ -99,7 +97,7 @@ export default function FormCompleted(props) {
   // Read forminput from db
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`/api/${props.userId}`);
+      const response = await fetch(`/api/documents/${props.userId}`);
       const responseBody = (await response.json()) as FormResponseBodyGet;
       setUserFormInfo(responseBody.userFormInfo);
     };

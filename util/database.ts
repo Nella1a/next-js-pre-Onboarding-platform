@@ -368,6 +368,36 @@ export async function formInputPersonalDetails(
   return formOne && camelcaseKeys(formOne);
 }
 
+// export type FileUpload = {
+//   url: string;
+// };
+
+// ADD IMAGE
+export async function addUserProfileImage(userId: number, imageUrl: string) {
+  const [fileUpload] = await sql`
+  UPDATE user_personal_details
+  SET
+  image_url = ${imageUrl}
+  WHERE
+  user_id = ${userId}
+  RETURNING image_url
+  `;
+  return fileUpload && camelcaseKeys(fileUpload);
+}
+
+// READ IMAGE
+export async function readUserProfileImage(userId: number) {
+  const [readImageUrl] = await sql`
+  SELECT
+  image_url
+  FROM
+  user_personal_details
+  WHERE
+  user_id = ${userId}
+  `;
+  return readImageUrl && camelcaseKeys(readImageUrl);
+}
+
 // UPDATE
 export async function updateUserPersonalInfo(
   userId: number,
