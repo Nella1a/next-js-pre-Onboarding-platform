@@ -1,24 +1,13 @@
-// import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { verifyCsrfToken } from '../../util/auth';
-// import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import { createUser, getUserByUsername, User } from '../../util/database';
-
-/* *******************************************
-  Endpoint USER:
-  -  POST: Add new user to DB and return to FE
-  -  GET:  Read user
-  -  PUT:  Update user infos
-
-  ******************************************* */
 
 type RegisterRequestBody = {
   username: string;
-  firstName: string;
-  lastName: string;
   password: string;
   userRole: number;
+  firstName: string;
+  lastName: string;
 };
 
 type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
@@ -34,26 +23,24 @@ export default async function registerHandler(
   response: NextApiResponse<RegisterResponseBody>,
 ) {
   if (request.method === 'POST') {
-    //  check if un or pw is not string or empty
-    console.log('request.body:', request.body.newJoiner);
-    console.log('request.body.userRole:', request.body.userRole);
-    console.log('request.body.userRole Type:', typeof request.body.userRole);
+    // validation 1: check if un or pw is not string or empty
+    console.log('request.body:', request.body);
     if (
-      typeof request.body.newJoiner.username !== 'string' ||
-      !request.body.newJoiner.username ||
-      typeof request.body.newJoiner.password !== 'string' ||
-      !request.body.newJoiner.password ||
-      typeof request.body.newJoiner.firstName !== 'string' ||
-      !request.body.newJoiner.firstName ||
-      typeof request.body.newJoiner.lastName !== 'string' ||
-      !request.body.newJoiner.lastName ||
+      typeof request.body.username !== 'string' ||
+      !request.body.username ||
+      typeof request.body.password !== 'string' ||
+      !request.body.password ||
       !request.body.userRole ||
-      typeof request.body.userRole !== 'number'
+      typeof request.body.lastName !== 'string' ||
+      !request.body.lastName ||
+      typeof request.body.firstName !== 'string' ||
+      !request.body.firstName
     ) {
       response.status(400).json({
         errors: [
           {
-            message: 'Username or password not provided',
+            message:
+              'Username, password, CSRF token, First Name or Last Name or user role not provided',
           },
         ],
       });
@@ -62,35 +49,38 @@ export default async function registerHandler(
 
     // TO DO: check if role exist?
 
-    // check if username already exists in database
-    if (await getUserByUsername(request.body.newJoiner.username)) {
+    // check if username already exists in db
+    if (await getUserByUsername(request.body.username)) {
       response.status(409).json({
         errors: [{ message: 'Username is already taken' }],
-      });
-      return; // Always include a return in api route,
-    }
-
-    // create passwordHash
-    const passwordHash = await bcrypt.hash(request.body.newJoiner.password, 12);
-
-    // add new user & passwordHash to database
-    const addNewJoiner = await createUser(
-      request.body.newJoiner.username,
-      passwordHash,
-      request.body.newJoiner.firstName,
-      request.body.newJoiner.lastname,
-      request.body.userRole,
-    );
-    console.log('addNewJoiner:', addNewJoiner);
-    if (!addNewJoiner) {
-      response.status(400).json({
-        errors: [{ message: 'failed to save to db' }],
       });
       return;
     }
 
+    // create passwordHash
+    const passwordHash = await bcrypt.hash(request.body.password, 12);
+
+    // add new user & passwordHash to db
+    const user = await createUser(
+      request.body.username,
+      passwordHash,
+      request.body.firstName,
+      request.body.lastName,
+      request.body.userRole,
+    );
+
+    // error handling
+    if (!user) {
+      response.status(405).json({
+        errors: [{ message: 'new user not added to the db' }],
+      });
+    }
+    console.log('new user:', user);
+    // success status:  add user to the response body
     response.status(201).json({
-      user: addNewJoiner,
+      user: {
+        user: user,
+      },
     });
     return;
   }

@@ -56,7 +56,7 @@ export default async function registerHandler(
           },
         ],
       });
-      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
+      return;
     }
     // Verify CSRF Token
     const csrfTokenMatches = verifyCsrfToken(request.body.csrfToken);
@@ -69,7 +69,7 @@ export default async function registerHandler(
           },
         ],
       });
-      return; // Important: will prevent "Headers already sent" error
+      return;
     }
 
     // TO DO: check if role exist?

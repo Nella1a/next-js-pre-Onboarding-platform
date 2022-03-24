@@ -31,9 +31,9 @@ const sql = connectOneTimeToDatabase();
 export type User = {
   id: number;
   username: string;
-  roleId: number;
   firstName: string;
   lastName: string;
+  roleId: number;
 };
 
 export type UserWithPasswordHash = User & {
@@ -106,11 +106,11 @@ export async function createUser(
   RETURNING
   id,
   username,
+  role_id,
   first_name,
-  last_name,
-  role_id
+  last_name
   `;
-  return camelcaseKeys(user);
+  return user && camelcaseKeys(user);
 }
 
 // get user by id
@@ -180,16 +180,18 @@ export async function getUserByValidSessionToken(token: string | undefined) {
 }
 
 // Read all new joiners
-export async function getAllNewJoiners() {
-  const newJoiners = await sql<User[]>`
+export async function getAllNewJoiners(userRoleId: number) {
+  const newJoiners = await sql<User>`
   SELECT
-  id,
+id,
   username,
-  role_id
+  first_name,
+  last_name
+  role_Id
   FROM
   users
   WHERE
-  users.role_id = 2
+  users.role_Id = ${userRoleId}
   `;
   return newJoiners && camelcaseKeys(newJoiners);
 }

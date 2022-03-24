@@ -16,15 +16,22 @@ import {
 const styleNewHire = css`
   display: flex;
   gap: 0.5rem;
+  margin: 1rem 1rem;
 `;
 
-export default function Dashboard(props) {
-  const [addNewJoiner, setAddNewJoiner] = useState([{}]);
+type Props = {
+  userObject: User;
+  userFirstName: string;
+  headerImage: string;
+  user: User;
+  newJoiners: User[];
+};
+
+export default function Dashboard(props: Props) {
+  const [addNewJoiner, setAddNewJoiner] = useState<User>();
   // const [required, setRequired] = useState(true);
   console.log('NewJoiner:', addNewJoiner);
-  // const addNewJoinerHandler() {
 
-  // }
   console.log('props.newJoiner:', props.newJoiners);
   if (!props.user) {
     return (
@@ -74,19 +81,21 @@ export default function Dashboard(props) {
           return (
             <div key={`overview-${joiner.id}`} css={styleNewHire}>
               <p> Id: {joiner.id} </p>
-              <p> userName: {joiner.username} </p>
-              <p> {joiner.roleId}</p>
-              roleId:{' '}
+              <p> First Name: {joiner.firstName} </p>
+              <p> Last Name: {joiner.lastName} </p>
+              <p> roleId:{joiner.roleId}</p>{' '}
             </div>
           );
         })}
-        <div>
-          New:{addNewJoiner && addNewJoiner.firstName}
-          {/* <p> Id: {addNewJoiner.firstName} </p>
-          <p> userName: {addNewJoiner.lastName} </p> */}
-          {/* <p> {addNewJoiner.roleId}</p> */}
-        </div>
-        {/* <button onClick={addNewJoinerHandler}>Add New Joiner</button> */}
+        {addNewJoiner && (
+          <div>
+            New:
+            <p> Id: {addNewJoiner.id} </p>
+            <p> First Name: {addNewJoiner.firstName} </p>
+            <p> Last Name: {addNewJoiner.lastName} </p>
+            <p> roleId:{addNewJoiner.roleId}</p>{' '}
+          </div>
+        )}
       </section>
     </Layout>
   );
@@ -102,9 +111,6 @@ export async function getServerSideProps(
 > {
   // 1. Get current user from the cookie sessionToken
   const token = context.req.cookies.sessionToken;
-
-  const abec = context.resolvedUrl;
-  console.log('reslovedURL from UserDocuments:', abec);
 
   // 2. Retrieve user by valid sessionToken
   const user = await getUserByValidSessionToken(token);
@@ -130,18 +136,19 @@ export async function getServerSideProps(
     };
   }
 
-  // Good Case: if user exists and has the right role return user and render page
+  // success: if user exists and has the right role return user and render page
   if (user && user.roleId === 1) {
+    const userRoleId = 2;
     // get all new joiners
-    const newJoiners = await getAllNewJoiners();
+    const newJoiners = await getAllNewJoiners(userRoleId);
 
     console.log('newJoiners', newJoiners);
 
     return {
       props: {
         user: user,
-
         newJoiners: JSON.parse(JSON.stringify(newJoiners)),
+
         //  Fix the error using JSON.parse() and JSON.stringify()
       },
     };
