@@ -1,14 +1,7 @@
-import router, { useRouter } from 'next/router';
+// import router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  colorRequired,
-  errorStyles,
-  flexStyle,
-  formAddNewJoiner,
-  formStyle,
-  formStyleContainer,
-} from './elements';
+import { errorStyles, flexStyle, formAddNewJoiner } from './elements';
 
 // type Props = {
 //   user: User | null;
@@ -31,7 +24,7 @@ export default function AddNewJoiner(props) {
   const requieredTrue = false;
 
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
-  const [userRole, setUserRole] = useState(2);
+  const [userRole, setUserRole] = useState('2');
 
   /* TO Do: POST-Method nochmals anschauen ca. minute 52:00
   I should post to the endpoint users , than receive the new user as a response from the API and update the State Variable = the representation of the new user inside the database; no need to reloade the page
@@ -40,7 +33,7 @@ export default function AddNewJoiner(props) {
 
   */
 
-  const [newJoinerRegister, setNewJoinerRegister] = useState([{}]);
+  const [newJoinerRegister, setNewJoinerRegister] = useState<FormValuesOne>();
 
   // const [formValues, setFormValues] = useState();
 
@@ -63,7 +56,7 @@ export default function AddNewJoiner(props) {
       },
       body: JSON.stringify({
         newJoiner: data,
-        userRole: userRole,
+        userRole: parseInt(userRole),
       }),
     });
 
@@ -100,9 +93,7 @@ export default function AddNewJoiner(props) {
 
               {/* use role="alert" to announce the error message */}
               {errors.username && errors.username.type === 'required' && (
-                <span role="alert" css={colorRequired}>
-                  is required
-                </span>
+                <span role="alert">is required</span>
               )}
               {errors.username && errors.username.type === 'maxLength' && (
                 <span role="alert">Max length exceeded</span>
@@ -122,10 +113,7 @@ export default function AddNewJoiner(props) {
               </label>
               {/* use role="alert" to announce the error message */}
               {errors.password && errors.password.type === 'required' && (
-                <span role="alert" css={colorRequired}>
-                  {' '}
-                  is required
-                </span>
+                <span role="alert"> is required</span>
               )}
               <input
                 type="password"
@@ -146,9 +134,7 @@ export default function AddNewJoiner(props) {
               </label>
               {/* use role="alert" to announce the error message */}
               {errors.firstName && errors.firstName.type === 'required' && (
-                <span role="alert" css={colorRequired}>
-                  is required
-                </span>
+                <span role="alert">is required</span>
               )}
               {errors.firstName && errors.firstName.type === 'maxLength' && (
                 <span role="alert">Max length exceeded</span>
@@ -168,10 +154,7 @@ export default function AddNewJoiner(props) {
               </label>
               {/* use role="alert" to announce the error message */}
               {errors.lastName && errors.lastName.type === 'required' && (
-                <span role="alert" css={colorRequired}>
-                  {' '}
-                  is required
-                </span>
+                <span role="alert"> is required</span>
               )}
               <input
                 id="lastName"

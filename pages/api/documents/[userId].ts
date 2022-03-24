@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {
   AllPersonalInfo,
   readUserAllPersonalInfo,
+  readUserFirstName,
   updateUserAddress,
   updateUserEmergencyContact,
   updateUserMaritalStatus,
@@ -42,7 +43,7 @@ export default async function formInputHandler(
   response: NextApiResponse<FormResponseBody>,
 ) {
   // * check if userId is a number
-  const userId = Number(request.query.userId);
+  const userId = parseInt(request.query.userId);
   console.log('userId:', userId);
   if (!userId) {
     response.status(400).json({
@@ -137,9 +138,19 @@ export default async function formInputHandler(
   // *** GET-Method ** //
   if (request.method === 'GET') {
     // read all personal information from db
-    const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
+    const userAllPersonalInfoResponse = await readUserAllPersonalInfo(29);
+
+    // const userFirstName = await readUserFirstName(userId);
 
     // console.log('UserAllPersonalINfo:', userAllPersonalInfoResponse);
+    console.log('userFirstName:', userAllPersonalInfoResponse);
+
+    if (!userAllPersonalInfoResponse) {
+      response.status(400).json({
+        errors: 'not good',
+      });
+      return;
+    }
 
     response.status(201).json({
       userFormInfo: userAllPersonalInfoResponse,

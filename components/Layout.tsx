@@ -19,6 +19,7 @@ type Props = {
   children?: React.ReactNode;
   userObject?: User;
   userFirstName?: string;
+  headerImage?: string;
 };
 
 export default function Layout(props: Props) {
@@ -30,13 +31,14 @@ export default function Layout(props: Props) {
       </Head>
 
       {console.log('userobject:', props.userObject)}
-      {console.log('FirstName:', props.userFirstName)}
+      {console.log('FirstName_Layout:', props.userFirstName)}
       {props.userObject ? (
         <div css={backgroundStyle}>
           {' '}
           <Header
             userObject={props.userObject}
             userFirstName={props.userFirstName}
+            headerImage={props.headerImage}
           />
           <main css={styleMain}>
             {props.children}

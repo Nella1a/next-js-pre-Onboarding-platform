@@ -2,8 +2,6 @@ exports.up = async (sql) => {
   await sql`
 	CREATE TABLE user_personal_details(
 		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-		first_name varchar(30),
-		last_name varchar(30),
 		date_of_birth DATE,
 		social_sec_nb integer,
 		nationality varchar(30),

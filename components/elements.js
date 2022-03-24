@@ -172,7 +172,7 @@ export const headerStyle = css`
     /* width: inherit; */
     ${marginCenter}
     /* margin: 0 auto; */
-    gap: 18px;
+    gap: 60px;
     align-items: center;
     display: flex;
     height: 4rem;
@@ -184,7 +184,7 @@ export const headerStyle = css`
     }
 
     div:nth-of-type(1) {
-      margin-left: 12rem;
+      margin-left: 1rem;
     }
 
     div:nth-of-type(2) {

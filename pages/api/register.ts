@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyCsrfToken } from '../../util/auth';
 import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import {
+  addUserRole,
   createSession,
   createUser,
   getUserByUsername,
@@ -15,6 +16,8 @@ type RegisterRequestBody = {
   password: string;
   csrfToken: string;
   userRole: number;
+  firstName: string;
+  lastName: string;
 };
 
 type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
@@ -31,6 +34,7 @@ export default async function registerHandler(
 ) {
   if (request.method === 'POST') {
     // validation 1: check if un or pw is not string or empty
+    console.log('request.body:', request.body);
     if (
       typeof request.body.username !== 'string' ||
       !request.body.username ||
@@ -38,12 +42,17 @@ export default async function registerHandler(
       !request.body.password ||
       typeof request.body.csrfToken !== 'string' ||
       !request.body.csrfToken ||
-      !request.body.userRole
+      !request.body.userRole ||
+      typeof request.body.lastName !== 'string' ||
+      !request.body.lastName ||
+      typeof request.body.firstName !== 'string' ||
+      !request.body.firstName
     ) {
       response.status(400).json({
         errors: [
           {
-            message: 'Username, password, CSRF token or user role not provided',
+            message:
+              'Username, password, CSRF token, First Name or Last Name or user role not provided',
           },
         ],
       });
@@ -65,12 +74,12 @@ export default async function registerHandler(
 
     // TO DO: check if role exist?
 
-    // validation 2: check if username already exists in database
+    // check if username already exists in database
     if (await getUserByUsername(request.body.username)) {
       response.status(409).json({
         errors: [{ message: 'Username is already taken' }],
       });
-      return; // Always include a return in api route,
+      return;
     }
 
     // create passwordHash
@@ -80,8 +89,31 @@ export default async function registerHandler(
     const user = await createUser(
       request.body.username,
       passwordHash,
+      request.body.firstName,
+      request.body.lastName,
       request.body.userRole,
     );
+
+    if (!user) {
+      response.status(405).json({
+        errors: [{ message: 'usser not added to the db' }],
+      });
+    }
+
+    // const userId = user.id;
+    // console.log('userIDDB + roleId:', userId);
+    // console.log('user', user);
+
+    // // add userRole to user_role table
+    // const userRole = await addUserRole(userId, request.body.roleId);
+    // console.log('userRole', userRole);
+
+    // if (!userRole) {
+    //   response.status(405).json({
+    //     errors: [{ message: 'UserRole not added to the db' }],
+    //   });
+    //   return;
+    // }
 
     // 1. Create a unique token (use node crypto)
     const token = crypto.randomBytes(64).toString('base64');
@@ -90,7 +122,7 @@ export default async function registerHandler(
     const session = await createSession(token, user.id);
     console.log(session);
 
-    // 3. Serialize the Cookie (we need to do serialize bc we are in the backend)
+    // 3. Serialize the Cookie we need to do serialize bc we are in the backend)
     const serializedCookie = await createSerializedRegisterSessionTokenCookie(
       session.token,
     );

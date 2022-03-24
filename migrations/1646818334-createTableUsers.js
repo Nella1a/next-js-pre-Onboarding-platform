@@ -6,7 +6,10 @@ exports.up = async (sql) => {
 	created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	username varchar(30) NOT NULL UNIQUE,
 	password_hash varchar(60) NOT NULL,
-	role_id integer REFERENCES roles(id) ON DELETE CASCADE
+	first_name varchar(50),
+	last_name varchar(50),
+	role_Id integer,
+FOREIGN KEY (role_id) REFERENCES roles(id)
 	)
 
 	`;

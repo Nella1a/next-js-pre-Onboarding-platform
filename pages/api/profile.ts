@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   getUserByValidSessionToken,
-  readUserFirstName,
+  readUserProfileImage,
 } from '../../util/database';
 
 export default async function profileHandler(
@@ -25,16 +25,16 @@ export default async function profileHandler(
 
     // 2. Retrieve user by valid sessionToken
     const user = await getUserByValidSessionToken(token);
-    const userFirstName = await readUserFirstName(user.id);
-
-    console.log('Profile_userFirstName:', userFirstName);
-
+    const userId = user.id;
+    const userImageUrlHeader = await readUserProfileImage(userId);
+    console.log('userImg:', userImageUrlHeader);
     // 3. If user exists, return user and render page
     if (user) {
       res.status(200).json({
         user: user,
-        userFirstName: userFirstName,
+        userImageUrlHeader: userImageUrlHeader,
       });
+
       return;
     }
     // 4. If user is undefined, send error message

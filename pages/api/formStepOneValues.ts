@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { formInputPersonalDetails, FormValues } from '../../util/database';
+import {
+  formInputPersonalDetails,
+  FormValuesOne,
+  readUserPersonalInfo,
+} from '../../util/database';
 
 // type FormOneRequestBodyType = {
 //   firstName: string;
@@ -19,7 +23,7 @@ import { formInputPersonalDetails, FormValues } from '../../util/database';
 
 export type FormOneResponseBodyPost =
   | { errors: { message: string }[] }
-  | { personalInfo: FormValues };
+  | { formOneResp: FormValuesOne };
 
 type FormOneResponseBody = FormOneResponseBodyPost;
 
@@ -34,10 +38,6 @@ export default async function formInputHandler(
     console.log('type of socialSec::', typeof request.body.socialSecNumber);
 
     if (
-      // typeof request.body.firstName !== 'string' ||
-      // !request.body.firstName ||
-      // typeof request.body.lastName !== 'string' ||
-      // !request.body.lastName ||
       typeof request.body.dateOfBirth !== 'string' ||
       !request.body.dateOfBirth ||
       typeof request.body.socialSecNumber !== 'number' ||
@@ -56,10 +56,8 @@ export default async function formInputHandler(
     }
 
     // send formInput to database
-    const formOneResponse: FormValues = await formInputPersonalDetails(
+    const formOneResponse = await formInputPersonalDetails(
       request.body.userId,
-      // request.body.firstName,
-      // request.body.lastName,
       request.body.dateOfBirth,
       request.body.socialSecNumber,
       request.body.nationality,
@@ -68,8 +66,24 @@ export default async function formInputHandler(
     );
 
     console.log('formValues from db', formOneResponse);
-    response.status(201).json({
-      personalInfo: formOneResponse,
+    response.status(200).json({
+      formOneResp: formOneResponse,
+    });
+    return;
+  }
+
+  if (request.method === 'GET') {
+    const readFormOne = await readUserPersonalInfo(29);
+
+    if (!readFormOne) {
+      response.status(405).json({
+        errors: [{ message: 'no output form db' }],
+      });
+      return;
+    }
+
+    response.status(200).json({
+      personalInfo: readFormOne,
     });
     return;
   }

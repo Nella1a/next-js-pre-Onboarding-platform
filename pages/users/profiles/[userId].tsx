@@ -24,9 +24,10 @@ type Props = {
   user?: User | null;
   userObject: User;
   userFirstName: string;
-  imgUrl: CloudUrl;
+  img: CloudUrl;
   cloudKey: string;
   uploadPreset: string;
+  headerImage: string;
 };
 
 // const divContainerforImage = css`
@@ -44,12 +45,12 @@ type Props = {
 
 export default function UserProfile(props: Props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
-  const [imageUrl, setImageUrl] = useState(props.imgUrl.imageUrl);
+  const [imageUrl, setImageUrl] = useState(props.img.imageUrl);
   const [userId, setUserId] = useState<number>(0);
   const [errors, setErrors] = useState('');
 
-  console.log('Props.ImageUrl:', props.imgUrl.imageUrl);
-  console.log('ImageUrl typeof:', imageUrl);
+  console.log('Props.ImageUrl:', props);
+  console.log('ImageUrl typeof:', props.img.imageUrl);
   const uploadImage = async () => {
     console.log('userIdFE:', userId);
     const formData = new FormData();
@@ -67,7 +68,6 @@ export default function UserProfile(props: Props) {
     const formDataResponse = await cloudinaryResponse.json();
     // setCloudinaryUpload(formDataResponse);
     console.log('Cloudinary:Response:', formDataResponse.url);
-    console.log('Cloudinary:Response: Type', typeof formDataResponse.url);
 
     if ('error' in formDataResponse) {
       console.log('Fehler up dote');
@@ -110,7 +110,11 @@ export default function UserProfile(props: Props) {
 
   if (!props.user) {
     return (
-      <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
+      <Layout
+        userObject={props.userObject}
+        userFirstName={props.userFirstName}
+        headerImage={props.headerImage}
+      >
         <Head>
           <title>User not found</title>
           <meta name="description" content="User not found" />
@@ -122,7 +126,11 @@ export default function UserProfile(props: Props) {
   }
 
   return (
-    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
+    <Layout
+      userObject={props.userObject}
+      userFirstName={props.userFirstName}
+      headerImage={props.headerImage}
+    >
       <Head>
         <title>
           User #{props.user.id} welcome: {props.user.username}
@@ -147,12 +155,7 @@ export default function UserProfile(props: Props) {
           <article>
             {' '}
             <div>
-              <Image
-                src={imageUrl ? imageUrl : '/imgTest.png'}
-                width={300}
-                height={300}
-                alt="text"
-              />
+              <Image src={imageUrl} width={300} height={300} alt="text" />
             </div>
             <p>Username: {props.user.username}</p>
             <p>User Id: {props.user.id}</p>{' '}
@@ -177,7 +180,9 @@ export default function UserProfile(props: Props) {
               </div>
               <div>
                 <li>Full Name:</li>
-                <li>X</li>
+                <li>
+                  {props.userFirstName} {props.user.lastName}
+                </li>
               </div>
               <div>
                 <li>Position:</li>
@@ -201,8 +206,8 @@ export async function getServerSideProps(
   GetServerSidePropsResult<{
     user?: User;
     cloudKey?: string;
-    imgUrl?: string;
-    uploadPrese: string;
+    img?: string;
+    uploadPreset?: string;
   }>
 > {
   const token = context.req.cookies.sessionToken;
@@ -244,13 +249,24 @@ export async function getServerSideProps(
       //   };
       // }
 
-      const imageUrlInDB: string = await readUserProfileImage(session.userId);
+      const imageUrlInDB = await readUserProfileImage(session.userId);
+      if (!imageUrlInDB) {
+        const imgPlaceholder = '/imgTest.png';
+        return {
+          props: {
+            user: user,
+            cloudKey: cloudKey,
+            img: imgPlaceholder,
+            uploadPreset: uploadPreset,
+          },
+        };
+      }
       console.log('imageUrlInDB:', imageUrlInDB);
       return {
         props: {
           user: user,
           cloudKey: cloudKey,
-          imgUrl: imageUrlInDB,
+          img: imageUrlInDB,
           uploadPreset: uploadPreset,
         },
       };

@@ -3,15 +3,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { globalStyleBody } from '../components/elements';
 import theme from '../components/theme';
 
-function MyApp({ Component, pageProps, props }) {
+function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState();
   const [userFirstName, setUserFirstName] = useState();
+  const [userHeaderImage, setUserHeaderImage] = useState(`/imgTest.png`);
 
   const refreshUserProfile = useCallback(async () => {
     const response = await fetch('/api/profile');
     const data = await response.json();
     console.log('data_app:', data);
-    console.log('data_app_firstName:', data.userFirstName.firstName);
 
     if ('errors' in data) {
       console.log(data.errors);
@@ -20,10 +20,19 @@ function MyApp({ Component, pageProps, props }) {
     }
 
     setUser(data.user);
-    setUserFirstName(data.userFirstName.firstName);
-    console.log('userFirstName:', userFirstName);
+    setUserFirstName(data.user.firstName);
+    setUserHeaderImage(data.userImageUrlHeader.imageUrl);
+
+    // setUserFirstName(usersFirstName);
+
+    // if (!data.userImageUrlHeader.imgUrl) {
+    //   setUserHeaderImage(`../public/imgTest.png`);
+    // } else {
+    //   setUserHeaderImage(data.userImageUrlHeader.imgUrl);
+    // }
   }, []);
 
+  console.log('userName _app:', userFirstName);
   useEffect(() => {
     refreshUserProfile().catch(() => {});
   }, [refreshUserProfile]);
@@ -40,6 +49,7 @@ function MyApp({ Component, pageProps, props }) {
           userObject={user}
           userFirstName={userFirstName}
           refreshUserProfile={refreshUserProfile}
+          headerImage={userHeaderImage}
         />
         {/* </FormProvider> */}
       </ThemeProvider>

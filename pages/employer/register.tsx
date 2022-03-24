@@ -28,10 +28,11 @@ export default function Register(props: Props) {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [userRole, setUserRole] = useState(0);
+  const [userRole, setUserRole] = useState(1);
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
 
+  console.log('errors:', errors);
   return (
     <Layout>
       <Head>
@@ -72,7 +73,6 @@ export default function Register(props: Props) {
             <form
               onSubmit={async (event) => {
                 event.preventDefault();
-                setUserRole(1);
 
                 // send username & pw to api
                 const registerResponse = await fetch('/api/register', {
@@ -84,7 +84,9 @@ export default function Register(props: Props) {
                     username: username,
                     password: password,
                     csrfToken: props.csrfToken,
-                    userRole: userRole,
+                    userRole: parseInt(userRole),
+                    firstName: firstName,
+                    lastName: lastName,
                   }),
                 });
 

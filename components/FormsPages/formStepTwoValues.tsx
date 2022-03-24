@@ -38,9 +38,6 @@ export default function FormStepTwoValues(props) {
   const [zipCode, setZipCode] = useState('');
   const [country, setCountry] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
-  const [sosContactfullName, setSosContactfullName] = useState('');
-  const [sosContactPhone, setSosContactPhone] = useState('');
-  const [sosContactRelation, setSosContactRelation] = useState('');
   const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
   console.log('maritalStatus:', maritalStatus);
@@ -58,7 +55,6 @@ export default function FormStepTwoValues(props) {
         css={[formStyle, props.formStep === 1 ? showForm : hideForm]}
         onSubmit={async (event) => {
           event.preventDefault();
-          // validations
 
           // send input to api
           // const formInputResponse = await fetch('/api/formStepTwoValues', {
@@ -72,9 +68,6 @@ export default function FormStepTwoValues(props) {
           //     zipCode: parseInt(zipCode),
           //     country: country,
           //     maritalStatus: parseInt(maritalStatus),
-          //     sosContactfullName: sosContactfullName,
-          //     sosContactPhone: sosContactPhone,
-          //     sosContactRelation: parseInt(sosContactRelation),
           //     userId: props.userId,
           //   }),
           // });
@@ -86,7 +79,7 @@ export default function FormStepTwoValues(props) {
           //   return;
           // }
           // setErrorsApi([]);
-          // console.log('Response from Api:', formInputResponseBody);
+          // console.log('FormTwoResponse:', formInputResponseBody);
           props.nextFormStep();
         }}
       >
@@ -101,7 +94,7 @@ export default function FormStepTwoValues(props) {
               data-test-id="userAddress-street"
               name="address"
               value={address}
-              onChange={(event) => setAddress(event.currentTarget.value.trim())}
+              onChange={(event) => setAddress(event.currentTarget.value)}
             />
           </p>
           <div css={flexStyle}>
@@ -114,7 +107,7 @@ export default function FormStepTwoValues(props) {
                 data-test-id="userAddress-city"
                 name="city"
                 value={city}
-                onChange={(event) => setCity(event.currentTarget.value.trim())}
+                onChange={(event) => setCity(event.currentTarget.value)}
               />
             </p>
             <p>
@@ -145,9 +138,7 @@ export default function FormStepTwoValues(props) {
                 data-test-id="userAddress-country"
                 name="country"
                 value={country}
-                onChange={(event) =>
-                  setCountry(event.currentTarget.value.trim())
-                }
+                onChange={(event) => setCountry(event.currentTarget.value)}
               />
             </p>
             <p>
@@ -170,62 +161,6 @@ export default function FormStepTwoValues(props) {
                 <option value="4">divorced</option>
                 <option value="5">widowed</option>
                 <option value="6">widowed</option>
-              </select>
-            </p>
-          </div>
-          <p>Emergency Contact</p>
-          <div css={flexStyle}>
-            <p>
-              <label htmlFor="userSosContactFullName">
-                <span>Full Name </span>
-              </label>
-              <input
-                id="userSosContactFullName"
-                data-test-id="userSosContact-fullName"
-                name="userSosContactFullName"
-                value={sosContactfullName}
-                onChange={(event) =>
-                  setSosContactfullName(event.currentTarget.value)
-                }
-              />
-            </p>
-            <p>
-              <label htmlFor="userSosContactPhone">
-                <span>Phone </span>
-              </label>
-              <input
-                type="tel"
-                min={0}
-                id="userSosContactPhone"
-                data-test-id="userSosContact-phone"
-                name="userSosContactPhone"
-                value={sosContactPhone}
-                onChange={(event) =>
-                  setSosContactPhone(event.currentTarget.value)
-                }
-              />
-            </p>
-
-            <p>
-              <label htmlFor="sosContactRelation">
-                <span>Relationship to Contact</span>
-              </label>
-              <select
-                id="sosContactRelation"
-                data-test-id="userSosContact-relation"
-                name="sosContactRelation"
-                value={sosContactRelation}
-                onChange={(event) =>
-                  setSosContactRelation(event.currentTarget.value)
-                }
-              >
-                <option value="0"> -- please select ---</option>
-                <option value="1">friend</option>
-                <option value="2">Partner</option>
-                <option value="3">sibling</option>
-                <option value="4">parent</option>
-                <option value="5">child</option>
-                <option value="6">other</option>
               </select>
             </p>
           </div>

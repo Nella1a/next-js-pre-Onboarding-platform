@@ -13,12 +13,21 @@ import FormStepThreeValues from '../../../components/FormsPages/formStepThreeVal
 import FormStepTwoValues from '../../../components/FormsPages/formStepTwoValues';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/Navigation';
-import { getUserByValidSessionToken, User } from '../../../util/database';
+import {
+  AllPersonalInfo,
+  getUserByValidSessionToken,
+  readUserAllPersonalInfo,
+  User,
+} from '../../../util/database';
 
-export type Props = {
+type Props = {
   user: User;
   userObject: User;
   userFirstName: string;
+  cloudKey?: string;
+  uploadPreset?: string;
+  headerImage: string;
+  userFormInput?: AllPersonalInfo;
 };
 
 export default function Documents(props: Props) {
@@ -29,7 +38,11 @@ export default function Documents(props: Props) {
   console.log('formStep Documents:', formStep);
 
   return (
-    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
+    <Layout
+      userObject={props.userObject}
+      userFirstName={props.userFirstName}
+      headerImage={props.headerImage}
+    >
       <Head>
         <title>Welcome</title>
         <meta name="description" content="Landing page" />
@@ -57,6 +70,9 @@ export default function Documents(props: Props) {
           >*/}
             {formStep === 0 && (
               <FormStepOneValues
+                userObject={props.userObject}
+                userFirstName={props.userFirstName}
+                headerImage={props.headerImage}
                 userId={props.user.id}
                 formStep={formStep}
                 currentStep={formStep}
@@ -69,6 +85,9 @@ export default function Documents(props: Props) {
             )}
             {formStep === 1 && (
               <FormStepTwoValues
+                userObject={props.userObject}
+                userFirstName={props.userFirstName}
+                headerImage={props.headerImage}
                 userId={props.user.id}
                 formStep={formStep}
                 currentStep={formStep}
@@ -81,6 +100,9 @@ export default function Documents(props: Props) {
             )}
             {formStep === 2 && (
               <FormStepThreeValues
+                userObject={props.userObject}
+                userFirstName={props.userFirstName}
+                headerImage={props.headerImage}
                 userId={props.user.id}
                 formStep={formStep}
                 currentStep={formStep}
@@ -89,11 +111,16 @@ export default function Documents(props: Props) {
                 user={props.user}
                 formValues={formValues}
                 setFormValues={setFormValues}
+                cloudKey={props.cloudKey}
+                uploadPreset={props.uploadPreset}
               />
             )}
 
             {formStep === 3 && (
               <FormCompleted
+                // userObject={props.userObject}
+                userFirstName={props.userFirstName}
+                // headerImage={props.headerImage}
                 userId={props.user.id}
                 currentStep={formStep}
                 formStep={formStep}
@@ -102,6 +129,7 @@ export default function Documents(props: Props) {
                 user={props.user}
                 formValues={formValues}
                 setFormValues={setFormValues}
+                userFormInput={props.userFormInput}
               />
             )}
             {/* </FormCard> */}
@@ -114,18 +142,30 @@ export default function Documents(props: Props) {
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<{ user?: User }>> {
+): Promise<
+  GetServerSidePropsResult<{
+    user?: User;
+    cloudKey?: string;
+    uploadPreset?: string;
+    userFormInput?: AllPersonalInfo;
+  }>
+> {
   // 1. Get current user from the cookie sessionToken
   const token = context.req.cookies.sessionToken;
   // 2. Retrieve user by valid sessionToken
   const user = await getUserByValidSessionToken(token);
   // TO DO CHECK ROLE Of USER
 
+  const cloudKey = process.env.CLOUDKEY;
+  const uploadPreset = process.env.UPLOAD_PRESET;
+
   // 3. If user exists, return user and render page
   if (user) {
     return {
       props: {
         user: user,
+        cloudKey: cloudKey,
+        uploadPreset: uploadPreset,
       },
     };
   }

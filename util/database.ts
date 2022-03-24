@@ -32,6 +32,8 @@ export type User = {
   id: number;
   username: string;
   roleId: number;
+  firstName: string;
+  lastName: string;
 };
 
 export type UserWithPasswordHash = User & {
@@ -46,17 +48,6 @@ export type Session = {
 
 export type NewJoiners = User & {
   role: string;
-};
-
-export type FormValues = {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date;
-  socialSecNb: number;
-  nationality: string;
-  email: string;
-  userPhone: number;
 };
 
 export type UserFullName = {
@@ -103,16 +94,20 @@ export async function getUserByUserWithPasswordHashByUsername(
 export async function createUser(
   username: string,
   passwordHash: string,
-  userRole: Number,
+  firstName: string,
+  lastName: string,
+  userRole: number,
 ) {
   const [user] = await sql<[User]>`
   INSERT INTO users
-  (username, password_hash, role_id)
+  (username, password_hash, first_name, last_name, role_id)
   VALUES
-  (${username}, ${passwordHash}, ${userRole})
+  (${username}, ${passwordHash},${firstName},${lastName},${userRole})
   RETURNING
   id,
   username,
+  first_name,
+  last_name,
   role_id
   `;
   return camelcaseKeys(user);
@@ -124,12 +119,36 @@ export async function getUserById(id: number) {
     SELECT
       id,
       username
+      first_name,
+      last_name
     FROM
       users
      WHERE
       id = ${id}
     `;
   return user && camelcaseKeys(user);
+}
+
+/* *************************** */
+/*       users role table       */
+/* *************************** */
+
+type UserRole = {
+  userId: number;
+  userRoleId: number;
+};
+
+// add user role
+export async function addUserRole(userId: number, userRoleId: number) {
+  const [userRole] = await sql<[UserRole]>`
+  INSERT INTO users_roles
+  (userid, roleid)
+  VALUES
+  (${userId}, ${userRoleId})
+  RETURNING *
+
+  `;
+  return userRole;
 }
 
 /* *************************** */
@@ -143,7 +162,9 @@ export async function getUserByValidSessionToken(token: string | undefined) {
     SELECT
       users.id,
       users.username,
-      users.role_id
+      users.role_Id,
+      users.first_name,
+      users.last_name
     FROM
       users,
       sessions,
@@ -160,7 +181,7 @@ export async function getUserByValidSessionToken(token: string | undefined) {
 
 // Read all new joiners
 export async function getAllNewJoiners() {
-  const newJoiners = await sql`
+  const newJoiners = await sql<User[]>`
   SELECT
   id,
   username,
@@ -169,8 +190,6 @@ export async function getAllNewJoiners() {
   users
   WHERE
   users.role_id = 2
-
-
   `;
   return newJoiners && camelcaseKeys(newJoiners);
 }
@@ -195,71 +214,77 @@ export type AllPersonalInfo = {
   sosPhone: number;
 };
 
-// read all personal infos
-export async function readUserAllPersonalInfo(userId: number) {
-  const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
-  SELECT * FROM
-  civil_status,
-  user_personal_details,
-  user_address,
-  emergency_contact
-  WHERE
-  civil_status.user_id = ${userId} AND
-  user_personal_details.user_id = ${userId} AND
-  user_address.user_id = ${userId} AND
-  emergency_contact.user_id = ${userId}
-  `;
-  return allPersonalInfo && camelcaseKeys(allPersonalInfo);
-}
-
-// read firstname
-export async function readUserFirstName(userId: number) {
-  const [userFirstName] = await sql`
-  SELECT
-  first_name
-  FROM
-  user_personal_details
-  WHERE
-  user_personal_details.user_id = ${userId}
-  `;
-  return userFirstName && camelcaseKeys(userFirstName);
-}
-
-// read all personal infos
+// // read all personal infos
 // export async function readUserAllPersonalInfo(userId: number) {
 //   const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
-//   SELECT
-//   user_personal_details.first_name as first_name,
-//   user_personal_details.last_name as last_name,
-//   user_personal_details.date_of_birth as date_of_birth,
-//   user_personal_details.social_sec_nb as social_sec_nb,
-//   user_personal_details.nationality as nationality,
-//   user_personal_details.email as email,
-//   user_personal_details.user_phone as user_phone,
-//   user_address.street_and_nbr as street_and_nbr,
-//   user_address.city as city,
-//   user_address.postal_code as postal_code,
-//   user_address.country as country,
-//   user_address.user_id as user_address_userId,
-//   civil_status.marital_status as marital_status,
-//   civil_status.id as civil_status_id,
-//   emergency_contact.fullName as fullName,
-//   emergency_contact.sos_phone as sos_phone,
-//   emergency_contact.relationship_id as relationship_id
-//   FROM
+//   SELECT * FROM
+//   civil_status,
 //   user_personal_details,
 //   user_address,
-//   civil_status,
 //   emergency_contact,
 //   users
 //   WHERE
 //   users.id = ${userId} AND
-//   users.id = user_personal_details.user_id AND
-//   user_address.user_id AND
-//   emergency_contact.user_id AND civil_status.user_id
+// users.id = civil_status.user_id AND
+//    users.id = user_personal_details.user_id AND
+//    users.id = user_address.user_id AND
+//  users.id = emergency_contact.user_id
 //   `;
 //   return allPersonalInfo && camelcaseKeys(allPersonalInfo);
 // }
+
+// // read firstname
+// export async function readUserFirstName(userId: number) {
+//   const [userFirstName] = await sql`
+//   SELECT
+//   first_name
+//   FROM
+//   user_personal_details
+//   WHERE
+//   user_personal_details.user_id = ${userId}
+//   `;
+//   return userFirstName && camelcaseKeys(userFirstName);
+// }
+
+// read all personal infos
+export async function readUserAllPersonalInfo(userId: number) {
+  const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
+  SELECT
+  users.id,
+  user_personal_details.first_name as first_name,
+  user_personal_details.last_name as last_name,
+  user_personal_details.date_of_birth as date_of_birth,
+  user_personal_details.social_sec_nb as social_sec_nb,
+  user_personal_details.nationality as nationality,
+  user_personal_details.email as email,
+  user_personal_details.user_phone as user_phone,
+  user_address.street_and_nbr as street_and_nbr,
+  user_address.city as city,
+  user_address.postal_code,
+  user_address.country as country,
+  user_address.user_id as user_address_userId,
+  -- civil_status.marital_status as marital_status,
+  civil_status.id as civil_status_id,
+  emergency_contact.fullName as fullName,
+  emergency_contact.sos_phone as sos_phone,
+  emergency_contact.relationship_id as relationship_id
+  FROM
+  users,
+  user_personal_details,
+  user_address,
+  civil_status,
+  emergency_contact
+
+  WHERE
+  users.id = ${userId} AND
+  users.id =  user_personal_details.user_id AND
+  users.id = user_address.user_id AND
+  users.id = emergency_contact.user_id AND
+  users.id = civil_status.user_id
+
+  `;
+  return allPersonalInfo && camelcaseKeys(allPersonalInfo);
+}
 
 /* *************************** */
 /*    Table: sessions          */
@@ -323,37 +348,45 @@ RETURNING *
 /* Table:  user personal details  */
 /* ****************************** */
 
-export async function AddUsersFirstAndLastName(
-  userId: number,
-  firstName: string,
-  lastName: string,
-) {
-  const fullName = await sql<UserFullName>`
-  INSERT INTO user_personal_details
-  (user_id,
-  first_name,
-  last_name
- )
-  VALUES
-  (${userId},${firstName}, ${lastName})
-  RETURNING
-  first_name,
-  last_name
-  `;
-  return fullName && camelcaseKeys(fullName);
-}
+// export async function AddUsersFirstAndLastName(
+//   userId: number,
+//   firstName: string,
+//   lastName: string,
+// ) {
+//   const fullName = await sql<UserFullName>`
+//   INSERT INTO user_personal_details
+//   (user_id,
+//   first_name,
+//   last_name
+//  )
+//   VALUES
+//   (${userId},${firstName}, ${lastName})
+//   RETURNING
+//   first_name,
+//   last_name
+//   `;
+//   return fullName && camelcaseKeys(fullName);
+// }
 
+export type FormValuesOne = {
+  userId: number;
+  dateOfBirth: Date;
+  socialSecNb: number;
+  nationality: string;
+  email: string;
+  userPhone: number;
+};
+
+// ADD
 export async function formInputPersonalDetails(
   userId: number,
-  // firstName: string,
-  // lastName: string,
   dateOfBirth: Date,
   socialSecNb: number,
   nationality: string,
   email: string,
   userPhone: number,
 ) {
-  const formOne = await sql<FormValues[]>`
+  const [formOne] = await sql<FormValuesOne[]>`
   INSERT INTO user_personal_details
   (user_id,
   date_of_birth,
@@ -368,32 +401,54 @@ export async function formInputPersonalDetails(
   return formOne && camelcaseKeys(formOne);
 }
 
-// export type FileUpload = {
-//   url: string;
-// };
+export type ImgUrl = {
+  imgUrl: string;
+};
+
+// check if user_id already in table
+export async function getUserByImg(userId: string) {
+  const [user] = await sql<[id: number | undefined]>`
+  SELECT id FROM user_personal_details WHERE user_id = ${userId}
+  `;
+  return user && camelcaseKeys(user);
+}
 
 // ADD IMAGE
 export async function addUserProfileImage(userId: number, imageUrl: string) {
-  const [fileUpload] = await sql`
-  UPDATE user_personal_details
+  const [fileUpload] = await sql<[ImgUrl]>`
+  INSERT INTO user_personal_details
+  (user_id, image_url)
+  VALUES
+  (${userId}, ${imageUrl})
+  RETURNING image_url
+  `;
+  return fileUpload && camelcaseKeys(fileUpload);
+}
+
+// UPDATE IMAGE
+export async function updateUserProfileImage(userId: number, imageUrl: string) {
+  const [imgUpdate] = await sql<[ImgUrl]>`
+  UPDATE
+  user_personal_details
   SET
   image_url = ${imageUrl}
   WHERE
   user_id = ${userId}
   RETURNING image_url
   `;
-  return fileUpload && camelcaseKeys(fileUpload);
+  return imgUpdate && camelcaseKeys(imgUpdate);
 }
 
 // READ IMAGE
 export async function readUserProfileImage(userId: number) {
-  const [readImageUrl] = await sql`
+  const [readImageUrl] = await sql<[ImgUrl | undefined]>`
   SELECT
   image_url
   FROM
   user_personal_details
   WHERE
   user_id = ${userId}
+
   `;
   return readImageUrl && camelcaseKeys(readImageUrl);
 }
@@ -429,6 +484,27 @@ WHERE
   return updateFormiInput && camelcaseKeys(updateFormiInput);
 }
 
+// READ
+
+export async function readUserPersonalInfo(userId: number) {
+  const readFormiInput = await sql`
+
+SELECT
+user_personal_details.first_name as first_name,
+  user_personal_details.last_name as last_name,
+  user_personal_details.date_of_birth as date_of_birth,
+  user_personal_details.social_sec_nb as social_sec_nb,
+  user_personal_details.nationality as nationality,
+  user_personal_details.email as email,
+  user_personal_details.user_phone as user_phone
+FROM
+user_personal_details
+WHERE
+user_personal_details.user_Id = ${userId}
+`;
+  return readFormiInput && camelcaseKeys(readFormiInput);
+}
+
 /* ****************************** */
 /*      Table:  user_address      */
 /* ****************************** */
@@ -449,7 +525,7 @@ export async function AddUserAddress(
   postalCode: number,
   country: string,
 ) {
-  const [userAddress] = await sql<UserAddress | undefined>`
+  const [userAddress] = await sql<[UserAddress | undefined]>`
   INSERT INTO user_address
   (user_Id, street_and_nbr, city, postal_code, country)
   VALUES
@@ -553,24 +629,25 @@ WHERE
 export type SosContact = {
   relationshipId: number;
   fullName: string;
-  SosPhone: number;
+  sosPhone: number;
 };
 
 // CREATE
 export async function AddUserEmergencyContact(
   userId: number,
   fullName: string,
-  SosPhone: number,
+  sosPhone: number,
   relationshipId: number,
 ) {
   const [userEmergencyContact] = await sql<[SosContact]>`
 
   INSERT INTO emergency_contact
     (user_id, fullName, sos_phone, relationship_id)
+
   VALUES
-   (${userId}, ${fullName}, ${SosPhone}, ${relationshipId})
+   (${userId}, ${fullName}, ${sosPhone}, ${relationshipId})
    RETURNING
-   relationship_id,
+  relationship_id,
    fullName,
    sos_phone
 
@@ -599,4 +676,33 @@ WHERE
   RETURNING *
 `;
   return updateEmergencyContact && camelcaseKeys(updateEmergencyContact);
+}
+
+/* *************************** */
+/*        Table: documents        */
+/* *************************** */
+
+export type FileUrl = {
+  userId: number;
+  fileUrl: string;
+  fileType: number;
+};
+
+// CREATE
+export async function AddFileUrlToDB(
+  userId: number,
+  fileUrl: string,
+  fileType: number,
+) {
+  const [fileUrlDB] = await sql<[FileUrl]>`
+  INSERT INTO files
+    (user_id, file_url, file_type_id)
+  VALUES
+   (${userId}, ${fileUrl}, ${fileType})
+   RETURNING
+  user_id,
+  file_url,
+   file_type_id
+  `;
+  return fileUrlDB && camelcaseKeys(fileUrlDB);
 }

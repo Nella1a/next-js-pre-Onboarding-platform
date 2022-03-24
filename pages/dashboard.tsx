@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
 import AddNewJoiner from '../components/AddNewJoiner';
@@ -25,10 +25,14 @@ export default function Dashboard(props) {
   // const addNewJoinerHandler() {
 
   // }
-
+  console.log('props.newJoiner:', props.newJoiners);
   if (!props.user) {
     return (
-      <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
+      <Layout
+        userObject={props.userObject}
+        userFirstName={props.userFirstName}
+        headerImage={props.headerImage}
+      >
         <Head>
           <title>User not found</title>
           <meta name="description" content="User not found" />
@@ -38,7 +42,11 @@ export default function Dashboard(props) {
     );
   }
   return (
-    <Layout userObject={props.userObject} userFirstName={props.userFirstName}>
+    <Layout
+      userObject={props.userObject}
+      userFirstName={props.userFirstName}
+      headerImage={props.headerImage}
+    >
       <Head>
         <title>Welcome</title>
         <meta name="description" content="Landing page" />
@@ -84,7 +92,14 @@ export default function Dashboard(props) {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<
+  GetServerSidePropsResult<{
+    user?: User;
+    newJoiners: User;
+  }>
+> {
   // 1. Get current user from the cookie sessionToken
   const token = context.req.cookies.sessionToken;
 
@@ -119,14 +134,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (user && user.roleId === 1) {
     // get all new joiners
     const newJoiners = await getAllNewJoiners();
+
     console.log('newJoiners', newJoiners);
 
     return {
       props: {
-        // user: user,
+        user: user,
 
-        newJoiners: newJoiners,
+        newJoiners: JSON.parse(JSON.stringify(newJoiners)),
+        //  Fix the error using JSON.parse() and JSON.stringify()
       },
     };
   }
+
+  return {
+    props: {
+      user: user,
+    },
+  };
 }

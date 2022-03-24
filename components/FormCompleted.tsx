@@ -38,6 +38,19 @@ export default function FormCompleted(props) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState('');
 
+  // Read forminput from db
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/documents/${props.userId}`);
+      const responseBody = (await response.json()) as FormResponseBodyGet;
+      setUserFormInfo(responseBody.userFormInfo);
+      console.log('userFormInfoResponse:', userFormInfo);
+    };
+    fetchData().catch(() => {
+      console.log('TESTTEST');
+    });
+  }, []);
+
   // Update forminput
   async function updateUserFormInputs(userId: number) {
     const putResponse = await fetch(`/api/${props.userId}`, {
@@ -94,20 +107,14 @@ export default function FormCompleted(props) {
     setSosContactRelationOnEdit(putResponseBody.userFormInfo.relationshipId);
   }
 
-  // Read forminput from db
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/api/documents/${props.userId}`);
-      const responseBody = (await response.json()) as FormResponseBodyGet;
-      setUserFormInfo(responseBody.userFormInfo);
-    };
-    fetchData().catch(() => {});
-  }, [props.userId]);
-
   // console.log('userFormInfo_FE:', userFormInfo);
 
   return (
-    <Layout userObject={props.userObject}>
+    <Layout
+      userObject={props.userObject}
+      userFirstName={props.userFirstName}
+      headerImage={props.headerImage}
+    >
       <Head>
         <title>Welcome</title>
         <meta name="description" content="Landing page" />

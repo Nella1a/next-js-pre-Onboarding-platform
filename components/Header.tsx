@@ -1,14 +1,23 @@
+import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import header_icon_logout from '../public/img/header_icon_logout.png';
 import logo_header from '../public/img/logo_header.png';
+import imgTest from '../public/imgTest.png';
 import { User } from '../util/database';
 import { headerStyle } from './elements';
 
 type Props = {
   userObject?: User;
   userFirstName?: string;
+  headerImage?: string;
 };
+
+const divStyle = css`
+  /* width: 60px;
+  height: 60px; */
+  border-radius: 50%;
+`;
 
 export default function Header(props: Props) {
   return (
@@ -35,8 +44,16 @@ export default function Header(props: Props) {
           </p>
         </div>
         <div>
-          <div>Foto</div>
           {props.userObject && <p>{props.userObject.username}</p>}
+          <div css={divStyle}>
+            <Image
+              src={props.headerImage ? props.headerImage : imgTest}
+              alt="user image"
+              width="50"
+              height="50"
+              css={divStyle}
+            />
+          </div>
 
           {/* <p>{props.userObject.username}Jane Doe</p> */}
 

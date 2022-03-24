@@ -32,7 +32,6 @@ export type FormTwoResponseBody =
   | {
       address: UserAddress;
       maritalStatus: MaritalStatus;
-      sosContact: SosContact;
     };
 
 export default async function formInputHandler(
@@ -49,17 +48,11 @@ export default async function formInputHandler(
       !request.body.zipCode ||
       !request.body.country ||
       !request.body.maritalStatus ||
-      !request.body.sosContactfullName ||
-      !request.body.sosContactPhone ||
-      !request.body.sosContactRelation ||
       typeof request.body.address !== 'string' ||
       typeof request.body.city !== 'string' ||
       typeof request.body.country !== 'string' ||
-      typeof request.body.sosContactPhone !== 'string' ||
-      typeof request.body.sosContactfullName !== 'string' ||
       typeof request.body.zipCode !== 'number' ||
-      typeof request.body.maritalStatus !== 'number' ||
-      typeof request.body.sosContactRelation !== 'number'
+      typeof request.body.maritalStatus !== 'number'
     ) {
       response.status(400).json({
         errors: [{ message: 'please provide missing data' }],
@@ -105,30 +98,10 @@ export default async function formInputHandler(
       return;
     }
 
-    // add user emergency contact info to db
-    const formResponseEmergencyContact = await AddUserEmergencyContact(
-      request.body.userId,
-      request.body.sosContactfullName,
-      request.body.sosContactPhone,
-      request.body.sosContactRelation,
-    );
-
-    // error handling
-    if (!formResponseEmergencyContact) {
-      response.status(401).json({
-        errors: [
-          {
-            message: 'Upps: emergency contact not addded to database',
-          },
-        ],
-      });
-      return;
-    }
     // success status response
     response.status(201).json({
       address: formResponseAddress,
       maritalStatus: formResponseMaritalStaus,
-      sosContact: formResponseEmergencyContact,
     });
     return;
   }

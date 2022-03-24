@@ -1,8 +1,8 @@
 exports.up = async (sql) => {
   await sql`
 	CREATE TABLE roles(
-		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-		role_name varchar(30) NOT NULL
+	id integer NOT NULL PRIMARY KEY,
+		roles_name varchar(30) NOT NULL
 	)
 	`;
 };

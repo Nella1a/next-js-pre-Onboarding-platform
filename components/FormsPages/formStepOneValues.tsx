@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { useForm } from 'react-hook-form';
 import {
   errorStyles,
@@ -8,14 +8,20 @@ import {
   showForm,
 } from '../elements';
 
-// type Props = {
-//   user: User | null;
-//   userObject: User;
-//   formStep: number;
-//   nextFormStep: Function;
-//   formValues: object;
-//   setFormValues: object;
-// };
+export type Props = {
+  // userObject: User;
+  // userFirstName: string;
+  // headerImage: string;
+  // userId: number;
+  formStep: number;
+  currentStep: number;
+  nextFormStep: number;
+  // prevFormStep: number;
+  // user: User;
+  // formValues
+  // setFormValues
+  userFormInput?: AllPersonalInfo;
+};
 
 type FormValuesOne = {
   firstName: string;
@@ -28,7 +34,7 @@ type FormValuesOne = {
 };
 type Errors = { message: string }[];
 
-export default function FormStepOneValues(props) {
+export default function FormStepOneValues(props: Props) {
   // const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
   // const [firstName, setFirstName] = useState('');
@@ -58,8 +64,6 @@ export default function FormStepOneValues(props) {
         onSubmit={async (event) => {
           event.preventDefault();
 
-          // validations
-
           // send input to api
           // const formInputResponse = await fetch('/api/formStepOneValues', {
           //   method: 'POST',
@@ -67,8 +71,6 @@ export default function FormStepOneValues(props) {
           //     'Content-Type': 'application/json',
           //   },
           //   body: JSON.stringify({
-          //     // firstName: firstName,
-          //     // lastName: lastName,
           //     dateOfBirth: dateOfBirth,
           //     socialSecNumber: parseInt(socialSecNumber),
           //     nationality: nationality,
@@ -86,6 +88,13 @@ export default function FormStepOneValues(props) {
           // }
           // setErrorsApi([]);
           // console.log('Response from Api:', formInputResponseBody);
+
+          const getValuesFromDatabase = async () => {
+            const response = await fetch('/api/formStepOneValues');
+            const responseBody = await response.json();
+            console.log('return formOneValue:', responseBody);
+          };
+
           props.nextFormStep();
         }}
       >
@@ -101,7 +110,7 @@ export default function FormStepOneValues(props) {
               name="email"
               value={email}
               placeholder="janedoe@test.com"
-              onChange={(event) => setEmail(event.currentTarget.value.trim())}
+              onChange={(event) => setEmail(event.currentTarget.value)}
             />
           </p>
           <div css={flexStyle}>
@@ -144,9 +153,7 @@ export default function FormStepOneValues(props) {
                 id="nationality"
                 name="nationality"
                 value={nationality}
-                onChange={(event) =>
-                  setNationality(event.currentTarget.value.trim())
-                }
+                onChange={(event) => setNationality(event.currentTarget.value)}
               />
             </p>
             <p>
@@ -160,7 +167,7 @@ export default function FormStepOneValues(props) {
                 maxLength={15}
                 value={phone}
                 placeholder="0043 06660 000 000"
-                onChange={(event) => setPhone(event.currentTarget.value.trim())}
+                onChange={(event) => setPhone(event.currentTarget.value)}
               />
             </p>
           </div>

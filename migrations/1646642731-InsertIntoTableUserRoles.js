@@ -1,10 +1,10 @@
 exports.up = async (sql) => {
   await sql`
 INSERT INTO roles
-(role_name)
+(id, roles_name)
 VALUES
-('employer'),
-('new_hire')
+(1,'employer'),
+(2,'new_hire')
 `;
 };
 
