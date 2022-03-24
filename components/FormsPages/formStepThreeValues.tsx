@@ -40,22 +40,22 @@ export default function FormStepThreeValues(props) {
     const responseUrl = formDataResponse.url;
     setFileUploadOne(responseUrl);
     console.log('StateVariable:', responseUrl);
-    // if (fileUploadOne) {
-    //   // save fileUrl in Database
-    //   const saveFileInDb = await fetch(`/api/formStepThreeValues`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       fileOneUrl: fileUploadOne,
-    //       fileType: fileUploadOneSelect,
-    //       userId: props.user.id,
-    //     }),
-    //   });
-    //   const saveFileInDbResponse = await saveFileInDb.json();
-    //   console.log('Url-response-from DB:', saveFileInDbResponse);
-    // }
+    if (fileUploadOne) {
+      // save fileUrl in Database
+      const saveFileInDb = await fetch(`/api/formStepThreeValues`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileOneUrl: fileUploadOne,
+          fileType: fileUploadOneSelect,
+          userId: props.user.id,
+        }),
+      });
+      const saveFileInDbResponse = await saveFileInDb.json();
+      console.log('Url-response-from DB:', saveFileInDbResponse);
+    }
   };
 
   return (
@@ -169,9 +169,8 @@ export default function FormStepThreeValues(props) {
                 }
               >
                 <option value="0">-- please select ---</option>
-                <option value="1">contract</option>
-                <option value="2">ID</option>
-                <option value="2">BankCard</option>
+                <option value="1">sigend contract</option>
+                <option value="2">documents</option>
                 <option value="4">other</option>
               </select>
             </p>

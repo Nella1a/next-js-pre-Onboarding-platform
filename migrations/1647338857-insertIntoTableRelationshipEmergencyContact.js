@@ -1,14 +1,14 @@
 exports.up = async (sql) => {
   await sql`
  INSERT INTO relationship_emergency_contact
-  (contact_relation)
+  (id, contact_relation)
  VALUES
-  ('friend'),
-  ('partner'),
-  ('sibling'),
-  ('parent'),
-  ('child'),
-  ('other')
+  (1,'friend'),
+  (2,'partner'),
+  (3,'sibling'),
+  (4,'parent'),
+  (5,'child'),
+  (6,'other')
  `;
 };
 

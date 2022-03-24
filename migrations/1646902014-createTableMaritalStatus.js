@@ -1,7 +1,7 @@
 exports.up = async (sql) => {
   await sql`
 	CREATE TABLE marital_status(
-		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+		id integer NOT NULL PRIMARY KEY,
 		marital_status varchar(30) NOT NULL
 	)
 	`;

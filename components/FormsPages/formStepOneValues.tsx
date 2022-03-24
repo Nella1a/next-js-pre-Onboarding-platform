@@ -89,11 +89,11 @@ export default function FormStepOneValues(props: Props) {
           // setErrorsApi([]);
           // console.log('Response from Api:', formInputResponseBody);
 
-          const getValuesFromDatabase = async () => {
-            const response = await fetch('/api/formStepOneValues');
-            const responseBody = await response.json();
-            console.log('return formOneValue:', responseBody);
-          };
+          // const getValuesFromDatabase = async () => {
+          //   const response = await fetch('/api/formStepOneValues');
+          //   const responseBody = await response.json();
+          //   console.log('return formOneValue:', responseBody);
+          // };
 
           props.nextFormStep();
         }}

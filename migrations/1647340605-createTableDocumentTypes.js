@@ -1,7 +1,7 @@
 exports.up = async (sql) => {
   await sql`
 	CREATE TABLE document_types(
-		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+		id integer NOT NULL PRIMARY KEY,
 		doc_name varchar(100) NOT NULL
 
 	)`;

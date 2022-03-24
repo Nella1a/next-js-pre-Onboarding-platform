@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
 
     setUser(data.user);
     setUserFirstName(data.user.firstName);
-    setUserHeaderImage(data.userImageUrlHeader.imageUrl);
+    setUserHeaderImage(data.userImageUrlHeader.imgUrl);
 
     // setUserFirstName(usersFirstName);
 

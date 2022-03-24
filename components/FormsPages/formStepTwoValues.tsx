@@ -56,7 +56,7 @@ export default function FormStepTwoValues(props) {
         onSubmit={async (event) => {
           event.preventDefault();
 
-          // send input to api
+          //   send input to api
           // const formInputResponse = await fetch('/api/formStepTwoValues', {
           //   method: 'POST',
           //   headers: {
@@ -160,7 +160,7 @@ export default function FormStepTwoValues(props) {
                 <option value="3">registered Partnership</option>
                 <option value="4">divorced</option>
                 <option value="5">widowed</option>
-                <option value="6">widowed</option>
+                <option value="6">other</option>
               </select>
             </p>
           </div>

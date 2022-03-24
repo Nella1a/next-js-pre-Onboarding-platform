@@ -8,8 +8,7 @@ exports.up = async (sql) => {
 	password_hash varchar(60) NOT NULL,
 	first_name varchar(50),
 	last_name varchar(50),
-	role_Id integer,
-FOREIGN KEY (role_id) REFERENCES roles(id)
+	role_id integer UNIQUE REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 	)
 
 	`;

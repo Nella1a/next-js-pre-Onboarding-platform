@@ -6,7 +6,7 @@ exports.up = async (sql) => {
 		city varchar(100) NOT NULL,
 		postal_code varchar(10) NOT NULL,
 		country varchar(100) NOT NULL,
-		user_id integer REFERENCES users (id) ON DELETE CASCADE
+		user_id integer UNIQUE REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 	)
 	`;
 };

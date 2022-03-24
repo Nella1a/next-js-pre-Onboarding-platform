@@ -9,6 +9,17 @@ import {
 } from '../../../components/elements';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/Navigation';
+// const divContainerforImage = css`
+//   position: relative;
+//   padding: 1rem;
+//   img {
+//     display: block;
+//     border-radius: 50%;
+//     width: 400px;
+//     height: auto;
+//     margin: 1rem;
+//   }
+// `;
 import {
   getUserById,
   getValidSessionByToken,
@@ -30,27 +41,14 @@ type Props = {
   headerImage: string;
 };
 
-// const divContainerforImage = css`
-//   position: relative;
-//   padding: 1rem;
-
-//   img {
-//     display: block;
-//     border-radius: 50%;
-//     width: 400px;
-//     height: auto;
-//     margin: 1rem;
-//   }
-// `;
-
 export default function UserProfile(props: Props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
-  const [imageUrl, setImageUrl] = useState(props.img.imageUrl);
+  const [imageUrl, setImageUrl] = useState(props.headerImage);
   const [userId, setUserId] = useState<number>(0);
   const [errors, setErrors] = useState('');
 
   console.log('Props.ImageUrl:', props);
-  console.log('ImageUrl typeof:', props.img.imageUrl);
+  // console.log('ImageUrl typeof:', props.img.imageUrl);
   const uploadImage = async () => {
     console.log('userIdFE:', userId);
     const formData = new FormData();
@@ -155,7 +153,12 @@ export default function UserProfile(props: Props) {
           <article>
             {' '}
             <div>
-              <Image src={imageUrl} width={300} height={300} alt="text" />
+              <Image
+                src={props.img.imageUrl ? props.img.imageUrl : '/imgTest.png'}
+                width={300}
+                height={300}
+                alt="text"
+              />
             </div>
             <p>Username: {props.user.username}</p>
             <p>User Id: {props.user.id}</p>{' '}
@@ -200,13 +203,17 @@ export default function UserProfile(props: Props) {
   );
 }
 
+type ImageType = {
+  imgUrl: string | null;
+};
+
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<
   GetServerSidePropsResult<{
     user?: User;
     cloudKey?: string;
-    img?: string;
+    img?: ImageType;
     uploadPreset?: string;
   }>
 > {
@@ -249,14 +256,16 @@ export async function getServerSideProps(
       //   };
       // }
 
-      const imageUrlInDB = await readUserProfileImage(session.userId);
-      if (!imageUrlInDB) {
-        const imgPlaceholder = '/imgTest.png';
+      let imageUrlInDB = await readUserProfileImage(session.userId);
+      console.log('imgDB:', imageUrlInDB);
+      if (imageUrlInDB === undefined) {
+        console.log('nnnnnn');
+
         return {
           props: {
             user: user,
             cloudKey: cloudKey,
-            img: imgPlaceholder,
+            img: { imgUrl: '/imgTest.png' },
             uploadPreset: uploadPreset,
           },
         };

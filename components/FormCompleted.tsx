@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   FormResponseBodyGet,
   UserAddressResponseBody,
@@ -19,10 +19,10 @@ export default function FormCompleted(props) {
   // State Variable with the id of the animal on editMode
   const [idFormEditId, setidFormEditId] = useState<number>();
   // State Variables for the on Edit inputs
-  const [firstNameOnEdit, setFirstNameOnEdit] = useState('');
-  const [lastNameOnEdit, setLastNameOnEdit] = useState('');
+  // const [firstNameOnEdit, setFirstNameOnEdit] = useState('');
+  // const [lastNameOnEdit, setLastNameOnEdit] = useState('');
   const [emailOnEdit, setEmailOnEdit] = useState('');
-  const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState('');
+  // const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState('');
   const [socialSecNumberOnEdit, setSocialSecNumberOnEdit] = useState(0);
   const [nationalityOnEdit, setNationalityOnEdit] = useState('');
   const [phoneOnEdit, setPhoneOnEdit] = useState(0);
@@ -39,17 +39,16 @@ export default function FormCompleted(props) {
   const [error, setError] = useState('');
 
   // Read forminput from db
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/api/documents/${props.userId}`);
-      const responseBody = (await response.json()) as FormResponseBodyGet;
-      setUserFormInfo(responseBody.userFormInfo);
-      console.log('userFormInfoResponse:', userFormInfo);
-    };
-    fetchData().catch(() => {
-      console.log('TESTTEST');
-    });
+  const refresh = useCallback(async () => {
+    const response = await fetch(`/api/documents/${props.userId}`);
+    const responseBody = (await response.json()) as FormResponseBodyGet;
+    setUserFormInfo(responseBody.userFormInfo);
+    console.log('userFormInfoResponse:', userFormInfo);
   }, []);
+
+  useEffect(() => {
+    refresh().catch(() => {});
+  }, [refresh]);
 
   // Update forminput
   async function updateUserFormInputs(userId: number) {
@@ -61,9 +60,9 @@ export default function FormCompleted(props) {
       body: JSON.stringify({
         formResponse: {
           userId: userId,
-          firstName: firstNameOnEdit,
-          lastName: lastNameOnEdit,
-          dateOfBirth: dateOfBirthOnEdit,
+          // firstName: firstNameOnEdit,
+          // lastName: lastNameOnEdit,
+          // dateOfBirth: dateOfBirthOnEdit,
           socialSecNb: socialSecNumberOnEdit,
           nationality: nationalityOnEdit,
           email: emailOnEdit,
@@ -90,10 +89,10 @@ export default function FormCompleted(props) {
     setUserFormInfo(putResponseBody.userFormInfo);
 
     // update state variable
-    setFirstNameOnEdit(putResponseBody.userFormInfo.firstName);
-    setLastNameOnEdit(putResponseBody.userFormInfo.lastName);
+    // setFirstNameOnEdit(putResponseBody.userFormInfo.firstName);
+    // setLastNameOnEdit(putResponseBody.userFormInfo.lastName);
     setEmailOnEdit(putResponseBody.userFormInfo.email);
-    setDateOfBirthOnEdit(putResponseBody.userFormInfo.dateOfBirth);
+    // setDateOfBirthOnEdit(putResponseBody.userFormInfo.dateOfBirth);
     setSocialSecNumberOnEdit(putResponseBody.userFormInfo.socialSecNb);
     setNationalityOnEdit(putResponseBody.userFormInfo.nationality);
     setPhoneOnEdit(putResponseBody.userFormInfo.userPhone);
@@ -107,7 +106,7 @@ export default function FormCompleted(props) {
     setSosContactRelationOnEdit(putResponseBody.userFormInfo.relationshipId);
   }
 
-  // console.log('userFormInfo_FE:', userFormInfo);
+  console.log('userFormInfo_FE:', userFormInfo);
 
   return (
     <Layout
@@ -134,10 +133,10 @@ export default function FormCompleted(props) {
               id="firstName"
               name="firstName"
               disabled={isDisabled}
-              value={isDisabled ? userFormInfo.firstName : firstNameOnEdit}
-              onChange={(event) =>
-                setFirstNameOnEdit(event.currentTarget.value)
-              }
+              // value={isDisabled ? userFormInfo.firstName : firstNameOnEdit}
+              // onChange={(event) =>
+              //   setFirstNameOnEdit(event.currentTarget.value)
+              // }
             />
           </p>
           <p>
@@ -148,8 +147,8 @@ export default function FormCompleted(props) {
               id="lastName"
               name="lastName"
               disabled={isDisabled}
-              value={isDisabled ? userFormInfo.lastName : lastNameOnEdit}
-              onChange={(event) => setLastNameOnEdit(event.currentTarget.value)}
+              // // value={isDisabled ? userFormInfo.lastName : lastNameOnEdit}
+              // onChange={(event) => setLastNameOnEdit(event.currentTarget.value)}
             />
           </p>
           <p>
@@ -174,10 +173,10 @@ export default function FormCompleted(props) {
               id="dateOfBirth"
               name="dateOfBirth"
               disabled={isDisabled}
-              value={isDisabled ? userFormInfo.dateOfBirth : dateOfBirthOnEdit}
-              onChange={(event) =>
-                setDateOfBirthOnEdit(event.currentTarget.value)
-              }
+              // value={isDisabled ? userFormInfo.dateOfBirth : dateOfBirthOnEdit}
+              // onChange={(event) =>
+              //   setDateOfBirthOnEdit(event.currentTarget.value)
+              // }
             />
           </p>
           <p>
@@ -387,10 +386,10 @@ export default function FormCompleted(props) {
             onClick={() => {
               // updateFormFields(props.userid).catch(() =>
               setIsDisabled(false);
-              setFirstNameOnEdit(userFormInfo.firstName);
-              setLastNameOnEdit(userFormInfo.lastName);
+              // setFirstNameOnEdit(userFormInfo.firstName);
+              // setLastNameOnEdit(userFormInfo.lastName);
               setEmailOnEdit(userFormInfo.email);
-              setDateOfBirthOnEdit(userFormInfo.dateOfBirth);
+              // setDateOfBirthOnEdit(userFormInfo.dateOfBirth);
               setSocialSecNumberOnEdit(userFormInfo.socialSecNb);
               setNationalityOnEdit(userFormInfo.nationality);
               setPhoneOnEdit(userFormInfo.userPhone);

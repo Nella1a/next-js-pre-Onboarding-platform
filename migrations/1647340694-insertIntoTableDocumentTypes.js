@@ -1,12 +1,11 @@
 exports.up = async (sql) => {
   await sql`
  INSERT INTO document_types
-  (doc_name)
+  (id, doc_name)
  VALUES
-  ('contract_signed'),
-  ('state_id'),
-  ('social_security_card'),
-  ('other')
+  (1,'signed_contract'),
+  (2,'documents'),
+  (3,'other')
  `;
 };
 

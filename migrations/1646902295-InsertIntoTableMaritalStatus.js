@@ -1,14 +1,14 @@
 exports.up = async (sql) => {
   await sql`
 INSERT INTO marital_status
-(marital_status)
+(id, marital_status)
 VALUES
-('single'),
-('married'),
-('registered partnership'),
-('divorced'),
-('widowed'),
-('other')
+(1,'single'),
+(2,'married'),
+(3,'registered partnership'),
+(4,'divorced'),
+(5,'widowed'),
+(6,'other')
 `;
 };
 

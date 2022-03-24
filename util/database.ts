@@ -253,9 +253,7 @@ export async function readUserAllPersonalInfo(userId: number) {
   const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
   SELECT
   users.id,
-  user_personal_details.first_name as first_name,
-  user_personal_details.last_name as last_name,
-  user_personal_details.date_of_birth as date_of_birth,
+  -- user_personal_details.date_of_birth as date_of_birth,
   user_personal_details.social_sec_nb as social_sec_nb,
   user_personal_details.nationality as nationality,
   user_personal_details.email as email,
@@ -264,18 +262,16 @@ export async function readUserAllPersonalInfo(userId: number) {
   user_address.city as city,
   user_address.postal_code,
   user_address.country as country,
-  user_address.user_id as user_address_userId,
-  -- civil_status.marital_status as marital_status,
-  civil_status.id as civil_status_id,
-  emergency_contact.fullName as fullName,
-  emergency_contact.sos_phone as sos_phone,
-  emergency_contact.relationship_id as relationship_id
+  emergency_contact.fullName,
+  emergency_contact.sos_phone,
+  emergency_contact.relationship_id,
+  civil_status.marital_type_id
   FROM
   users,
   user_personal_details,
   user_address,
-  civil_status,
-  emergency_contact
+  emergency_contact,
+  civil_status
 
   WHERE
   users.id = ${userId} AND
@@ -458,9 +454,7 @@ export async function readUserProfileImage(userId: number) {
 // UPDATE
 export async function updateUserPersonalInfo(
   userId: number,
-  firstName: string,
-  lastName: string,
-  dateOfBirth: string,
+  // dateOfBirth: string,
   socialSecNb: number,
   nationality: string,
   email: string,
@@ -470,11 +464,8 @@ export async function updateUserPersonalInfo(
 
 UPDATE
 user_personal_details
-
 SET
-  first_name = ${firstName},
-  last_name = ${lastName},
-  date_of_birth = ${dateOfBirth},
+  -- date_of_birth = ${dateOfBirth},
   social_sec_nb =  ${socialSecNb},
   nationality = ${nationality},
   email =  ${email},
@@ -489,11 +480,8 @@ WHERE
 // READ
 
 export async function readUserPersonalInfo(userId: number) {
-  const readFormiInput = await sql`
-
+  const [readFormiInput] = await sql`
 SELECT
-user_personal_details.first_name as first_name,
-  user_personal_details.last_name as last_name,
   user_personal_details.date_of_birth as date_of_birth,
   user_personal_details.social_sec_nb as social_sec_nb,
   user_personal_details.nationality as nationality,
@@ -612,10 +600,8 @@ export async function updateUserMaritalStatus(
   maritalStatus: number,
 ) {
   const updateMaritalStatus = await sql`
-
 UPDATE
 civil_status
-
 SET
   marital_type_id = ${maritalStatus}
 WHERE
@@ -668,7 +654,6 @@ export async function updateUserEmergencyContact(
 
 UPDATE
 emergency_contact
-
 SET
 fullName = ${fullName},
 sos_phone = ${sosPhone},

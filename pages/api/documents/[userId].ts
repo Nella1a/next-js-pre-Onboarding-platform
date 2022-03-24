@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {
   AllPersonalInfo,
   readUserAllPersonalInfo,
-  readUserFirstName,
   updateUserAddress,
   updateUserEmergencyContact,
   updateUserMaritalStatus,
@@ -59,14 +58,14 @@ export default async function formInputHandler(
     const formRequestUpdate = request.body.formResponse;
 
     console.log('request body :', formRequestUpdate);
-    console.log('request body name:', formRequestUpdate.firstName);
-    console.log('request body name:', formRequestUpdate.lastName);
+    // console.log('request body name:', formRequestUpdate.firstName);
+    // console.log('request body name:', formRequestUpdate.lastName);
 
     // update personal infos
     if (
-      formRequestUpdate.firstName ||
-      formRequestUpdate.lastName ||
-      formRequestUpdate.dateOfBirth ||
+      // formRequestUpdate.firstName ||
+      // formRequestUpdate.lastName ||
+      // formRequestUpdate.dateOfBirth ||
       formRequestUpdate.socialSecNb ||
       formRequestUpdate.nationality ||
       formRequestUpdate.email ||
@@ -74,9 +73,9 @@ export default async function formInputHandler(
     ) {
       const updatePersonalInfoResponse = await updateUserPersonalInfo(
         formRequestUpdate.userId,
-        formRequestUpdate.firstName,
-        formRequestUpdate.lastName,
-        formRequestUpdate.dateOfBirth,
+        // formRequestUpdate.firstName,
+        // formRequestUpdate.lastName,
+        // formRequestUpdate.dateOfBirth,
         formRequestUpdate.socialSecNb,
         formRequestUpdate.nationality,
         formRequestUpdate.email,
@@ -138,7 +137,7 @@ export default async function formInputHandler(
   // *** GET-Method ** //
   if (request.method === 'GET') {
     // read all personal information from db
-    const userAllPersonalInfoResponse = await readUserAllPersonalInfo(29);
+    const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
 
     // const userFirstName = await readUserFirstName(userId);
 

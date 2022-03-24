@@ -16,7 +16,9 @@ import Navigation from '../../../components/Navigation';
 import {
   AllPersonalInfo,
   getUserByValidSessionToken,
+  readUserAddress,
   readUserAllPersonalInfo,
+  readUserPersonalInfo,
   User,
 } from '../../../util/database';
 
@@ -28,6 +30,7 @@ type Props = {
   uploadPreset?: string;
   headerImage: string;
   userFormInput?: AllPersonalInfo;
+  joinUsePersonalDetails?: AllPersonalInfo;
 };
 
 export default function Documents(props: Props) {
@@ -36,7 +39,7 @@ export default function Documents(props: Props) {
   const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
   const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
   console.log('formStep Documents:', formStep);
-
+  console.log('props.PersonalDetails:', props.joinUsePersonalDetails);
   return (
     <Layout
       userObject={props.userObject}
@@ -148,6 +151,7 @@ export async function getServerSideProps(
     cloudKey?: string;
     uploadPreset?: string;
     userFormInput?: AllPersonalInfo;
+    joinUsePersonalDetails?: AllPersonalInfo;
   }>
 > {
   // 1. Get current user from the cookie sessionToken
@@ -159,8 +163,26 @@ export async function getServerSideProps(
   const cloudKey = process.env.CLOUDKEY;
   const uploadPreset = process.env.UPLOAD_PRESET;
 
+  const readUserPersonalDetails = await readUserPersonalInfo(user.id);
+  const userAddress = await readUserAddress(user.id);
+  const joinUsePersonalDetails = await readUserAllPersonalInfo(user.id);
+
+  console.log('userAddress:', userAddress);
+  console.log('readPersonalDetails', readUserPersonalDetails);
+  console.log('JoinreadPersonalDetails', joinUsePersonalDetails);
+
   // 3. If user exists, return user and render page
   if (user) {
+    if (joinUsePersonalDetails) {
+      return {
+        props: {
+          user: user,
+          cloudKey: cloudKey,
+          uploadPreset: uploadPreset,
+          joinUsePersonalDetails: joinUsePersonalDetails,
+        },
+      };
+    }
     return {
       props: {
         user: user,
