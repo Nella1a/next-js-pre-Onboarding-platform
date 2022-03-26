@@ -35,7 +35,7 @@ type Props = {
   user?: User | null;
   userObject: User;
   userFirstName: string;
-  img: CloudUrl;
+  profileImgUrl: CloudUrl;
   cloudKey: string;
   uploadPreset: string;
   headerImage: string;
@@ -43,12 +43,11 @@ type Props = {
 
 export default function UserProfile(props: Props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
-  const [imageUrl, setImageUrl] = useState(props.headerImage);
+  const [imageUrl, setImageUrl] = useState(`/imgTest.png`);
   const [userId, setUserId] = useState<number>(0);
   const [errors, setErrors] = useState('');
+  console.log('Props_Profile_oi:', props.profileImgUrl.imageUrl);
 
-  console.log('Props.ImageUrl:', props);
-  // console.log('ImageUrl typeof:', props.img.imageUrl);
   const uploadImage = async () => {
     console.log('userIdFE:', userId);
     const formData = new FormData();
@@ -75,7 +74,7 @@ export default function UserProfile(props: Props) {
     setImageUrl(formDataResponse.url);
     console.log('ImageUrl StateVariable:', imageUrl);
 
-    // Add image url to DB
+    // fetch img-url to api route
     const addImageUrlToDB = await fetch(`/api/profile/${userId}`, {
       method: 'POST',
       headers: {
@@ -88,12 +87,13 @@ export default function UserProfile(props: Props) {
     });
     const addImageUrlToDBResponseBody = await addImageUrlToDB.json();
 
-    console.log('addImageUrlToDBResponseBody', addImageUrlToDBResponseBody);
-
+    // check for errors in api response
     if ('errors' in addImageUrlToDBResponseBody) {
       setErrors(addImageUrlToDBResponseBody.errors);
       return;
     }
+    // api response okay --> update state variable
+    setImageUrl(addImageUrlToDBResponseBody);
   };
 
   // read image url from DB
@@ -154,7 +154,11 @@ export default function UserProfile(props: Props) {
             {' '}
             <div>
               <Image
-                src={props.img.imageUrl ? props.img.imageUrl : '/imgTest.png'}
+                src={
+                  props.profileImgUrl.imageUrl
+                    ? props.profileImgUrl.imageUrl
+                    : '/imgTest.png'
+                }
                 width={300}
                 height={300}
                 alt="text"
@@ -213,7 +217,7 @@ export async function getServerSideProps(
   GetServerSidePropsResult<{
     user?: User;
     cloudKey?: string;
-    img?: ImageType;
+    profileImgUrl?: ImageType;
     uploadPreset?: string;
   }>
 > {
@@ -256,26 +260,27 @@ export async function getServerSideProps(
       //   };
       // }
 
-      let imageUrlInDB = await readUserProfileImage(session.userId);
-      console.log('imgDB:', imageUrlInDB);
-      if (imageUrlInDB === undefined) {
-        console.log('nnnnnn');
+      // read img url from db
+      let profileImgUrl = await readUserProfileImage(session.userId);
+      // console.log('imgDB:', profileImgUrl);
+      // if (profileImgUrl === undefined) {
+      //   console.log('nnnnnn');
 
-        return {
-          props: {
-            user: user,
-            cloudKey: cloudKey,
-            img: { imgUrl: '/imgTest.png' },
-            uploadPreset: uploadPreset,
-          },
-        };
-      }
-      console.log('imageUrlInDB:', imageUrlInDB);
+      //   return {
+      //     props: {
+      //       user: user,
+      //       cloudKey: cloudKey,
+      //       img: { imgUrl: '/imgTest.png' },
+      //       uploadPreset: uploadPreset,
+      //     },
+      //   };
+      // }
+      console.log('imageUrlInDB:', profileImgUrl);
       return {
         props: {
           user: user,
           cloudKey: cloudKey,
-          img: imageUrlInDB,
+          profileImgUrl: profileImgUrl,
           uploadPreset: uploadPreset,
         },
       };
