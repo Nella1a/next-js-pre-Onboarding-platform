@@ -21,7 +21,11 @@ function MyApp({ Component, pageProps }) {
 
     setUser(data.user);
     setUserFirstName(data.user.firstName);
-    setUserHeaderImage(data.userImageUrlHeader.imgUrl);
+    // check if user has uploaded an image
+    if (data.profileImgUrl.imageUrl) {
+      setUserHeaderImage(data.profileImgUrl.imageUrl);
+      console.log('_app_Image:', data.profileImgUrl.imageUrl);
+    }
 
     // setUserFirstName(usersFirstName);
 

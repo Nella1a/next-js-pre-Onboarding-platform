@@ -26,13 +26,13 @@ export default async function profileHandler(
     // 2. Retrieve user by valid sessionToken
     const user = await getUserByValidSessionToken(token);
     const userId = user.id;
-    const userImageUrlHeader = await readUserProfileImage(userId);
-    console.log('userImg:', userImageUrlHeader);
+    const profileImgUrl = await readUserProfileImage(userId);
+    console.log('userImg:', profileImgUrl);
     // 3. If user exists, return user and render page
     if (user) {
       res.status(200).json({
         user: user,
-        userImageUrlHeader: userImageUrlHeader,
+        profileImgUrl: profileImgUrl,
       });
 
       return;

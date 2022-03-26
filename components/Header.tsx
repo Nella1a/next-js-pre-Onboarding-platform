@@ -20,6 +20,7 @@ const divStyle = css`
 `;
 
 export default function Header(props: Props) {
+  console.log('headerImg:', props.headerImage);
   return (
     <header css={headerStyle}>
       <nav>
@@ -36,6 +37,7 @@ export default function Header(props: Props) {
         <Link href="/login">
           <a>Profile</a>
         </Link> */}
+
         <div>
           {' '}
           <p>
