@@ -9,6 +9,7 @@ exports.up = async (sql) => {
 
 exports.down = async (sql) => {
   await sql`
- DROP TABLE document_types
+ DROP TABLE document_types CASCADE
+
  `;
 };

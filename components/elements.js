@@ -903,8 +903,8 @@ export const sectionFormCompletedLayout = css`
   /* background-color: #eae9ee; */
   padding: 1.5rem;
   display: flex;
-  flex-direction: column;
-  /* gap: 1rem; */
+
+  gap: 1.5rem;
 
   /* -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16); */
@@ -917,14 +917,14 @@ export const sectionFormCompletedLayout = css`
 
   article {
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     background-color: #fff;
-    width: 100%;
+    width: 15rem;
     height: 95%;
     /* padding: 1.5rem; */
     /* border: 1px solid var(--backGroundColorGrey); */
-    gap: 1.5rem;
-    flex-wrap: wrap;
+    gap: 1.8rem;
+    /* flex-wrap: wrap; */
     margin-bottom: 3rem;
 
     label {
@@ -932,13 +932,20 @@ export const sectionFormCompletedLayout = css`
       font-size: 0.9rem;
     }
 
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
     input,
     select {
-      border-radius: 14px;
+      /* border-radius: 14px; */
       padding: 0.5rem;
       border: 1px solid var(--backGroundColorGrey);
       min-height: 2.5rem;
       border: none;
+      background-color: #eae9ee;
     }
 
     p {

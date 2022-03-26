@@ -37,8 +37,6 @@ type Errors = { message: string }[];
 export default function FormStepOneValues(props: Props) {
   // const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
-  // const [firstName, setFirstName] = useState('');
-  // const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [socialSecNumber, setSocialSecNumber] = useState('');
   const [nationality, setNationality] = useState('');
@@ -135,7 +133,7 @@ export default function FormStepOneValues(props: Props) {
                 id="socialSecNumber"
                 name="socialSecNumber"
                 placeholder="XXX DDMMYY"
-                maxLength={15}
+                // maxLength={15}
                 value={socialSecNumber}
                 onChange={(event) =>
                   setSocialSecNumber(event.currentTarget.value)
@@ -164,7 +162,7 @@ export default function FormStepOneValues(props: Props) {
                 id="phone"
                 type="tel"
                 name="phone"
-                maxLength={15}
+                // maxLength={15}
                 value={phone}
                 placeholder="0043 06660 000 000"
                 onChange={(event) => setPhone(event.currentTarget.value)}

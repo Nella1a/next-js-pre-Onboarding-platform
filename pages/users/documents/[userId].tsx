@@ -16,6 +16,7 @@ import Navigation from '../../../components/Navigation';
 import {
   AllPersonalInfo,
   getUserByValidSessionToken,
+  ReadAllPersonalInfo,
   readUserAddress,
   readUserAllPersonalInfo,
   readUserPersonalInfo,
@@ -30,7 +31,7 @@ type Props = {
   uploadPreset?: string;
   headerImage: string;
   userFormInput?: AllPersonalInfo;
-  joinUsePersonalDetails?: AllPersonalInfo;
+  readAllUserInfo?: ReadAllPersonalInfo;
 };
 
 export default function Documents(props: Props) {
@@ -38,8 +39,7 @@ export default function Documents(props: Props) {
   const [formValues, setFormValues] = useState([{}]);
   const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
   const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-  console.log('formStep Documents:', formStep);
-  console.log('props.PersonalDetails:', props.joinUsePersonalDetails);
+  console.log('props.ReadAllUserInfo:', props.readAllUserInfo);
   return (
     <Layout
       userObject={props.userObject}
@@ -121,6 +121,7 @@ export default function Documents(props: Props) {
 
             {formStep === 3 && (
               <FormCompleted
+                readAllUserInfo={props.readAllUserInfo}
                 // userObject={props.userObject}
                 userFirstName={props.userFirstName}
                 // headerImage={props.headerImage}
@@ -151,7 +152,7 @@ export async function getServerSideProps(
     cloudKey?: string;
     uploadPreset?: string;
     userFormInput?: AllPersonalInfo;
-    joinUsePersonalDetails?: AllPersonalInfo;
+    readAllUserInfo?: ReadAllPersonalInfo;
   }>
 > {
   // 1. Get current user from the cookie sessionToken
@@ -165,21 +166,27 @@ export async function getServerSideProps(
 
   const readUserPersonalDetails = await readUserPersonalInfo(user.id);
   const userAddress = await readUserAddress(user.id);
-  const joinUsePersonalDetails = await readUserAllPersonalInfo(user.id);
+  const readAllUserInfo = await readUserAllPersonalInfo(user.id);
 
   console.log('userAddress:', userAddress);
   console.log('readPersonalDetails', readUserPersonalDetails);
-  console.log('JoinreadPersonalDetails', joinUsePersonalDetails);
+  console.log('JoinreadPersonalDetails', readAllUserInfo);
+
+  if (readAllUserInfo) {
+    readAllUserInfo.dateOfBirth = new Date(
+      readAllUserInfo.dateOfBirth,
+    ).toLocaleDateString('en-US');
+  }
 
   // 3. If user exists, return user and render page
   if (user) {
-    if (joinUsePersonalDetails) {
+    if (readAllUserInfo) {
       return {
         props: {
           user: user,
           cloudKey: cloudKey,
           uploadPreset: uploadPreset,
-          joinUsePersonalDetails: joinUsePersonalDetails,
+          readAllUserInfo: readAllUserInfo,
         },
       };
     }

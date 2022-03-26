@@ -8,7 +8,7 @@ exports.up = async (sql) => {
 	password_hash varchar(60) NOT NULL,
 	first_name varchar(50),
 	last_name varchar(50),
-	role_id integer UNIQUE REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE
+	role_id integer REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 	)
 
 	`;
@@ -16,6 +16,6 @@ exports.up = async (sql) => {
 
 exports.down = async (sql) => {
   await sql`
- DROP TABLE users
+ DROP TABLE users CASCADE
  `;
 };

@@ -1,27 +1,38 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   AllPersonalInfo,
+  FormValuesOne,
   readUserAllPersonalInfo,
   updateUserAddress,
+  updateUserAllPersonalInfo,
   updateUserEmergencyContact,
   updateUserMaritalStatus,
   updateUserPersonalInfo,
+  UserAddress,
 } from '../../../util/database';
 
-// type FormTwoRequestBody = {
-//   address: string;
-//   city: string;
-//   zipCode: string;
-//   country: string;
-//   maritalStatus: number;
-//   sosContactfullName: string;
-//   sosContactPhone: string;
-//   sosContactRelation: number;
-// };
+type FormTwoRequestBody = {
+  address: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  maritalStatus: number;
+  sosContactfullName: string;
+  sosContactPhone: string;
+  sosContactRelation: number;
+};
+
+type FormUpdateValues = {
+  // dateOfBirth: string;
+  email: string;
+  socialSecNb: number;
+  nationality: string;
+  userPhone: number;
+};
 
 // type FormRequestBody = { formResponse: Omit<AllPersonalInfo, 'id'> };
 
-type FormRequestBody = { formResponse: AllPersonalInfo };
+type FormRequestBody = { formUpdate: AllPersonalInfo };
 
 type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
   body: FormRequestBody;
@@ -33,7 +44,7 @@ export type FormResponseBodyGet = {
 
 export type UserAddressResponseBody =
   | { errors: string }
-  | { userFormInfo: AllPersonalInfo };
+  | { updatePers: FormUpdateValues; updateAddr: UserAddress };
 
 export type FormResponseBody = FormResponseBodyGet | UserAddressResponseBody;
 
@@ -51,98 +62,56 @@ export default async function formInputHandler(
     return;
   }
 
+  // *** PUT-Method ** //
   if (request.method === 'PUT') {
-    // if the method is PUT update the form and response the updated form
-
+    console.log('Response:', request.body);
     // access the body from the request object
-    const formRequestUpdate = request.body.formResponse;
+    const formUpdateRequest = request.body.formUpdate;
+    console.log('Formupdate:', formUpdateRequest.email);
 
-    console.log('request body :', formRequestUpdate);
-    // console.log('request body name:', formRequestUpdate.firstName);
-    // console.log('request body name:', formRequestUpdate.lastName);
+    const updatePersDetail = await updateUserPersonalInfo(
+      formUpdateRequest.userId,
+      formUpdateRequest.socialSecNb,
+      formUpdateRequest.nationality,
+      formUpdateRequest.email,
+      formUpdateRequest.userPhone,
+    );
+    console.log('UPDATE_PersDetail:', updatePersDetail);
+    const updateAddress = await updateUserAddress(
+      formUpdateRequest.userId,
+      formUpdateRequest.streetAndNbr,
+      formUpdateRequest.city,
+      formUpdateRequest.postalCode,
+      formUpdateRequest.country,
+    );
+    console.log('UPDATE_Addres:', updateAddress);
 
-    // update personal infos
-    if (
-      // formRequestUpdate.firstName ||
-      // formRequestUpdate.lastName ||
-      // formRequestUpdate.dateOfBirth ||
-      formRequestUpdate.socialSecNb ||
-      formRequestUpdate.nationality ||
-      formRequestUpdate.email ||
-      formRequestUpdate.userPhone
-    ) {
-      const updatePersonalInfoResponse = await updateUserPersonalInfo(
-        formRequestUpdate.userId,
-        // formRequestUpdate.firstName,
-        // formRequestUpdate.lastName,
-        // formRequestUpdate.dateOfBirth,
-        formRequestUpdate.socialSecNb,
-        formRequestUpdate.nationality,
-        formRequestUpdate.email,
-        formRequestUpdate.userPhone,
-      );
-      // console.log('updatePersonalInfoResponse :', updatePersonalInfoResponse);
-    }
+    // const updateMaritalStatus = await updateUserMaritalStatus(
+    //   formUpdateRequest.userId,
+    //   formUpdateRequest.maritalStatusId,
+    // );
+    // console.log('UPDATE_Marital:', updateMaritalStatus);
 
-    // *** update address *** //
-    if (
-      formRequestUpdate.userId ||
-      formRequestUpdate.streetAndNbr ||
-      formRequestUpdate.city ||
-      formRequestUpdate.postalCode ||
-      formRequestUpdate.country
-    ) {
-      const updateAddress = await updateUserAddress(
-        userId,
-        formRequestUpdate.streetAndNbr,
-        formRequestUpdate.city,
-        formRequestUpdate.postalCode,
-        formRequestUpdate.country,
-      );
-      // console.log('Address::', updateAddress);
-    }
-
-    // *** update civil status *** //
-    if (formRequestUpdate.maritalStatus) {
-      const updateMaritalStatus = await updateUserMaritalStatus(
-        userId,
-        formRequestUpdate.maritalStatus,
-      );
-      // console.log('Update: Martial Status:', updateMaritalStatus);
-    }
-
-    // *** update emergency contact *** //
-    if (
-      formRequestUpdate.fullname ||
-      formRequestUpdate.sosPhone ||
-      formRequestUpdate.relationshipId
-    ) {
-      await updateUserEmergencyContact(
-        userId,
-        formRequestUpdate.fullname,
-        formRequestUpdate.sosPhone,
-        formRequestUpdate.relationshipId,
-      );
-      // console.log('Update: SOS Contact:', updateEmergencyContact);
-    }
-
-    // *** get updated form values and return *** //
-    const updatedForm = await readUserAllPersonalInfo(userId);
-
-    response.status(201).json({
-      userFormInfo: updatedForm,
+    // const updateSosContact = await updateUserEmergencyContact(
+    //   formUpdateRequest.userId,
+    //   formUpdateRequest.fullname,
+    //   formUpdateRequest.sosPhone,
+    //   formUpdateRequest.relationshipId,
+    // );
+    // console.log('UPDATE-SOS:', updateSosContact);
+    response.status(200).json({
+      updatePers: updatePersDetail,
+      updateAddr: updateAddress,
+      // updateCivil: updateMaritalStatus,
+      // updateSos: updateSosContact,
     });
     return;
   }
+
   // *** GET-Method ** //
   if (request.method === 'GET') {
     // read all personal information from db
     const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
-
-    // const userFirstName = await readUserFirstName(userId);
-
-    // console.log('UserAllPersonalINfo:', userAllPersonalInfoResponse);
-    console.log('userFirstName:', userAllPersonalInfoResponse);
 
     if (!userAllPersonalInfoResponse) {
       response.status(400).json({
