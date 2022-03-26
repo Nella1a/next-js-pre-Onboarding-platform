@@ -722,7 +722,7 @@ export async function AddFileUrlToDB(
 
 export type AddContractDetailsRequestBody = {
   userId: string;
-  startingDate: Date;
+  startingDate: string;
   jobTitle: number;
   salary: number;
   benefits: string;
@@ -740,6 +740,7 @@ export async function addContractDetails(
   (user_id, starting_date, job_title, salary, benefits)
   VALUES
   (${userId},${startingDate}, ${jobTitle}, ${salary}, ${benefits})
+  RETURNING *
   `;
   return contract && camelcaseKeys(contract);
 }
@@ -748,6 +749,7 @@ export async function addContractDetails(
 export async function readContractDetails(userId: number) {
   const [contract] = await sql<[AddContractDetailsRequestBody]>`
   SELECT
+  user_id,
   starting_date,
   job_title,
   salary,

@@ -94,7 +94,10 @@ export default function UserProfile(props: Props) {
       <section css={addNewJoinerSectionTwoLayout}>
         {/* <section css={sectionTwoLayout}> */}{' '}
         <article>
-          <AddNewJoiner setNewJoinerUserId={setNewJoinerUserId} />
+          <AddNewJoiner
+            setNewJoinerUserId={setNewJoinerUserId}
+            newJoinerUserId={newJoinerUserId}
+          />
         </article>
         <article>
           <AddContractDetails newJoinerUserId={newJoinerUserId} />

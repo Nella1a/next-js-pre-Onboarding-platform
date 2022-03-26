@@ -77,13 +77,13 @@ export default function AddNewJoiner(props) {
           console.log('userID:', registerResponseBody.user.user.id);
           // api response okay ==> update state variable
           props.setNewJoinerUserId(registerResponseBody.user.user.id);
-          setNewUserAdded(true);
+          // setNewUserAdded(true);
         }}
       >
         <section>
           <article>
             <h2>Add New Joiner</h2>
-            {!newUserAdded ? (
+            {!props.newJoinerUserId ? (
               <ul>
                 <div>
                   {' '}

@@ -1,6 +1,6 @@
 // import router, { useRouter } from 'next/router';
 import { useState } from 'react';
-import { errorStyles, flexStyle, formAddNewJoiner } from './elements';
+import { errorStyles, formAddNewJoiner } from './elements';
 
 // type Props = {
 //   user: User | null;
@@ -24,6 +24,8 @@ export default function AddContractDetails(props) {
   const [jobTitle, setJobTitle] = useState('');
   const [salary, setSalary] = useState<number>();
   const [benefits, setBenefits] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [apiResponse, setApiResponse] = useState(false);
 
   const [userRole, setUserRole] = useState('2');
   const [errors, setErrors] = useState<Errors>([]);
@@ -34,6 +36,9 @@ export default function AddContractDetails(props) {
   // https://www.youtube.com/watch?v=0MmoyuO17QQ&list=PLMZMRynGmhsjXUZTmjuatMrVl_CKn-YuV&index=51
   */
 
+  // if (props.newJoinerUserId) {
+  //   setIsDisabled(false);
+  // }
   return (
     <>
       {/* show error message if username already exists  */}
@@ -49,7 +54,7 @@ export default function AddContractDetails(props) {
           event.preventDefault();
 
           // send new user to api
-          const registerResponse = await fetch('/api/addContractDetails', {
+          const addContractResponse = await fetch('/api/addContractDetails', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -64,91 +69,107 @@ export default function AddContractDetails(props) {
           });
 
           // response from api & check for error message
-          const registerResponseBody = await registerResponse.json();
-          if ('errors' in registerResponseBody) {
-            setErrors(registerResponseBody.errors);
+          const addContractResponseBody = await addContractResponse.json();
+          if ('errors' in addContractResponseBody) {
+            setErrors(addContractResponseBody.errors);
             return;
           }
 
-          // update state variable new joiner
-          props.setAddNewJoiner(registerResponse);
-          console.log('registerResponseBody:', registerResponse);
+          if (addContractResponseBody) {
+            setApiResponse(true);
+          }
+          // props.setAddNewJoiner(addContractResponseBody);
+          console.log('AddContractResponseBody:', addContractResponseBody);
         }}
       >
         <section>
           <article>
             <h2>Offer Overview</h2>
-            <ul>
-              <div>
-                {' '}
-                <li>
-                  <label htmlFor="startingDate">Starting Date</label>
-                </li>
-                <li>
+            {!apiResponse ? (
+              <ul>
+                <div>
                   {' '}
-                  <input
-                    type="Date"
-                    id="startingDate"
-                    name="startingDate"
-                    value={startingDate}
-                    onChange={(event) =>
-                      setStartingDate(event.currentTarget.value)
-                    }
-                  />{' '}
-                </li>
-              </div>
-              <div>
-                <li>
+                  <li>
+                    <label htmlFor="startingDate">Starting Date</label>
+                  </li>
+                  <li>
+                    {' '}
+                    <input
+                      type="Date"
+                      id="startingDate"
+                      name="startingDate"
+                      disabled={isDisabled}
+                      value={startingDate}
+                      onChange={(event) =>
+                        setStartingDate(event.currentTarget.value)
+                      }
+                    />{' '}
+                  </li>
+                </div>
+                <div>
+                  <li>
+                    {' '}
+                    <label htmlFor="jobTitle">Job Title</label>
+                  </li>
+                  <li>
+                    <input
+                      id="jotTitle"
+                      name="jobTitle"
+                      disabled={isDisabled}
+                      value={jobTitle}
+                      onChange={(event) =>
+                        setJobTitle(event.currentTarget.value)
+                      }
+                    />
+                  </li>
+                </div>
+
+                <div>
                   {' '}
-                  <label htmlFor="jobTitle">Job Title</label>
-                </li>
-                <li>
-                  <input
-                    id="jotTitle"
-                    name="jobTitle"
-                    value={jobTitle}
-                    onChange={(event) => setJobTitle(event.currentTarget.value)}
-                  />
-                </li>
-              </div>
+                  <li>
+                    <label htmlFor="salary">Annual salary</label>
+                  </li>
+                  <li>
+                    <input
+                      type="number"
+                      id="salary"
+                      name="salary"
+                      disabled={isDisabled}
+                      value={salary}
+                      onChange={(event) =>
+                        setSalary(Number(event.currentTarget.value))
+                      }
+                    />
+                  </li>
+                </div>
 
+                <div>
+                  <li>
+                    <label htmlFor="benefits">Benefits</label>
+                  </li>
+                  <li>
+                    <input
+                      id="benefits"
+                      type="benefits"
+                      name="benefits"
+                      disabled={isDisabled}
+                      value={benefits}
+                      onChange={(event) =>
+                        setBenefits(event.currentTarget.value)
+                      }
+                    />
+                  </li>
+                </div>
+                <div>
+                  {' '}
+                  <button> + Add Offer overview</button>
+                </div>
+              </ul>
+            ) : (
               <div>
-                {' '}
-                <li>
-                  <label htmlFor="salary">Annual salary</label>
-                </li>
-                <li>
-                  <input
-                    type="number"
-                    id="salary"
-                    name="salary"
-                    value={salary}
-                    onChange={(event) =>
-                      setSalary(Number(event.currentTarget.value))
-                    }
-                  />
-                </li>
+                <p>Offer overview succesfully Added</p>
               </div>
-
-              <div>
-                <li>
-                  <label htmlFor="benefits">Benefits</label>
-                </li>
-                <li>
-                  <input
-                    id="benefits"
-                    type="benefits"
-                    name="benefits"
-                    value={benefits}
-                    onChange={(event) => setBenefits(event.currentTarget.value)}
-                  />
-                </li>
-              </div>
-              <div>
-                {' '}
-                <button> + Add Offer overview</button>
-              </div>
-            </ul>
+            )}
           </article>
         </section>
       </form>

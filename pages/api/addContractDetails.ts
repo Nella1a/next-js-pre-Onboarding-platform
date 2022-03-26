@@ -1,11 +1,7 @@
-import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   addContractDetails,
   AddContractDetailsRequestBody,
-  createUser,
-  getUserByUsername,
-  User,
 } from '../../util/database';
 
 type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
@@ -55,6 +51,7 @@ export default async function registerHandler(
       request.body.benefits,
     );
 
+    console.log('added contract:', contractSummary);
     // error handling
     if (!contractSummary) {
       response.status(405).json({
@@ -62,7 +59,7 @@ export default async function registerHandler(
       });
       return;
     }
-    console.log('new user:', contractSummary);
+
     // success
     response.status(201).json({
       contractSummary: contractSummary,

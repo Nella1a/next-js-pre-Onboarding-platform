@@ -6,7 +6,7 @@ CREATE TABLE user_contract(
 	job_title varchar(30),
 	salary integer,
 	benefits varchar(100),
-	user_id integer REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+	user_id integer UNIQUE REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 )
 
 `;
