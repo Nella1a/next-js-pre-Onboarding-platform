@@ -182,13 +182,13 @@ export async function getUserByValidSessionToken(token: string | undefined) {
 
 // Read all new joiners
 export async function getAllNewJoiners(userRoleId: number) {
-  const newJoiners = await sql<User>`
+  const newJoiners = await sql<[User | undefined]>`
   SELECT
 id,
   username,
   first_name,
-  last_name
-  role_Id
+  last_name,
+  role_id
   FROM
   users
   WHERE
@@ -686,7 +686,7 @@ WHERE
 }
 
 /* *************************** */
-/*        Table: documents        */
+/*        Table: documents     */
 /* *************************** */
 
 export type FileUrl = {
@@ -712,4 +712,50 @@ export async function AddFileUrlToDB(
    file_type_id
   `;
   return fileUrlDB && camelcaseKeys(fileUrlDB);
+}
+
+/* *************************** */
+/*        Table: Contract      */
+/* *************************** */
+
+// CREATE
+
+export type AddContractDetailsRequestBody = {
+  userId: string;
+  startingDate: Date;
+  jobTitle: number;
+  salary: number;
+  benefits: string;
+};
+
+export async function addContractDetails(
+  userId: number,
+  startingDate: string,
+  jobTitle: string,
+  salary: number,
+  benefits: string,
+) {
+  const [contract] = await sql<[AddContractDetailsRequestBody]>`
+  INSERT INTO user_contract
+  (user_id, starting_date, job_title, salary, benefits)
+  VALUES
+  (${userId},${startingDate}, ${jobTitle}, ${salary}, ${benefits})
+  `;
+  return contract && camelcaseKeys(contract);
+}
+
+// READ
+export async function readContractDetails(userId: number) {
+  const [contract] = await sql<[AddContractDetailsRequestBody]>`
+  SELECT
+  starting_date,
+  job_title,
+  salary,
+  benefits
+  FROM
+  user_contract
+  WHERE
+  user_id = ${userId}
+  `;
+  return contract && camelcaseKeys(contract);
 }

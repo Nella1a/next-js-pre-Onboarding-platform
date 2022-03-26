@@ -20,10 +20,10 @@ import { errorStyles, flexStyle, formAddNewJoiner } from './elements';
 type Errors = { message: string }[];
 
 export default function AddContractDetails(props) {
-  const [startingDate, setStartingDate] = useState();
-  const [jobTitle, setJobTitle] = useState();
-  const [salary, setSalary] = useState();
-  const [benefits, setBenefits] = useState();
+  const [startingDate, setStartingDate] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [salary, setSalary] = useState<number>();
+  const [benefits, setBenefits] = useState('');
 
   const [userRole, setUserRole] = useState('2');
   const [errors, setErrors] = useState<Errors>([]);
@@ -100,7 +100,7 @@ export default function AddContractDetails(props) {
               <div>
                 <li>
                   {' '}
-                  <label htmlFor="lastName">Job Title</label>
+                  <label htmlFor="jobTitle">Job Title</label>
                 </li>
                 <li>
                   <input
@@ -115,7 +115,7 @@ export default function AddContractDetails(props) {
               <div>
                 {' '}
                 <li>
-                  <label htmlFor="username">Annual salary</label>
+                  <label htmlFor="salary">Annual salary</label>
                 </li>
                 <li>
                   <input
@@ -132,7 +132,7 @@ export default function AddContractDetails(props) {
 
               <div>
                 <li>
-                  <label htmlFor="password">Benefits</label>
+                  <label htmlFor="benefits">Benefits</label>
                 </li>
                 <li>
                   <input

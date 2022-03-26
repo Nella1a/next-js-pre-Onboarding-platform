@@ -159,7 +159,10 @@ export default function AddNewJoiner(props) {
                 <button> + Add new Joiner</button>
               </ul>
             ) : (
-              <div>New user Added</div>
+              <div>
+                <p>New succesfully Added</p>
+                <p>Please add now offer Details</p>
+              </div>
             )}
           </article>
         </section>

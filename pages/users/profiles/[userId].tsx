@@ -3,6 +3,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { json } from 'stream/consumers';
 import {
   sectionOneLayout,
   userProfileSectionTwoLayout,
@@ -35,7 +36,7 @@ type Props = {
   user?: User | null;
   userObject: User;
   userFirstName: string;
-  profileImgUrl?: CloudUrl;
+  profileImgUrl: CloudUrl;
   cloudKey: string;
   uploadPreset: string;
   headerImage: string;
@@ -198,7 +199,7 @@ export default function UserProfile(props: Props) {
 }
 
 type ImageType = {
-  imgUrl: string | null;
+  imgUrl: string;
 };
 
 export async function getServerSideProps(
@@ -207,7 +208,7 @@ export async function getServerSideProps(
   GetServerSidePropsResult<{
     user?: User;
     cloudKey?: string;
-    profileImgUrl?: ImageType;
+    profileImgUrl?: ImageType | '';
     uploadPreset?: string;
   }>
 > {
@@ -243,7 +244,7 @@ export async function getServerSideProps(
         props: {
           user: user,
           cloudKey: cloudKey,
-          profileImgUrl: profileImgUrl || undefined,
+          profileImgUrl: profileImgUrl || '',
           uploadPreset: uploadPreset,
         },
       };

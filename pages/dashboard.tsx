@@ -73,27 +73,30 @@ export default function Dashboard(props: Props) {
           User_role: {props.user.roleId}{' '}
         </h1>
 
-        <h2>List of all new hires</h2>
-
-        {props.newJoiners.map((joiner) => {
-          return (
-            <div key={`overview-${joiner.id}`} css={styleNewHire}>
-              <p> Id: {joiner.id} </p>
-              <p> First Name: {joiner.firstName} </p>
-              <p> Last Name: {joiner.lastName} </p>
-              <p> roleId:{joiner.roleId}</p>{' '}
-            </div>
-          );
-        })}
-        {addNewJoiner && (
-          <div>
-            New:
-            <p> Id: {addNewJoiner.id} </p>
-            <p> First Name: {addNewJoiner.firstName} </p>
-            <p> Last Name: {addNewJoiner.lastName} </p>
-            <p> roleId:{addNewJoiner.roleId}</p>{' '}
-          </div>
-        )}
+        <table>
+          <caption>All New Hires</caption>
+          <thead>
+            <tr>
+              <th>First Name </th>
+              <th>Last Name</th>
+              <th>Starting Date</th>
+              <th>Position</th>
+              <th>Department</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.newJoiners.map((joiner) => {
+              return (
+                <tr key={`overview-${joiner.id}`} css={styleNewHire}>
+                  <td> First Name: {joiner.firstName} </td>
+                  <td> Last Name: {joiner.lastName} </td>
+                  <td> Id: {joiner.id} </td>
+                  <td> roleId:{joiner.roleId}</td>{' '}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </section>
     </Layout>
   );
