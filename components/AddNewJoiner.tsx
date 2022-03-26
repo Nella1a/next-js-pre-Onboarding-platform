@@ -26,6 +26,7 @@ export default function AddNewJoiner(props) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userRole, setUserRole] = useState('2');
+  const [newUserAdded, setNewUserAdded] = useState(false);
   const [errors, setErrors] = useState<Errors>([]);
   // const router = useRouter();
 
@@ -71,56 +72,96 @@ export default function AddNewJoiner(props) {
           }
 
           // update state variable new joiner
-          props.setAddNewJoiner(registerResponse);
-          console.log('registerResponseBody:', registerResponse);
+          // props.setNewJoinerUserId(registerResponse.);
+          console.log('registerResponseBody:', registerResponseBody);
+          console.log('userID:', registerResponseBody.user.user.id);
+          // api response okay ==> update state variable
+          props.setNewJoinerUserId(registerResponseBody.user.user.id);
+          setNewUserAdded(true);
         }}
       >
         <section>
-          <div css={flexStyle}>
-            <p>
-              {' '}
-              <label htmlFor="firstName">First name</label>
-              <input
-                id="firstName"
-                name="firstName"
-                value={firstName}
-                onChange={(event) => setFirstName(event.currentTarget.value)}
-              />
-            </p>
-            <p>
-              <label htmlFor="lastName">last name</label>
-              <input
-                id="lastName"
-                name="lastName"
-                value={lastName}
-                onChange={(event) => setLastName(event.currentTarget.value)}
-              />
-            </p>
+          <article>
+            <h2>Add New Joiner</h2>
+            {!newUserAdded ? (
+              <ul>
+                <div>
+                  {' '}
+                  <li>
+                    <label htmlFor="firstName">First name</label>
+                  </li>
+                  <li>
+                    {' '}
+                    <input
+                      id="firstName"
+                      name="firstName"
+                      value={firstName}
+                      onChange={(event) =>
+                        setFirstName(event.currentTarget.value)
+                      }
+                    />{' '}
+                  </li>
+                </div>
 
-            <p>
-              {' '}
-              <label htmlFor="username">Username</label>
-              <input
-                id="username"
-                name="username"
-                value={username}
-                onChange={(event) => setUsername(event.currentTarget.value)}
-              />
-            </p>
+                <div>
+                  <li>
+                    {' '}
+                    <label htmlFor="lastName">last name</label>
+                  </li>
+                  <li>
+                    <input
+                      id="lastName"
+                      name="lastName"
+                      value={lastName}
+                      onChange={(event) =>
+                        setLastName(event.currentTarget.value)
+                      }
+                    />
+                  </li>
+                </div>
 
-            <p>
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.currentTarget.value)}
-              />
-            </p>
+                <div>
+                  {' '}
+                  <li>
+                    {' '}
+                    <label htmlFor="username">Username</label>{' '}
+                  </li>
+                  <li>
+                    {' '}
+                    <input
+                      id="username"
+                      name="username"
+                      value={username}
+                      onChange={(event) =>
+                        setUsername(event.currentTarget.value)
+                      }
+                    />
+                  </li>
+                </div>
 
-            <button> + Add new Joiner</button>
-          </div>
+                <div>
+                  <li>
+                    <label htmlFor="password">Password</label>
+                  </li>
+                  <li>
+                    <input
+                      id="password"
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(event) =>
+                        setPassword(event.currentTarget.value)
+                      }
+                    />
+                  </li>
+                </div>
+
+                <button> + Add new Joiner</button>
+              </ul>
+            ) : (
+              <div>New user Added</div>
+            )}
+          </article>
         </section>
       </form>
     </>

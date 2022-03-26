@@ -46,7 +46,11 @@ export default function Header(props: Props) {
           </p>
         </div>
         <div>
-          {props.userObject && <p>{props.userObject.username}</p>}
+          {props.userObject && (
+            <p>
+              {props.userObject.firstName} {props.userObject.lastName}
+            </p>
+          )}
           <div css={divStyle}>
             <Image
               src={props.headerImage ? props.headerImage : imgTest}

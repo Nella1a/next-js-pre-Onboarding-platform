@@ -72,9 +72,7 @@ export default function Dashboard(props: Props) {
           Personal Details: Hello {props.user.username} User_id: {props.user.id}
           User_role: {props.user.roleId}{' '}
         </h1>
-        <div>
-          <AddNewJoiner setAddNewJoiner={setAddNewJoiner} />
-        </div>
+
         <h2>List of all new hires</h2>
 
         {props.newJoiners.map((joiner) => {

@@ -968,28 +968,92 @@ export const sectionFormCompletedLayout = css`
 /*         AddNewJoiner        */
 /* *************************** */
 
-export const formAddNewJoiner = css`
-  width: 80%;
-  font-size: 14px;
-
-  border-bottom: 2px solid lightgray;
-
-  section {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
+export const addNewJoinerSectionTwoLayout = css`
+  width: 100%;
+  background-color: var(--backGroundColorGrey);
+  padding: 1.5rem;
+  display: flex;
+  gap: 3rem;
+  /*
+  > div:first-of-type {
+    width: 70%;
+    ${displayFlex('flex', 'row', '', 'flex-start')}
+    border: 2px solid red;
+    gap: 2rem;
 
     h2 {
-      font-size: 1rem;
+      font-size: 16px;
     }
 
-    label::after {
-      content: '';
-      display: block;
+    h2 {
+      width: 100%;
+      text-align: left;
+      background-color: var(--colorMainBlue);
+      color: var(--backGroundColorGrey);
+      padding: 1.5rem;
+      border-radius: 12px 12px 0 0;
     }
 
-    button {
-      width: 15rem;
+    ul {
+      background-color: var(--fontColorWhite);
+      width: 100%;
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      border-radius: 0 0 12px 12px;
+      div {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        border-radius: 5px;
+      }
+    }
+  } */
+`;
+
+export const formAddNewJoiner = css`
+  article {
+    width: 30rem;
+    height: 100%;
+
+    ${displayFlex('flex', 'column', 'flex-end', 'center')};
+    /* border: 5px solid lightblue; */
+
+    h2 {
+      width: 100%;
+      text-align: center;
+      background-color: var(--colorMainBlue);
+      color: var(--backGroundColorGrey);
+      padding: 1.5rem;
+      border-radius: 12px 12px 0 0;
+    }
+
+    ul {
+      background-color: var(--fontColorWhite);
+      width: 100%;
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      border-radius: 0 0 12px 12px;
+      div {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        border-radius: 5px;
+      }
+
+      button {
+        display: block;
+        width: 50%;
+      }
     }
   }
 `;

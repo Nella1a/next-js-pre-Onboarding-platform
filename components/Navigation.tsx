@@ -47,6 +47,18 @@ export default function Navigation(props: Props) {
             <a>Contract</a>
           </Link>
         </li>
+        <li>
+          <Image
+            src={iconContract}
+            alt="Documents Icon"
+            width="20"
+            height="20"
+          />
+          {/* <Link href={`/users/profiles/${props.userId}`}> */}
+          <Link href="/addNewJoiner">
+            <a>Add New Joiner </a>
+          </Link>
+        </li>
 
         <li>
           <Image

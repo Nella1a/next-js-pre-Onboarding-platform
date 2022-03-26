@@ -118,7 +118,7 @@ export async function getUserById(id: number) {
   const [user] = await sql<[User | undefined]>`
     SELECT
       id,
-      username
+      username,
       first_name,
       last_name
     FROM
@@ -126,6 +126,7 @@ export async function getUserById(id: number) {
      WHERE
       id = ${id}
     `;
+  console.log('User in DB', user);
   return user && camelcaseKeys(user);
 }
 
@@ -408,6 +409,7 @@ export async function getUserByImg(userId: string) {
 
 // ADD IMAGE
 export async function addUserProfileImage(userId: number, imageUrl: string) {
+  console.log('image in DB:', imageUrl);
   const [fileUpload] = await sql<[ImgUrl]>`
   INSERT INTO user_personal_details
   (user_id, image_url)

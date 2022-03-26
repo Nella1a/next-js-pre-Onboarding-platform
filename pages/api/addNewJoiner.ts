@@ -40,7 +40,7 @@ export default async function registerHandler(
         errors: [
           {
             message:
-              'Username, password, CSRF token, First Name or Last Name or user role not provided',
+              'Username, password, First Name or Last Name or user role not provided',
           },
         ],
       });

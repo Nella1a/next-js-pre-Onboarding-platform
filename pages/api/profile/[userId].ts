@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { globalStyleBody } from '../../../components/elements';
 import {
   addUserProfileImage,
   getUserByImg,
@@ -16,12 +17,12 @@ type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
 };
 
 export type FileUploadResponseBodyGet = {
-  url: string[];
+  imgUrlInDb: string[];
 };
 
 export type UserFileUploadResponseBody =
   | { errors: string }
-  | { url: ImgUrl | undefined };
+  | { imgUrlInDb: ImgUrl | undefined };
 
 export type FormResponseBody =
   | FileUploadResponseBodyGet
@@ -31,10 +32,8 @@ export default async function UploadFilesHandler(
   request: FormNextApiRequest,
   response: NextApiResponse<FormResponseBody>,
 ) {
-  // * check if userId is a number
+  // check if userId is a number
   const userId = Number(request.query.userId);
-  console.log('userId:', userId);
-  console.log('userId.request:', request.body.userId);
   if (!userId) {
     response.status(400).json({
       errors: 'no valid userId',
@@ -42,8 +41,6 @@ export default async function UploadFilesHandler(
     return;
   }
 
-  console.log('imageUrl', request.body.imageUrl);
-  console.log('userIdBE', userId);
   if (!request.body.imageUrl || typeof request.body.imageUrl !== 'string') {
     response.status(400).json({
       errors: 'no valid image url',
@@ -51,44 +48,47 @@ export default async function UploadFilesHandler(
     return;
   }
 
-  // *** POST METHOD ***
+  // *** POST  ***
   if (request.method === 'POST') {
-    // check if user_id already in table
-    if (await getUserByImg(userId)) {
-      // Update image
-      const imgUpdateResp = await updateUserProfileImage(
-        request.body.userId,
-        request.body.imageUrl,
-      );
+    console.log('imageUrl', request.body.imageUrl);
+    console.log('userIdBE', userId);
 
-      if (!imgUpdateResp) {
-        response.status(405).json({
-          errors: 'failed to save in db',
-        });
-        return;
-      }
-
-      console.log('imgUpdate:', imgUpdateResp);
-      response.status(200).json({
-        url: imgUpdateResp,
-      });
-      return;
-    }
-    // insert image
-    const responseUrlImage = await addUserProfileImage(
+    // Add image
+    const addImgUrlToDB = await addUserProfileImage(
       request.body.userId,
       request.body.imageUrl,
     );
 
-    if (!responseUrlImage) {
+    if (!addImgUrlToDB) {
+      response.status(405).json({
+        errors: 'failed to save in db',
+      });
+      return;
+    }
+
+    console.log('imgRead:', addImgUrlToDB);
+    response.status(200).json({
+      imgUrlInDb: addImgUrlToDB,
+    });
+    return;
+  }
+  //  *** UPDATE **
+  if (request.method === 'PUT') {
+    // Update image
+    const addImgUrlToDB = await updateUserProfileImage(
+      request.body.userId,
+      request.body.imageUrl,
+    );
+
+    if (!addImgUrlToDB) {
       response.status(405).json({
         errors: 'failed to save in db',
       });
     }
 
-    console.log('InsertImage', responseUrlImage);
+    console.log('UpdateImage', addImgUrlToDB);
     response.status(200).json({
-      url: responseUrlImage,
+      imgUrlInDb: addImgUrlToDB,
     });
     return;
   }

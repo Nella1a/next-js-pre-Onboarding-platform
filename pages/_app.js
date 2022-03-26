@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
 
     setUser(data.user);
     setUserFirstName(data.user.firstName);
-    // check if user has uploaded an image
+    // check api response: img-url
     if (data.profileImgUrl.imageUrl) {
       setUserHeaderImage(data.profileImgUrl.imageUrl);
       console.log('_app_Image:', data.profileImgUrl.imageUrl);
