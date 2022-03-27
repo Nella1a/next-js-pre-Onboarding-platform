@@ -120,7 +120,8 @@ export async function getUserById(id: number) {
       id,
       username,
       first_name,
-      last_name
+      last_name,
+      role_id
     FROM
       users
      WHERE

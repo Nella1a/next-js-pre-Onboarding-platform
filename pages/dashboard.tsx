@@ -2,14 +2,12 @@ import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
-import AddNewJoiner from '../components/AddNewJoiner';
 import { sectionOneLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import {
   getAllNewJoiners,
   getUserByValidSessionToken,
-  NewJoiners,
   User,
 } from '../util/database';
 

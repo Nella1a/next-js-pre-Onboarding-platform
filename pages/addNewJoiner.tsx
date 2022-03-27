@@ -145,6 +145,17 @@ export async function getServerSideProps(
         };
       }
 
+      // Error Handling: if user exists but does not have the right role redirect to home
+      // TO DO: should return to the previous page
+      if (user && user.roleId !== 1) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          },
+        };
+      }
+
       // read img url from db
       let profileImgUrl = await readUserProfileImage(session.userId);
 

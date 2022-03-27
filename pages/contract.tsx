@@ -9,10 +9,10 @@ import {
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import {
+  AddContractDetailsRequestBody,
   getUserById,
   getValidSessionByToken,
   readContractDetails,
-  readUserProfileImage,
   User,
 } from '../util/database';
 
@@ -139,8 +139,10 @@ export async function getServerSideProps(
 ): Promise<
   GetServerSidePropsResult<{
     user?: User;
-    cloudKey?: string;
-    uploadPreset?: string;
+    readContract?: AddContractDetailsRequestBody;
+
+    // cloudKey?: string;
+    // uploadPreset?: string;
   }>
 > {
   const token = context.req.cookies.sessionToken;
@@ -154,9 +156,12 @@ export async function getServerSideProps(
     const user = await getUserById(session.userId);
     const readContract = await readContractDetails(user.id);
 
-    readContract.startingDate = new Date(
-      readContract.startingDate,
-    ).toLocaleDateString('en-US');
+    // check if not empty
+    if (readContract) {
+      readContract.startingDate = new Date(
+        readContract.startingDate,
+      ).toLocaleDateString('en-US');
+    }
 
     console.log('readContract', readContract);
     if (session) {
@@ -165,7 +170,6 @@ export async function getServerSideProps(
         return { props: {} };
       }
 
-      // read user from database
       if (!user) {
         context.res.statusCode = 404;
         return {
@@ -177,7 +181,7 @@ export async function getServerSideProps(
       return {
         props: {
           user: user,
-          readContract: readContract,
+          readContract: readContract || {},
         },
       };
     }
