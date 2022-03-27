@@ -43,7 +43,7 @@ export default function Navigation(props: Props) {
             width="20"
             height="20"
           />
-          <Link href="/contract">
+          <Link href={`/users/contract/${props.userId}`}>
             <a>Contract</a>
           </Link>
         </li>

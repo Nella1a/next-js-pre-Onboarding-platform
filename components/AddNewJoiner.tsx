@@ -1,6 +1,6 @@
 // import router, { useRouter } from 'next/router';
 import { useState } from 'react';
-import { errorStyles, flexStyle, formAddNewJoiner } from './elements';
+import { errorStyles, formAddNewJoiner } from './elements';
 
 // type Props = {
 //   user: User | null;
@@ -17,18 +17,21 @@ import { errorStyles, flexStyle, formAddNewJoiner } from './elements';
 //   firstName: string;
 //   lastName: string;
 // };
-type Errors = { message: string }[];
 
-export default function AddNewJoiner(props) {
+type Errors = { message: string }[];
+type Props = {
+  newJoinerUserId: number;
+  setNewJoinerUserId(): number;
+};
+
+export default function AddNewJoiner(props: Props) {
   // const requieredTrue = false;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [userRole, setUserRole] = useState('2');
-  const [newUserAdded, setNewUserAdded] = useState(false);
   const [errors, setErrors] = useState<Errors>([]);
-  // const router = useRouter();
+  const userRole = 2;
 
   /* TO Do: POST-Method nochmals anschauen ca. minute 52:00
   I should post to the endpoint users , than receive the new user as a response from the API and update the State Variable = the representation of the new user inside the database; no need to reloade the page
@@ -50,7 +53,7 @@ export default function AddNewJoiner(props) {
           event.preventDefault();
 
           // send new user to api
-          const registerResponse = await fetch('/api/addNewJoiner', {
+          const registerResponse = await fetch(`/api/addNewJoiner`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -58,7 +61,7 @@ export default function AddNewJoiner(props) {
             body: JSON.stringify({
               username: username,
               password: password,
-              userRole: parseInt(userRole),
+              userRole: userRole,
               firstName: firstName,
               lastName: lastName,
             }),
@@ -106,7 +109,7 @@ export default function AddNewJoiner(props) {
                 <div>
                   <li>
                     {' '}
-                    <label htmlFor="lastName">last name</label>
+                    <label htmlFor="lastName">Last name</label>
                   </li>
                   <li>
                     <input
@@ -155,13 +158,15 @@ export default function AddNewJoiner(props) {
                     />
                   </li>
                 </div>
-
-                <button> + Add new Joiner</button>
+                <div>
+                  {' '}
+                  <button> Create Account</button>
+                </div>
               </ul>
             ) : (
               <div>
-                <p>New succesfully Added</p>
-                <p>Please add now offer Details</p>
+                <p>New user succesfully Added</p>
+                <p>U can proceed with the offer Details</p>
               </div>
             )}
           </article>

@@ -1,19 +1,31 @@
 import Head from 'next/head';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FormResponseBodyGet,
   UserAddressResponseBody,
 } from '../pages/api/documents/[userId]';
-import { AllPersonalInfo } from '../util/database';
+import { AllPersonalInfo, ReadAllPersonalInfo, User } from '../util/database';
 import { sectionFormCompletedLayout } from './elements';
 import Layout from './Layout';
 
-// const displayFlex = css`
-//   display: flex;
-//   gap: 0.5rem;
-// `;
+type Props = {
+  userObject: User;
+  // userFirstName: string;
+  headerImage: string;
+  // readAllUserInfo: ReadAllPersonalInfo;
+  userFirstName: string;
+  userId: number;
+  currentStep: number;
+  // formStep: number;
+  // nextFormStep: number;
+  // prevFormStep: number;
+  // user: User;
+  // formValues={formValues}
+  // setFormValues={setFormValues}
+  // userFormInput: AllPersonalInfo;
+};
 
-export default function FormCompleted(props) {
+export default function FormCompleted(props: Props) {
   const [userFormInfo, setUserFormInfo] = useState<AllPersonalInfo>('');
 
   // const [dateOfBirth, setDateOfBirth] = useState('');
@@ -32,8 +44,7 @@ export default function FormCompleted(props) {
   // );
 
   // State Variable with the id of the animal on editMode
-  const [idFormEditId, setidFormEditId] = useState<number>();
-  // ON-EDIT State Variables for the on Edit inputs
+  // const [idFormEditId, setidFormEditId] = useState<number>();
   const [emailOnEdit, setEmailOnEdit] = useState('');
   const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState('');
   const [socialSecNumberOnEdit, setSocialSecNumberOnEdit] = useState(0);
@@ -99,14 +110,14 @@ export default function FormCompleted(props) {
     // State Variables for the on Edit inputs
 
     // setDateOfBirthOnEdit();
-    setEmail(putResponseBody.updatePers.email);
-    setSocialSecNumber(putResponseBody.updatePers.socialSecNb);
-    setNationality(putResponseBody.updatePers.nationality);
-    setUserPhone(putResponseBody.updatePers.userPhone);
-    setAddress(putResponseBody.updateAddr.streetAndNbr);
-    setCity(putResponseBody.updateAddr.city);
-    setZipCode(putResponseBody.updateAddr.postalCode);
-    setCountry(putResponseBody.updateAddr.country);
+    // setEmail(putResponseBody.updatePers.email);
+    // setSocialSecNumber(putResponseBody.updatePers.socialSecNb);
+    // setNationality(putResponseBody.updatePers.nationality);
+    // setUserPhone(putResponseBody.updatePers.userPhone);
+    // setAddress(putResponseBody.updateAddr.streetAndNbr);
+    // setCity(putResponseBody.updateAddr.city);
+    // setZipCode(putResponseBody.updateAddr.postalCode);
+    // setCountry(putResponseBody.updateAddr.country);
     // setMaritalStatusOnEdit();
     // setSosContactfullNameOnEdit();
     // setSosContactPhoneOnEdit();

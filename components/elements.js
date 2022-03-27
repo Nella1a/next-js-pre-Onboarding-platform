@@ -712,13 +712,9 @@ export const userProfileSectionTwoLayout = css`
 
   > div:first-of-type {
     width: 70%;
-    ${displayFlex('flex', 'row', '', 'flex-start')}
-    border: 2px solid red;
-    gap: 2rem;
-
-    h2 {
-      font-size: 16px;
-    }
+    ${displayFlex('flex', 'row', '', 'center')}
+    /* border: 2px solid red; */
+    gap: 4rem;
 
     article:nth-of-type(1) {
       ${displayFlex('flex', 'column', 'flex-start', 'center')};
@@ -730,10 +726,10 @@ export const userProfileSectionTwoLayout = css`
       /* border: 5px solid lightblue; */
 
       div:first-of-type {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
         border-radius: 50%;
-        border: 1px solid grey;
+        /* border: 1px solid grey; */
         margin-bottom: 1rem;
         position: relative;
         padding: 1rem;
@@ -746,9 +742,28 @@ export const userProfileSectionTwoLayout = css`
           margin: 1rem;
         }
       }
-      input[type='file'] {
-        border: none;
+
+      div:nth-of-type(2) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        input[type='file'] {
+          border: none;
+          width: 15rem;
+        }
+
+        button {
+          width: 10rem;
+          /* height: 1rem; */
+          /* border-radius: 50%; */
+          /* font-size: 1rem; */
+        }
       }
+    }
+
+    p:first-of-type {
+      font-weight: 800;
     }
 
     article:nth-of-type(2) {
@@ -778,11 +793,19 @@ export const userProfileSectionTwoLayout = css`
         flex-direction: column;
         gap: 3rem;
         border-radius: 0 0 12px 12px;
+
         div {
           display: flex;
           align-items: center;
-          gap: 4rem;
+          gap: 3rem;
           border-radius: 5px;
+
+          li {
+            width: 7rem;
+          }
+          li:nth-of-type(odd) {
+            font-weight: 700;
+          }
         }
       }
     }
@@ -1020,12 +1043,13 @@ export const formAddNewJoiner = css`
     width: 30rem;
     height: 100%;
 
-    ${displayFlex('flex', 'column', 'flex-end', 'center')};
+    ${displayFlex('flex', 'column', 'flex-start', 'flex-start')};
     /* border: 5px solid lightblue; */
 
     h2 {
+      /* font-size: 2rem; */
       width: 100%;
-      text-align: center;
+      /* text-align: center; */
       background-color: var(--colorMainBlue);
       color: var(--backGroundColorGrey);
       padding: 1.5rem;
@@ -1048,11 +1072,24 @@ export const formAddNewJoiner = css`
         align-items: center;
         gap: 4rem;
         border-radius: 5px;
-      }
 
-      button {
-        display: block;
-        width: 50%;
+        li:nth-of-type(odd) {
+          font-weight: 700;
+        }
+
+        li {
+          width: 8rem;
+        }
+      }
+      div:last-child {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        button {
+          display: block;
+          width: 50%;
+        }
       }
     }
   }

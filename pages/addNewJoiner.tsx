@@ -1,14 +1,11 @@
-import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AddNewJoiner from '../components/AddNewJoiner';
 import AddContractDetails from '../components/contractDetails';
 import {
   addNewJoinerSectionTwoLayout,
   sectionOneLayout,
-  userProfileSectionTwoLayout,
 } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
@@ -23,33 +20,17 @@ import Navigation from '../components/Navigation';
 //     margin: 1rem;
 //   }
 // `;
-import {
-  getUserById,
-  getValidSessionByToken,
-  readUserProfileImage,
-  User,
-} from '../util/database';
-
-type CloudUrl = {
-  imageUrl: string;
-};
+import { getUserById, getValidSessionByToken, User } from '../util/database';
 
 type Props = {
   user?: User | null;
   userObject: User;
   userFirstName: string;
-  profileImgUrl?: CloudUrl;
-  cloudKey: string;
-  uploadPreset: string;
   headerImage: string;
 };
 
 export default function UserProfile(props: Props) {
-  const [cloudinaryUpload, setCloudinaryUpload] = useState('');
-  const [imageUrl, setImageUrl] = useState(`/imgTest.png`);
-  const [userId, setUserId] = useState<number>(0);
-  const [newJoinerUserId, setNewJoinerUserId] = useState(0);
-  const [errors, setErrors] = useState('');
+  const [newJoinerUserId, setNewJoinerUserId] = useState<number>();
   console.log('Props_Profile_oi:', props);
 
   if (!props.user) {
@@ -147,7 +128,7 @@ export async function getServerSideProps(
 
       // Error Handling: if user exists but does not have the right role redirect to home
       // TO DO: should return to the previous page
-      if (user && user.roleId !== 1) {
+      if (user.roleId !== 1) {
         return {
           redirect: {
             destination: '/',
@@ -156,15 +137,10 @@ export async function getServerSideProps(
         };
       }
 
-      // read img url from db
-      let profileImgUrl = await readUserProfileImage(session.userId);
-
-      console.log('imageUrlInDB:', profileImgUrl);
       return {
         props: {
           user: user,
           cloudKey: cloudKey,
-          profileImgUrl: profileImgUrl || undefined,
           uploadPreset: uploadPreset,
         },
       };

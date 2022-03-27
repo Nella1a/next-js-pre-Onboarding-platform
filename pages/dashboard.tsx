@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
 import { sectionOneLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
@@ -21,14 +20,12 @@ type Props = {
   userObject: User;
   userFirstName: string;
   headerImage: string;
-  user: User;
+  user?: User;
   newJoiners: User[];
 };
 
 export default function Dashboard(props: Props) {
-  const [addNewJoiner, setAddNewJoiner] = useState<User>();
   // const [required, setRequired] = useState(true);
-  console.log('NewJoiner:', addNewJoiner);
 
   console.log('props.newJoiner:', props.newJoiners);
   if (!props.user) {
@@ -105,7 +102,7 @@ export async function getServerSideProps(
 ): Promise<
   GetServerSidePropsResult<{
     user?: User;
-    newJoiners: User;
+    newJoiners?: User;
   }>
 > {
   // 1. Get current user from the cookie sessionToken
@@ -135,8 +132,8 @@ export async function getServerSideProps(
     };
   }
 
-  // success: if user exists and has the right role return user and render page
-  if (user && user.roleId === 1) {
+  // if user exists and has the right role return user and render page
+  if (user.roleId === 1) {
     const userRoleId = 2;
     // get all new joiners
     const newJoiners = await getAllNewJoiners(userRoleId);

@@ -1,29 +1,64 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   addNewJoinerSectionTwoLayout,
+  formAddNewJoiner,
   sectionOneLayout,
-} from '../components/elements';
-import Layout from '../components/Layout';
-import Navigation from '../components/Navigation';
+} from '../../../components/elements';
+import Layout from '../../../components/Layout';
+import Navigation from '../../../components/Navigation';
+import homeTeam from '../../../public/img/home/homeTeam.png';
 import {
   AddContractDetailsRequestBody,
   getUserById,
   getValidSessionByToken,
-  readContractDetails,
   User,
-} from '../util/database';
+} from '../../../util/database';
 
-export default function UserProfile(props) {
-  const [startingDate, setStartingDate] = useState(
-    props.readContract.startingDate,
-  );
-  const [jobTitle, setJobTitle] = useState(props.readContract.jobTitle);
-  const [salary, setSalary] = useState(props.readContract.salary);
-  const [benefits, setBenefits] = useState(props.readContract.benefits);
+type Props = {
+  userObject: User;
+  userFirstName: string;
+  headerImage: string;
+  user?: User;
+  // readContract?: AddContractDetailsRequestBody;
+};
+
+export default function UserProfile(props: Props) {
+  // const [jobTitle, setJobTitle] = useState(props.readContract.jobTitle);
+  // const [salary, setSalary] = useState(props.readContract.salary);
+  // const [benefits, setBenefits] = useState(props.readContract.benefits);
+  // const [startingDate, setStartingDate] = useState(
+  //   props.readContract.startingDate,
+  // );
+
+  const [jobTitle, setJobTitle] = useState();
+  const [salary, setSalary] = useState();
+  const [benefits, setBenefits] = useState();
+  const [startingDate, setStartingDate] = useState('');
   const isDisabled = true;
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(`/api/contract/${props.userObject.id}`);
+      const data = await response.json();
+      console.log('data_app:', data);
+      if ('error' in data) {
+        console.log('data not available');
+      }
+      setJobTitle(data.contractSummary.jobTitle);
+      setSalary(data.contractSummary.salary);
+      setBenefits(data.contractSummary.benefits);
+      const dateFromApi = new Date(
+        data.contractSummary.startingDate,
+      ).toLocaleDateString('en-US');
+      setStartingDate(dateFromApi);
+    }
+
+    fetchData().catch(() => {});
+  }, [props.userObject.id]);
+
   console.log('props_contract:', props);
   if (!props.user) {
     return (
@@ -58,10 +93,19 @@ export default function UserProfile(props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
-      <section css={addNewJoinerSectionTwoLayout}>
-        <article>Picture</article>
+      <section css={[addNewJoinerSectionTwoLayout, formAddNewJoiner]}>
         <article>
-          <h2>Offer MOverview</h2>
+          <div>
+            <Image
+              src={homeTeam}
+              alt="image group of employers"
+              width="460"
+              height="320"
+            />
+          </div>
+        </article>
+        <article>
+          <h2>Offer Overview</h2>
           <ul>
             <div>
               {' '}
@@ -146,24 +190,22 @@ export async function getServerSideProps(
   }>
 > {
   const token = context.req.cookies.sessionToken;
-  const cloudKey = process.env.CLOUDKEY;
-  const uploadPreset = process.env.UPLOAD_PRESET;
 
   if (token) {
     // 2. check if token is valid
     // TO DO CHECK ROLE Of USER
     const session = await getValidSessionByToken(token);
     const user = await getUserById(session.userId);
-    const readContract = await readContractDetails(user.id);
+    // const readContract = await readContractDetails(user.id);
 
     // check if not empty
-    if (readContract) {
-      readContract.startingDate = new Date(
-        readContract.startingDate,
-      ).toLocaleDateString('en-US');
-    }
+    // if (readContract) {
+    //   readContract.startingDate = new Date(
+    //     readContract.startingDate,
+    //   ).toLocaleDateString('en-US');
+    // }
 
-    console.log('readContract', readContract);
+    // console.log('readContract', readContract);
     if (session) {
       // User id is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
@@ -181,7 +223,7 @@ export async function getServerSideProps(
       return {
         props: {
           user: user,
-          readContract: readContract || {},
+          // readContract: readContract || {},
         },
       };
     }

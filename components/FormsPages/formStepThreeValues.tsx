@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { User } from '../../util/database';
 // import { useForm } from 'react-hook-form';
 import {
   flexStyle,
@@ -8,7 +9,17 @@ import {
   uploadFormStyle,
 } from '../elements';
 
-export default function FormStepThreeValues(props) {
+type Props = {
+  user: User;
+  uploadPreset: string;
+  currentStep: number;
+  formStep: number;
+  cloudKey: string;
+
+  // nextFormStep: number;
+};
+
+export default function FormStepThreeValues(props: Props) {
   const [fileUploadOne, setFileUploadOne] = useState('');
   const [fileUploadOneSelect, setFileUploadOneSelect] = useState('');
   const [sosContactfullName, setSosContactfullName] = useState('');

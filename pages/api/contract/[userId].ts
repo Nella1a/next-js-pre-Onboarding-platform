@@ -3,20 +3,30 @@ import {
   addContractDetails,
   AddContractDetailsRequestBody,
   readContractDetails,
-} from '../../util/database';
+} from '../../../util/database';
 
-type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
-  body: AddContractDetailsRequestBody;
-};
+// type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
+//   body: AddContractDetailsRequestBody;
+// };
 
 export type AddContractResponseBody =
-  | { errors: { message: string }[] }
+  | { errors: string }
   | { contractSummary: AddContractDetailsRequestBody };
 
-export default async function registerHandler(
+export default async function AddContractHandler(
   request: NextApiRequest,
   response: NextApiResponse<AddContractResponseBody>,
 ) {
+  // * check if userId is a number
+  const userId: number = Number(request.query.userId);
+  console.log('userId:', userId);
+  if (!userId) {
+    response.status(400).json({
+      errors: 'no valid userId',
+    });
+    return;
+  }
+
   if (request.method === 'POST') {
     // check if request body not empty
     console.log('request.body:', request.body);
@@ -33,12 +43,8 @@ export default async function registerHandler(
       !request.body.benefits
     ) {
       response.status(400).json({
-        errors: [
-          {
-            message:
-              'userId, starting date, job title, salary or benefits not provided',
-          },
-        ],
+        errors:
+          'userId, starting date, job title, salary or benefits not provided',
       });
       return;
     }
@@ -53,13 +59,6 @@ export default async function registerHandler(
     );
 
     console.log('added contract:', contractSummary);
-    // error handling
-    if (!contractSummary) {
-      response.status(405).json({
-        errors: [{ message: 'failed to add contract summary to db' }],
-      });
-      return;
-    }
 
     // success
     response.status(201).json({
@@ -69,8 +68,9 @@ export default async function registerHandler(
   }
 
   if (request.method === 'GET') {
-    const readContract = await readContractDetails(18);
+    const readContract = await readContractDetails(userId);
     console.log('readContract:', readContract);
+
     response.status(200).json({
       contractSummary: readContract,
     });
@@ -78,6 +78,6 @@ export default async function registerHandler(
   }
 
   response.status(405).json({
-    errors: [{ message: 'Method not supported, try POST instead' }],
+    errors: 'Method not supported, try POST instead',
   });
 }

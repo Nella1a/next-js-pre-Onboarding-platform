@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
-import { getUserById, getValidSessionByToken, User } from '../util/database';
+import { User } from '../util/database';
 import { styleMain } from './elements';
 import Header from './Header';
 

@@ -22,8 +22,10 @@ import Navigation from '../../../components/Navigation';
 //   }
 // `;
 import {
+  AddContractDetailsRequestBody,
   getUserById,
   getValidSessionByToken,
+  readContractDetails,
   readUserProfileImage,
   User,
 } from '../../../util/database';
@@ -40,6 +42,7 @@ type Props = {
   cloudKey: string;
   uploadPreset: string;
   headerImage: string;
+  readContract: AddContractDetailsRequestBody;
 };
 
 export default function UserProfile(props: Props) {
@@ -156,24 +159,27 @@ export default function UserProfile(props: Props) {
             <p>
               {props.user.firstName} {props.user.lastName}
             </p>
-            <p>User Id: {props.user.id} Dev Team</p>{' '}
-            <label htmlFor="uploadImage"> </label>
-            <input
-              id="uploadImage"
-              name="uploadImage"
-              type="file"
-              onChange={(event) => {
-                setUserId(props.user.id);
-                setCloudinaryUpload(event.target.files[0]);
-              }}
-            />
-            <button onClick={uploadImage}>Upload Image</button>
+            <p>{props.readContract.jobTitle}</p>
+            <div>
+              <label htmlFor="uploadImage"> </label>
+              <input
+                id="uploadImage"
+                name="uploadImage"
+                type="file"
+                onChange={(event) => {
+                  setUserId(props.user.id);
+                  setCloudinaryUpload(event.target.files[0]);
+                }}
+              />
+              <button onClick={uploadImage}>add image</button>
+            </div>
           </article>
           <article>
             <h2>User Profile</h2>
             <ul>
               <div>
                 <li>Username:</li>
+
                 <li>{props.user.username}</li>
               </div>
               <div>
@@ -184,11 +190,11 @@ export default function UserProfile(props: Props) {
               </div>
               <div>
                 <li>Position:</li>
-                <li>X</li>
+                <li> {props.readContract.jobTitle}</li>
               </div>
               <div>
                 <li>Starting Date:</li>
-                <li>X</li>
+                <li>{props.readContract.startingDate}</li>
               </div>
             </ul>
           </article>
@@ -210,6 +216,7 @@ export async function getServerSideProps(
     cloudKey?: string;
     profileImgUrl?: ImageType | '';
     uploadPreset?: string;
+    readContract?: AddContractDetailsRequestBody;
   }>
 > {
   const token = context.req.cookies.sessionToken;
@@ -221,6 +228,15 @@ export async function getServerSideProps(
     // TO DO CHECK ROLE Of USER
     const session = await getValidSessionByToken(token);
     const user = await getUserById(session.userId);
+    const readContract = await readContractDetails(user.id);
+
+    // check if not empty
+    if (readContract) {
+      readContract.startingDate = new Date(
+        readContract.startingDate,
+      ).toLocaleDateString('en-US');
+    }
+
     if (session) {
       // User id is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
@@ -243,6 +259,7 @@ export async function getServerSideProps(
       return {
         props: {
           user: user,
+          readContract: readContract || {},
           cloudKey: cloudKey,
           profileImgUrl: profileImgUrl || '',
           uploadPreset: uploadPreset,

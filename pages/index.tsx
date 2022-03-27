@@ -5,7 +5,6 @@ import Link from 'next/link';
 import {
   indexSectionTwoLayout,
   sectionOneLayout,
-  sectionTwoLayout,
 } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
@@ -17,8 +16,6 @@ import homeProfile from '../public/img/home/homeProfile.png';
 import homeTeam from '../public/img/home/homeTeam.png';
 import iconContract from '../public/img/menu/iconContract.svg';
 import iconDashboard from '../public/img/menu/iconDashboard.svg';
-import iconDocuments from '../public/img/menu/iconDocuments.svg';
-import iconHome from '../public/img/menu/iconHome.svg';
 import iconProfile from '../public/img/menu/iconProfile.png';
 import iconUpdates from '../public/img/menu/iconUpdates.svg';
 import { getUserByValidSessionToken, User } from '../util/database';
@@ -224,7 +221,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  // Good Case: valid token
+  // success: valid token
   return {
     props: {
       user: user,
