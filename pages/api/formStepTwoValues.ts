@@ -5,6 +5,7 @@ import {
   AddUserMaritalStatus,
   MaritalStatus,
   SosContact,
+  updateFormStepDb,
   UserAddress,
 } from '../../util/database';
 
@@ -47,12 +48,14 @@ export default async function formInputHandler(
       !request.body.city ||
       !request.body.zipCode ||
       !request.body.country ||
+      !request.body.formStep ||
       !request.body.maritalStatus ||
       typeof request.body.address !== 'string' ||
       typeof request.body.city !== 'string' ||
       typeof request.body.country !== 'string' ||
       typeof request.body.zipCode !== 'number' ||
-      typeof request.body.maritalStatus !== 'number'
+      typeof request.body.maritalStatus !== 'number' ||
+      typeof request.body.formStep !== 'number'
     ) {
       response.status(400).json({
         errors: [{ message: 'please provide missing data' }],
@@ -98,6 +101,12 @@ export default async function formInputHandler(
       return;
     }
 
+    // update formStep in db
+    const stepInDB = await updateFormStepDb(
+      request.body.userId,
+      request.body.formStep + 1,
+    );
+    console.log('FormStep 2 in DB:', stepInDB);
     // success status response
     response.status(201).json({
       address: formResponseAddress,

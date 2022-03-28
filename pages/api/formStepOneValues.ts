@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
+  addFormStepDb,
   formInputPersonalDetails,
   FormValuesOne,
   readUserPersonalInfo,
@@ -47,7 +48,9 @@ export default async function formInputHandler(
       typeof request.body.email !== 'string' ||
       !request.body.email ||
       typeof request.body.phone !== 'number' ||
-      !request.body.phone
+      !request.body.phone ||
+      typeof request.body.formStep !== 'number'
+      // !request.body.formStep
     ) {
       response.status(400).json({
         errors: [{ message: 'user input is not correct' }],
@@ -65,6 +68,12 @@ export default async function formInputHandler(
       request.body.phone,
     );
 
+    // add formStep into db
+    const stepInDB = await addFormStepDb(
+      request.body.userId,
+      request.body.formStep + 1,
+    );
+    console.log('FormStep in Api:', stepInDB);
     console.log('formValues from db', formOneResponse);
     response.status(200).json({
       formOneResp: formOneResponse,
@@ -73,7 +82,7 @@ export default async function formInputHandler(
   }
 
   if (request.method === 'GET') {
-    const readFormOne = await readUserPersonalInfo(29);
+    const readFormOne = await readUserPersonalInfo(request.body.userId);
 
     if (!readFormOne) {
       response.status(405).json({

@@ -450,7 +450,7 @@ export async function readUserProfileImage(userId: number) {
 }
 
 type FormUpdateValues = {
-  // dateOfBirth: string;
+  dateOfBirth: string;
   email: string;
   socialSecNb: number;
   nationality: string;
@@ -489,7 +489,7 @@ WHERE
 export async function readUserPersonalInfo(userId: number) {
   const [readFormiInput] = await sql`
 SELECT
-  user_personal_details.date_of_birth as date_of_birth,
+  (user_personal_details.date_of_birth) as date_of_birth,
   user_personal_details.social_sec_nb as social_sec_nb,
   user_personal_details.nationality as nationality,
   user_personal_details.email as email,
@@ -497,8 +497,9 @@ SELECT
 FROM
 user_personal_details
 WHERE
-user_personal_details.user_Id = ${userId}
+user_personal_details.user_id = ${userId}
 `;
+  console.log('DB readUserPersonalInfo:', readFormiInput);
   return readFormiInput && camelcaseKeys(readFormiInput);
 }
 
@@ -720,7 +721,6 @@ export async function AddFileUrlToDB(
 /* *************************** */
 
 // CREATE
-
 export type AddContractDetailsRequestBody = {
   userId: string;
   startingDate: string;
@@ -761,4 +761,57 @@ export async function readContractDetails(userId: number) {
   user_id = ${userId}
   `;
   return contract && camelcaseKeys(contract);
+}
+
+/* *************************** */
+/*        Table: form_steps     */
+/* *************************** */
+
+// CREATE
+export type AddFormStep = {
+  userId: string;
+  currentFormStep: number;
+};
+
+export async function addFormStepDb(userId: number, currentFormStep: number) {
+  const [formStep] = await sql<[AddFormStep]>`
+  INSERT INTO form_steps
+  (user_id, current_step)
+  VALUES
+  (${userId},${currentFormStep})
+  RETURNING *
+  `;
+  console.log('Add FormStepDB:', formStep);
+  return formStep;
+}
+
+// UPDATE
+export async function updateFormStepDb(
+  userId: number,
+  currentFormStep: number,
+) {
+  const [formStep] = await sql<[AddFormStep]>`
+  UPDATE
+  form_steps
+  SET
+  current_step = ${currentFormStep}
+  WHERE
+  form_steps.user_id=${userId}
+  RETURNING *
+  `;
+  return camelcaseKeys(formStep);
+}
+
+// READ
+export async function readFormStepDb(userId: number) {
+  const [formStep] = await sql<[AddFormStep]>`
+  SELECT
+  current_step
+  FROM
+  form_steps
+  WHERE
+  form_steps.user_id=${userId}
+  `;
+  console.log('fomStep in DB:', formStep);
+  return camelcaseKeys(formStep);
 }

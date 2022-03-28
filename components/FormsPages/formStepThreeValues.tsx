@@ -1,25 +1,32 @@
 import { useState } from 'react';
 import { User } from '../../util/database';
 // import { useForm } from 'react-hook-form';
-import {
-  flexStyle,
-  formStyle,
-  hideForm,
-  showForm,
-  uploadFormStyle,
-} from '../elements';
+import { formStyle, hideForm, showForm, uploadFormStyle } from '../elements';
 
-type Props = {
+// type Props = {
+//   user: User;
+//   uploadPreset: string;
+//   currentStep: number;
+//   formStep: number;
+//   cloudKey: string;
+// };
+
+interface ChildProps {
+  // userObject: User;
   user: User;
   uploadPreset: string;
-  currentStep: number;
-  formStep: number;
   cloudKey: string;
+  formStep: number;
+  setFormStep: React.Dispatch<React.SetStateAction<number>>;
+}
 
-  // nextFormStep: number;
-};
-
-export default function FormStepThreeValues(props: Props) {
+export default function FormStepThreeValues({
+  user,
+  uploadPreset,
+  cloudKey,
+  formStep,
+  setFormStep,
+}: ChildProps) {
   const [fileUploadOne, setFileUploadOne] = useState('');
   const [fileUploadOneSelect, setFileUploadOneSelect] = useState('');
   const [sosContactfullName, setSosContactfullName] = useState('');
@@ -27,13 +34,13 @@ export default function FormStepThreeValues(props: Props) {
   const [sosContactRelation, setSosContactRelation] = useState('');
   const [responseFileUpload, setResponseFileUpload] = useState(false);
 
-  const uploadFile = async (event) => {
+  const uploadFile = async (event: any) => {
     const files = event.currentTarget.files;
     const formData = new FormData();
     formData.append('file', files[0]);
-    formData.append('upload_preset', props.uploadPreset);
+    formData.append('upload_preset', uploadPreset);
     const cloudinaryResponse = await fetch(
-      `https://api.cloudinary.com/v1_1/${props.cloudKey}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${cloudKey}/image/upload`,
       {
         method: 'POST',
         body: formData,
@@ -61,7 +68,8 @@ export default function FormStepThreeValues(props: Props) {
         body: JSON.stringify({
           fileOneUrl: fileUploadOne,
           fileType: fileUploadOneSelect,
-          userId: props.user.id,
+          userId: user.id,
+          formStep: formStep,
         }),
       });
       const saveFileInDbResponse = await saveFileInDb.json();
@@ -71,9 +79,9 @@ export default function FormStepThreeValues(props: Props) {
 
   return (
     <>
-      <h2> Step {props.currentStep + 1} of 4</h2>
+      <h2> Step {formStep + 1} of 4</h2>
       <form
-        css={[formStyle, props.formStep === 2 ? showForm : hideForm]}
+        css={[formStyle, formStep === 2 ? showForm : hideForm]}
         onSubmit={async (event) => {
           event.preventDefault();
 
@@ -83,7 +91,7 @@ export default function FormStepThreeValues(props: Props) {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              userId: props.user.id,
+              userId: user.id,
               fileOneUrl: fileUploadOne,
               fileType: fileUploadOneSelect,
               sosContactfullName: sosContactfullName,
@@ -92,7 +100,9 @@ export default function FormStepThreeValues(props: Props) {
             }),
           });
           console.log('SOSContact & fileUrl:', formInputResponse);
-          props.nextFormStep();
+          const nextFormStep = formStep + 1;
+          console.log('Formstep StepThree:', formStep);
+          setFormStep(nextFormStep);
         }}
       >
         <section css={uploadFormStyle}>
@@ -222,7 +232,7 @@ export default function FormStepThreeValues(props: Props) {
         </section>
         <button>Step 4: Review &#38; Submit </button>
       </form>
-      <button onClick={props.prevFormStep}>Back</button>
+
       {/* </section> */}
     </>
   );

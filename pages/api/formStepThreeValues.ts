@@ -4,6 +4,7 @@ import {
   AddUserEmergencyContact,
   FileUrl,
   SosContact,
+  updateFormStepDb,
 } from '../../util/database';
 
 // type FileUploadRequestBody = {
@@ -66,6 +67,12 @@ export default async function formInputHandler(
         return;
       }
 
+      // update formStep in db
+      const stepInDB = await updateFormStepDb(
+        request.body.userId,
+        request.body.formStep + 1,
+      );
+      console.log('FormStep 3 in DB:', stepInDB);
       response.status(200).json({
         fileUrl: fileUploadResponseBody,
         sosContactResp: formResponseEmergencyContact,

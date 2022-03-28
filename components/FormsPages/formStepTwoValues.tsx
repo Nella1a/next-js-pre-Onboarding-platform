@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { User } from '../../util/database';
 // import { useForm } from 'react-hook-form';
 import {
   errorStyles,
@@ -7,6 +8,13 @@ import {
   hideForm,
   showForm,
 } from '../elements';
+
+interface ChildProps {
+  formStep: number;
+  setFormStep: React.Dispatch<React.SetStateAction<number>>;
+  // prevFormStep: number;
+  user: User;
+}
 
 // type FormOneRequestBody = {
 //   address: string;
@@ -32,7 +40,11 @@ import {
 
 type Errors = { message: string }[];
 
-export default function FormStepTwoValues(props) {
+export default function FormStepTwoValues({
+  user,
+  formStep,
+  setFormStep,
+}: ChildProps) {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
@@ -44,7 +56,7 @@ export default function FormStepTwoValues(props) {
 
   return (
     <>
-      <h2> Step {props.currentStep + 1} of 4</h2>
+      <h2> Step {formStep + 1} of 4</h2>
       {/* show error message if username or password does not match  */}
       <div css={errorStyles}>
         {errorsApi.map((error) => {
@@ -52,35 +64,39 @@ export default function FormStepTwoValues(props) {
         })}
       </div>
       <form
-        css={[formStyle, props.formStep === 1 ? showForm : hideForm]}
+        css={[formStyle, formStep === 1 ? showForm : hideForm]}
         onSubmit={async (event) => {
           event.preventDefault();
 
           //   send input to api
-          // const formInputResponse = await fetch('/api/formStepTwoValues', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify({
-          //     address: address,
-          //     city: city,
-          //     zipCode: parseInt(zipCode),
-          //     country: country,
-          //     maritalStatus: parseInt(maritalStatus),
-          //     userId: props.userId,
-          //   }),
-          // });
+          const formInputResponse = await fetch('/api/formStepTwoValues', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              address: address,
+              city: city,
+              zipCode: parseInt(zipCode),
+              country: country,
+              maritalStatus: parseInt(maritalStatus),
+              userId: user.id,
+              formStep: formStep,
+            }),
+          });
 
-          // // get response from api & check for error message
-          // const formInputResponseBody = await formInputResponse.json();
-          // if ('errors' in formInputResponseBody) {
-          //   setErrorsApi(formInputResponseBody.errors);
-          //   return;
-          // }
-          // setErrorsApi([]);
-          // console.log('FormTwoResponse:', formInputResponseBody);
-          props.nextFormStep();
+          // get response from api & check for error message
+          const formInputResponseBody = await formInputResponse.json();
+          if ('errors' in formInputResponseBody) {
+            setErrorsApi(formInputResponseBody.errors);
+            return;
+          }
+          setErrorsApi([]);
+          console.log('FormTwoResponse:', formInputResponseBody);
+
+          const nextFormStep = formStep + 1;
+          console.log('Formstep StepTWO:', formStep);
+          setFormStep(nextFormStep);
         }}
       >
         <section>
@@ -169,7 +185,6 @@ export default function FormStepTwoValues(props) {
         <button>Step 3: Uploads</button>
         {/* </Link> */}
       </form>
-      <button onClick={props.prevFormStep}>Back</button>
       {/* </section> */}
       {/* </Layout> */}
     </>

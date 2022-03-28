@@ -1,20 +1,35 @@
 import Head from 'next/head';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   FormResponseBodyGet,
   UserAddressResponseBody,
 } from '../pages/api/documents/[userId]';
-import { AllPersonalInfo } from '../util/database';
+import { AllPersonalInfo, ReadAllPersonalInfo, User } from '../util/database';
 import { sectionFormCompletedLayout } from './elements';
 import Layout from './Layout';
 
-// const displayFlex = css`
-//   display: flex;
-//   gap: 0.5rem;
-// `;
+interface ChildProps {
+  readAllUserInfo: ReadAllPersonalInfo;
+  formStep: number;
+  setFormStep: React.Dispatch<React.SetStateAction<number>>;
+  user: User;
+  userId: number;
+  userObject: User;
+  userFirstName: string;
+  headerImage: string;
+}
 
-export default function FormCompleted(props) {
-  console.log('gSSP:', props.readAllUserInfo);
+export default function FormCompleted({
+  readAllUserInfo,
+  formStep,
+  setFormStep,
+  user,
+  userId,
+  userObject,
+  userFirstName,
+  headerImage,
+}: ChildProps) {
+  console.log('gSSP:', readAllUserInfo);
   // console.log('gSSP_info:', props.readAllUserInfo.email);
 
   // const [userFormInfo, setUserFormInfo] = useState<AllPersonalInfo>('');
@@ -37,40 +52,36 @@ export default function FormCompleted(props) {
   // State Variable with the id of the animal on editMode
   const [idFormEditId, setidFormEditId] = useState<number>();
   // ON-EDIT State Variables for the on Edit inputs
-  const [emailOnEdit, setEmailOnEdit] = useState(props.readAllUserInfo.email);
+  const [emailOnEdit, setEmailOnEdit] = useState(readAllUserInfo.email);
   const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState(
-    props.readAllUserInfo.dateOfBirth,
+    readAllUserInfo.dateOfBirth,
   );
   const [socialSecNumberOnEdit, setSocialSecNumberOnEdit] = useState(
-    props.readAllUserInfo.socialSecNb,
+    readAllUserInfo.socialSecNb,
   );
   const [nationalityOnEdit, setNationalityOnEdit] = useState(
-    props.readAllUserInfo.nationality,
+    readAllUserInfo.nationality,
   );
-  const [phoneOnEdit, setPhoneOnEdit] = useState(
-    props.readAllUserInfo.userPhone,
-  );
+  const [phoneOnEdit, setPhoneOnEdit] = useState(readAllUserInfo.userPhone);
   const [addressOnEdit, setAddressOnEdit] = useState(
-    props.readAllUserInfo.streetAndNbr,
+    readAllUserInfo.streetAndNbr,
   );
-  const [cityOnEdit, setCityOnEdit] = useState(props.readAllUserInfo.city);
+  const [cityOnEdit, setCityOnEdit] = useState(readAllUserInfo.city);
   const [zipCodeOnEdit, setZipCodeOnEdit] = useState(
-    props.readAllUserInfo.postalCode,
+    readAllUserInfo.postalCode,
   );
   const [maritalStatusOnEdit, setMaritalStatusOnEdit] = useState(
-    props.readAllUserInfo.maritalTypeId,
+    readAllUserInfo.maritalStatusId,
   );
-  const [countryOnEdit, setCountryOnEdit] = useState(
-    props.readAllUserInfo.country,
-  );
+  const [countryOnEdit, setCountryOnEdit] = useState(readAllUserInfo.country);
   const [sosContactfullNameOnEdit, setSosContactfullNameOnEdit] = useState(
-    props.readAllUserInfo.fullname,
+    readAllUserInfo.fullname,
   );
   const [sosContactPhoneOnEdit, setSosContactPhoneOnEdit] = useState(
-    props.readAllUserInfo.sosPhone,
+    readAllUserInfo.sosPhone,
   );
   const [sosContactRelationOnEdit, setSosContactRelationOnEdit] = useState(
-    props.readAllUserInfo.relationshipId,
+    readAllUserInfo.relationshipId,
   );
 
   const [isDisabled, setIsDisabled] = useState(true);
@@ -86,8 +97,8 @@ export default function FormCompleted(props) {
   // }, []);
 
   // UPDATE
-  async function updateUserFormInputs(userId) {
-    const putResponse = await fetch(`/api/documents/${props.userId}`, {
+  async function updateUserFormInputs(usersId: number) {
+    const putResponse = await fetch(`/api/documents/${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -125,17 +136,8 @@ export default function FormCompleted(props) {
   }
 
   return (
-    <Layout
-      userObject={props.userObject}
-      userFirstName={props.userFirstName}
-      headerImage={props.headerImage}
-    >
-      <Head>
-        <title>Welcome</title>
-        <meta name="description" content="Landing page" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <h2> Step {props.currentStep + 1} of 4</h2>
+    <>
+      <h2> Step {formStep + 1} of 4</h2>
       {/* <h2>Review your inputs! 🎉</h2> */}
       <section css={sectionFormCompletedLayout}>
         {console.log('userAddress:')}
@@ -402,7 +404,7 @@ export default function FormCompleted(props) {
             {' '}
             <button
               onClick={() => {
-                updateUserFormInputs(props.userId).catch(() => {});
+                updateUserFormInputs(userId).catch(() => {});
                 setIsDisabled(true);
               }}
             >
@@ -411,6 +413,6 @@ export default function FormCompleted(props) {
           </div>
         )}
       </section>
-    </Layout>
+    </>
   );
 }
