@@ -19,12 +19,20 @@ import { errorStyles, formAddNewJoiner } from './elements';
 // };
 
 type Errors = { message: string }[];
-type Props = {
-  newJoinerUserId: number;
-  setNewJoinerUserId(): number;
-};
+// type Props = {
+//   newJoinerUserId: number;
+//   setNewJoinerUserId(): number;
+// };
 
-export default function AddNewJoiner(props: Props) {
+interface ChildProps {
+  newJoinerUserId: number;
+  setNewJoinerUserId: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function AddNewJoiner(
+  // props: ChildProps,
+  { newJoinerUserId, setNewJoinerUserId }: ChildProps,
+) {
   // const requieredTrue = false;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -79,14 +87,14 @@ export default function AddNewJoiner(props: Props) {
           console.log('registerResponseBody:', registerResponseBody);
           console.log('userID:', registerResponseBody.user.user.id);
           // api response okay ==> update state variable
-          props.setNewJoinerUserId(registerResponseBody.user.user.id);
+          setNewJoinerUserId(registerResponseBody.user.user.id);
           // setNewUserAdded(true);
         }}
       >
         <section>
           <article>
             <h2>Add New Joiner</h2>
-            {!props.newJoinerUserId ? (
+            {!newJoinerUserId ? (
               <ul>
                 <div>
                   {' '}

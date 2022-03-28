@@ -30,7 +30,7 @@ type Props = {
 };
 
 export default function UserProfile(props: Props) {
-  const [newJoinerUserId, setNewJoinerUserId] = useState<number>();
+  const [newJoinerUserId, setNewJoinerUserId] = useState<number>(0);
   console.log('Props_Profile_oi:', props);
 
   if (!props.user) {
@@ -109,9 +109,12 @@ export async function getServerSideProps(
   if (token) {
     // 2. check if token is valid
     // TO DO CHECK ROLE Of USER
+
     const session = await getValidSessionByToken(token);
-    const user = await getUserById(session.userId);
+
     if (session) {
+      const user = await getUserById(session.userId);
+
       // User id is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };
