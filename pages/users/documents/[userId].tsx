@@ -16,15 +16,17 @@ import Navigation from '../../../components/Navigation';
 import {
   AddFormStep,
   AllPersonalInfo,
-  FormValuesOne,
   getUserByValidSessionToken,
   ReadAllPersonalInfo,
   readFormStepDb,
   readUserAddress,
   readUserAllPersonalInfo,
-  readUserPersonalInfo,
   User,
 } from '../../../util/database';
+
+type Step = {
+  currentStep: number;
+};
 
 type Props = {
   user: User;
@@ -35,7 +37,9 @@ type Props = {
   headerImage: string;
   userFormInput?: AllPersonalInfo;
   readAllUserInfo?: ReadAllPersonalInfo;
-  userFormOne?: FormValuesOne;
+  // readFullUserInfo: ReadAllPersonalInfo;
+  // userFormOne?: FormValuesOne;
+  currentStep: Step;
 };
 
 export default function Documents(props: Props) {
@@ -45,6 +49,11 @@ export default function Documents(props: Props) {
   console.log('props.ReadAllUserInfo:', props.readAllUserInfo);
   console.log('Formstep:', formStep);
 
+  useEffect(() => {
+    setFormStep(props.currentStep.currentStep);
+  }, [props.currentStep.currentStep]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!props.currentStep) {
     return (
       <Layout
@@ -100,10 +109,6 @@ export default function Documents(props: Props) {
     );
   }
 
-  useEffect(() => {
-    setFormStep(props.currentStep.currentStep);
-  }, [props.currentStep.currentStep]);
-
   return (
     <Layout
       userObject={props.userObject}
@@ -135,7 +140,7 @@ export default function Documents(props: Props) {
             prevFormStep={prevFormStep}
             css={displayFlexDiv}
           >*/}
-
+            {/*
             {formStep === 0 && (
               <FormStepOneValues
                 // userObject={props.userObject}
@@ -150,7 +155,7 @@ export default function Documents(props: Props) {
                 // formValues={formValues}
                 // setFormValues={setFormValues}
               />
-            )}
+            )} */}
 
             {formStep === 1 && (
               <FormStepTwoValues
@@ -189,14 +194,14 @@ export default function Documents(props: Props) {
 
             {formStep === 3 && (
               <FormCompleted
-                readAllUserInfo={props.readAllUserInfo}
-                userObject={props.userObject}
-                userFirstName={props.userFirstName}
-                headerImage={props.headerImage}
+                readFullUserInfo={props.readAllUserInfo}
+                // userObject={props.userObject}
+                // userFirstName={props.userFirstName}
+                // headerImage={props.headerImage}
                 userId={props.user.id}
                 // currentStep={formStep}
                 formStep={formStep}
-                setFormStep={setFormStep}
+                // setFormStep={setFormStep}
                 // nextFormStep={nextFormStep}
                 // prevFormStep={prevFormStep}
                 user={props.user}
@@ -252,6 +257,7 @@ export async function getServerSideProps(
     // console.log('FormOneValues', readFormOneValues);
     console.log('JoinreadPersonalDetails', readAllUserInfo);
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readAllUserInfo) {
       readAllUserInfo.dateOfBirth = new Date(
         readAllUserInfo.dateOfBirth,
@@ -272,8 +278,10 @@ export async function getServerSideProps(
         user: user,
         cloudKey: cloudKey,
         uploadPreset: uploadPreset,
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         readAllUserInfo: readAllUserInfo || '',
         // readFormOneValues: readFormOneValues || null,
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         currentStep: readCurrentFormStep || null,
         // currentStep: readCurrentFormStep,
       },

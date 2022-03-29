@@ -3,14 +3,6 @@ import { User } from '../../util/database';
 // import { useForm } from 'react-hook-form';
 import { formStyle, hideForm, showForm, uploadFormStyle } from '../elements';
 
-// type Props = {
-//   user: User;
-//   uploadPreset: string;
-//   currentStep: number;
-//   formStep: number;
-//   cloudKey: string;
-// };
-
 interface ChildProps {
   // userObject: User;
   user: User;
@@ -32,8 +24,9 @@ export default function FormStepThreeValues({
   const [sosContactfullName, setSosContactfullName] = useState('');
   const [sosContactPhone, setSosContactPhone] = useState('');
   const [sosContactRelation, setSosContactRelation] = useState('');
-  const [responseFileUpload, setResponseFileUpload] = useState(false);
+  // const [responseFileUpload, setResponseFileUpload] = useState(false);
 
+  // send file to cloud
   const uploadFile = async (event: any) => {
     const files = event.currentTarget.files;
     const formData = new FormData();
@@ -56,25 +49,25 @@ export default function FormStepThreeValues({
     }
 
     const responseUrl = formDataResponse.url;
+    // cloud response ok ==> update state variable
     setFileUploadOne(responseUrl);
     console.log('StateVariable:', responseUrl);
-    if (fileUploadOne) {
-      // save fileUrl in Database
-      const saveFileInDb = await fetch(`/api/formStepThreeValues`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileOneUrl: fileUploadOne,
-          fileType: fileUploadOneSelect,
-          userId: user.id,
-          formStep: formStep,
-        }),
-      });
-      const saveFileInDbResponse = await saveFileInDb.json();
-      console.log('Url-response-from DB:', saveFileInDbResponse);
-    }
+
+    // if (fileUploadOne) {
+    //   const saveFileInDb = await fetch(`/api/formStepThreeValues`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       fileOneUrl: fileUploadOne,
+    //       fileType: fileUploadOneSelect,
+    //       userId: user.id,
+    //     }),
+    //   });
+    //   const saveFileInDbResponse = await saveFileInDb.json();
+    //   console.log('Url-response-from DB:', saveFileInDbResponse);
+    // }
   };
 
   return (
@@ -85,6 +78,7 @@ export default function FormStepThreeValues({
         onSubmit={async (event) => {
           event.preventDefault();
 
+          // send file url and contact details to api
           const formInputResponse = await fetch('/api/formStepThreeValues', {
             method: 'POST',
             headers: {
@@ -97,9 +91,13 @@ export default function FormStepThreeValues({
               sosContactfullName: sosContactfullName,
               sosContactPhone: sosContactPhone,
               sosContactRelation: parseInt(sosContactRelation),
+              formStep: formStep,
             }),
           });
-          console.log('SOSContact & fileUrl:', formInputResponse);
+
+          const formInputResponseBody = await formInputResponse.json();
+          console.log('SOSContact & fileUrl:', formInputResponseBody);
+
           const nextFormStep = formStep + 1;
           console.log('Formstep StepThree:', formStep);
           setFormStep(nextFormStep);
@@ -197,7 +195,7 @@ export default function FormStepThreeValues({
             </p>
           </div>
           {/* <button onClick={uploadImage}>Upload Image</button> */}
-          {responseFileUpload ? <p>Success</p> : <p>no Success</p>}
+          {/* {responseFileUpload ? <p>Success</p> : <p>no Success</p>} */}
           {/* <div>
             <p>
               <label htmlFor="fileUploadTwo">Document 2 </label>

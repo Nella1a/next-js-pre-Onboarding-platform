@@ -1,43 +1,30 @@
-import crypto from 'node:crypto';
-import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { verifyCsrfToken } from '../../util/auth';
-import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
-import {
-  createSession,
-  createUser,
-  formInputPersonalDetails,
-  FormValues,
-  getUserByUsername,
-  getUserByUserWithPasswordHashByUsername,
-  Session,
-  User,
-} from '../../util/database';
+import { formInputPersonalDetails } from '../../util/database';
 
-type FormOneRequestBody =
-  | {
-      firstName: string;
-      lastName: string;
-      dateOfBirth: Date;
-      socialSecNumber: number;
-      nationality: string | undefined;
-      email: string | undefined;
-      phone: string | undefined;
-    }
-  | {
-      address: string;
-      city: string;
-      zipCode: string;
-      country: string;
-      maritalStatus: number;
-      sosContactfullName: string;
-      sosContactPhone: string;
-      sosContactRelation: number;
-    };
+// type FormOneRequestBody =
+//   | {
+//       firstName: string;
+//       lastName: string;
+//       dateOfBirth: Date;
+//       socialSecNumber: number;
+//       nationality: string | undefined;
+//       email: string | undefined;
+//       phone: string | undefined;
+//     }
+//   | {
+//       address: string;
+//       city: string;
+//       zipCode: string;
+//       country: string;
+//       maritalStatus: number;
+//       sosContactfullName: string;
+//       sosContactPhone: string;
+//       sosContactRelation: number;
+//     };
 
-type FormOneNextApiRequest = Omit<NextApiRequest, 'body'> & {
-  body: FormOneRequestBody;
-};
+// type FormOneNextApiRequest = Omit<NextApiRequest, 'body'> & {
+//   body: FormOneRequestBody;
+// };
 
 export type FormOneResponseBody =
   | { errors: { message: string }[] }
@@ -90,14 +77,13 @@ export default async function formInputHandler(
       request.body.phone,
     );
 
-    console.log('Data aleady exists:', formOneResponse);
     // Error-Handling:
-    if (!formOneResponse) {
-      response.status(401).json({
-        errors: [{ message: 'Data Already exist' }],
-      });
-      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
-    }
+    // if (!formOneResponse) {
+    //   response.status(401).json({
+    //     errors: [{ message: 'Data Already exist' }],
+    //   });
+    //   return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
+    // }
 
     // // compare passwordHash
     // const passwordMatches = await bcrypt.compare(

@@ -53,19 +53,19 @@ export default async function formInputHandler(
         request.body.fileType,
       );
 
-      if (!fileUploadResponseBody && formResponseEmergencyContact) {
-        response.status(200).json({
-          fileUrl: 'no files provided',
-          sosContactResp: formResponseEmergencyContact,
-        });
-        return;
-      }
-      if (!fileUploadResponseBody && !formResponseEmergencyContact) {
-        response.status(400).json({
-          errors: [{ message: 'url, filetype or sosContact not in db ' }],
-        });
-        return;
-      }
+      // if (!fileUploadResponseBody && formResponseEmergencyContact) {
+      //   response.status(200).json({
+      //     fileUrl: 'no files provided',
+      //     sosContactResp: formResponseEmergencyContact,
+      //   });
+      //   return;
+      // }
+      // if (!fileUploadResponseBody && !formResponseEmergencyContact) {
+      //   response.status(400).json({
+      //     errors: [{ message: 'url, filetype or sosContact not in db ' }],
+      //   });
+      //   return;
+      // }
 
       // update formStep in db
       const stepInDB = await updateFormStepDb(

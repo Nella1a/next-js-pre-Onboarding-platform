@@ -195,7 +195,7 @@ export async function getServerSideProps(
     // 2. check if token is valid
     // TO DO CHECK ROLE Of USER
     const session = await getValidSessionByToken(token);
-    const user = await getUserById(session.userId);
+
     // const readContract = await readContractDetails(user.id);
 
     // check if not empty
@@ -207,6 +207,7 @@ export async function getServerSideProps(
 
     // console.log('readContract', readContract);
     if (session) {
+      const user = await getUserById(session.userId);
       // User id is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };

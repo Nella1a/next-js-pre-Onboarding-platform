@@ -85,7 +85,7 @@ export default function FormStepOneValues({
               email: email,
               phone: parseInt(phone),
               userId: user.id,
-              formStep: parseInt(formStep),
+              formStep: formStep,
             }),
           });
 
@@ -96,7 +96,6 @@ export default function FormStepOneValues({
             return;
           }
           setErrorsApi([]);
-          console.log('Response from Api:', formInputResponseBody);
 
           const getValuesFromDatabase = async () => {
             const response = await fetch('/api/formStepOneValues');
@@ -104,7 +103,6 @@ export default function FormStepOneValues({
             console.log('return formOneValue:', responseBody);
           };
           const nextFormStep = formStep + 1;
-          console.log('Formstep StepOne:', formStep);
           setFormStep(nextFormStep);
         }}
       >

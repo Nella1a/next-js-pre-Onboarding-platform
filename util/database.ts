@@ -110,7 +110,7 @@ export async function createUser(
   first_name,
   last_name
   `;
-  return user && camelcaseKeys(user);
+  return camelcaseKeys(user);
 }
 
 // get user by id
@@ -195,13 +195,11 @@ id,
   WHERE
   users.role_Id = ${userRoleId}
   `;
-  return newJoiners && camelcaseKeys(newJoiners);
+  return camelcaseKeys(newJoiners);
 }
 
 export type AllPersonalInfo = {
   userId: number;
-  firstName: string;
-  lastName: string;
   dateOfBirth: string;
   socialSecNb: number;
   nationality: string;
@@ -298,7 +296,7 @@ export async function readUserAllPersonalInfo(userId: number) {
   users.id = emergency_contact.user_id AND
   users.id = civil_status.user_id
   `;
-  return allPersonalInfo && camelcaseKeys(allPersonalInfo);
+  return camelcaseKeys(allPersonalInfo);
 }
 
 /* *************************** */
@@ -393,7 +391,7 @@ export async function formInputPersonalDetails(
   (${userId}, ${dateOfBirth},${socialSecNb}, ${nationality},${email},${userPhone})
   RETURNING *
   `;
-  return formOne && camelcaseKeys(formOne);
+  return camelcaseKeys(formOne);
 }
 
 export type ImgUrl = {
@@ -418,7 +416,7 @@ export async function addUserProfileImage(userId: number, imageUrl: string) {
   (${userId}, ${imageUrl})
   RETURNING image_url
   `;
-  return fileUpload && camelcaseKeys(fileUpload);
+  return camelcaseKeys(fileUpload);
 }
 
 // UPDATE IMAGE
@@ -432,7 +430,7 @@ export async function updateUserProfileImage(userId: number, imageUrl: string) {
   user_id = ${userId}
   RETURNING image_url
   `;
-  return imgUpdate && camelcaseKeys(imgUpdate);
+  return camelcaseKeys(imgUpdate);
 }
 
 // READ IMAGE
@@ -482,7 +480,7 @@ WHERE
   user_phone
 
 `;
-  return updateFormiInput && camelcaseKeys(updateFormiInput);
+  return camelcaseKeys(updateFormiInput);
 }
 
 // READ
@@ -500,7 +498,7 @@ WHERE
 user_personal_details.user_id = ${userId}
 `;
   console.log('DB readUserPersonalInfo:', readFormiInput);
-  return readFormiInput && camelcaseKeys(readFormiInput);
+  return camelcaseKeys(readFormiInput);
 }
 
 /* ****************************** */
@@ -569,7 +567,7 @@ WHERE
  user_id = ${userId}
   RETURNING *
 `;
-  return updateAddress && camelcaseKeys(updateAddress);
+  return camelcaseKeys(updateAddress);
 }
 
 /* ****************************** */
@@ -597,14 +595,11 @@ export async function AddUserMaritalStatus(
    id,
    marital_type_id
   `;
-  return userMaritalStatus && camelcaseKeys(userMaritalStatus);
+  return camelcaseKeys(userMaritalStatus);
 }
 
 // READ
-export async function readUserMaritalStatus(
-  userId: number,
-  maritalStatus: number,
-) {
+export async function readUserMaritalStatus(userId: number) {
   const [userMaritalStatus] = await sql<[MaritalStatus]>`
 SELECT
 marital_type_id
@@ -613,7 +608,7 @@ civil_status
 WHERE
 civil_status.user_id = ${userId}
   `;
-  return userMaritalStatus && camelcaseKeys(userMaritalStatus);
+  return camelcaseKeys(userMaritalStatus);
 }
 
 // UPDATE
@@ -662,7 +657,7 @@ export async function AddUserEmergencyContact(
    sos_phone
 
   `;
-  return userEmergencyContact && camelcaseKeys(userEmergencyContact);
+  return camelcaseKeys(userEmergencyContact);
 }
 
 // UPDATE
@@ -684,7 +679,7 @@ WHERE
  user_id = ${userId}
   RETURNING *
 `;
-  return updateEmergencyContact && camelcaseKeys(updateEmergencyContact);
+  return camelcaseKeys(updateEmergencyContact);
 }
 
 /* *************************** */
@@ -713,7 +708,7 @@ export async function AddFileUrlToDB(
   file_url,
    file_type_id
   `;
-  return fileUrlDB && camelcaseKeys(fileUrlDB);
+  return camelcaseKeys(fileUrlDB);
 }
 
 /* *************************** */
@@ -743,7 +738,7 @@ export async function addContractDetails(
   (${userId},${startingDate}, ${jobTitle}, ${salary}, ${benefits})
   RETURNING *
   `;
-  return contract && camelcaseKeys(contract);
+  return camelcaseKeys(contract);
 }
 
 // READ
@@ -760,7 +755,7 @@ export async function readContractDetails(userId: number) {
   WHERE
   user_id = ${userId}
   `;
-  return contract && camelcaseKeys(contract);
+  return camelcaseKeys(contract);
 }
 
 /* *************************** */

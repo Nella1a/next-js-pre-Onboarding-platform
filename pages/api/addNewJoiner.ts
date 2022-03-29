@@ -2,21 +2,25 @@ import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createUser, getUserByUsername, User } from '../../util/database';
 
-type RegisterRequestBody = {
-  username: string;
-  password: string;
-  userRole: number;
-  firstName: string;
-  lastName: string;
-};
+// type RegisterRequestBody = {
+//   username: string;
+//   password: string;
+//   userRole: number;
+//   firstName: string;
+//   lastName: string;
+// };
 
-type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
-  body: RegisterRequestBody;
+// type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
+//   body: RegisterRequestBody;
+// };
+
+type User1 = {
+  user: User;
 };
 
 export type RegisterResponseBody =
   | { errors: { message: string }[] }
-  | { user: User };
+  | { user: User1 };
 
 export default async function registerHandler(
   request: NextApiRequest,
@@ -70,11 +74,11 @@ export default async function registerHandler(
     );
 
     // error handling
-    if (!user) {
-      response.status(405).json({
-        errors: [{ message: 'new user not added to the db' }],
-      });
-    }
+    // if (!user) {
+    //   response.status(405).json({
+    //     errors: [{ message: 'new user not added to the db' }],
+    //   });
+    // }
     console.log('new user:', user);
     // success status:  add user to the response body
     response.status(201).json({

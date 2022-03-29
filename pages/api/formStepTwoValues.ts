@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   AddUserAddress,
-  AddUserEmergencyContact,
   AddUserMaritalStatus,
   MaritalStatus,
-  SosContact,
   updateFormStepDb,
   UserAddress,
 } from '../../util/database';

@@ -50,7 +50,7 @@ export default function FormStepTwoValues({
   const [zipCode, setZipCode] = useState('');
   const [country, setCountry] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
-  const requieredTrue = false;
+  // const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
   console.log('maritalStatus:', maritalStatus);
 

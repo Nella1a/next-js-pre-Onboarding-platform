@@ -63,6 +63,16 @@ export default function Header(props: Props) {
 
           {/* <p>{props.userObject.username}Jane Doe</p> */}
 
+          <Link href="/logout" passHref>
+            <Image
+              src={header_icon_logout}
+              alt="icon logout"
+              width="28"
+              height="30"
+            />
+          </Link>
+
+          {/*
           <a href="/logout">
             {' '}
             <Image
@@ -71,7 +81,7 @@ export default function Header(props: Props) {
               width="28"
               height="30"
             />
-          </a>
+          </a> */}
         </div>
 
         {/* This should be a normal a link, thus we want the page to relode*/}

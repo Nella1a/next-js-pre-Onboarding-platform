@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { globalStyleBody } from '../../../components/elements';
 import {
   addUserProfileImage,
-  getUserByImg,
   ImgUrl,
-  readUserProfileImage,
   updateUserProfileImage,
 } from '../../../util/database';
 

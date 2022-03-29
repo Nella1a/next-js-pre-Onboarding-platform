@@ -1,26 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   AllPersonalInfo,
-  FormValuesOne,
+  ReadAllPersonalInfo,
   readUserAllPersonalInfo,
   updateUserAddress,
-  updateUserAllPersonalInfo,
-  updateUserEmergencyContact,
-  updateUserMaritalStatus,
   updateUserPersonalInfo,
   UserAddress,
 } from '../../../util/database';
 
-type FormTwoRequestBody = {
-  address: string;
-  city: string;
-  zipCode: string;
-  country: string;
-  maritalStatus: number;
-  sosContactfullName: string;
-  sosContactPhone: string;
-  sosContactRelation: number;
-};
+// type FormTwoRequestBody = {
+//   address: string;
+//   city: string;
+//   zipCode: string;
+//   country: string;
+//   maritalStatus: number;
+//   sosContactfullName: string;
+//   sosContactPhone: string;
+//   sosContactRelation: number;
+// };
 
 type FormUpdateValues = {
   // dateOfBirth: string;
@@ -39,7 +36,7 @@ type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
 };
 
 export type FormResponseBodyGet = {
-  userFormInfo: AllPersonalInfo;
+  userFormInfo: ReadAllPersonalInfo;
 };
 
 export type UserAddressResponseBody =
@@ -53,7 +50,7 @@ export default async function formInputHandler(
   response: NextApiResponse<FormResponseBody>,
 ) {
   // * check if userId is a number
-  const userId = parseInt(request.query.userId);
+  const userId = Number(request.query.userId);
   console.log('userId:', userId);
   if (!userId) {
     response.status(400).json({
@@ -113,12 +110,12 @@ export default async function formInputHandler(
     // read all personal information from db
     const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
 
-    if (!userAllPersonalInfoResponse) {
-      response.status(400).json({
-        errors: 'not good',
-      });
-      return;
-    }
+    // if (!userAllPersonalInfoResponse) {
+    //   response.status(400).json({
+    //     errors: 'not good',
+    //   });
+    //   return;
+    // }
 
     response.status(201).json({
       userFormInfo: userAllPersonalInfoResponse,

@@ -1,9 +1,7 @@
-import { css } from '@emotion/react';
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+// import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { json } from 'stream/consumers';
+import { useState } from 'react';
 import {
   sectionOneLayout,
   userProfileSectionTwoLayout,
@@ -22,33 +20,33 @@ import Navigation from '../../../components/Navigation';
 //   }
 // `;
 import {
-  AddContractDetailsRequestBody,
   getUserById,
   getValidSessionByToken,
   readContractDetails,
   readUserProfileImage,
-  User,
 } from '../../../util/database';
 
-type CloudUrl = {
-  imageUrl: string;
-};
+// type CloudUrl = {
+//   imageUrl: string,
+// };
 
-type Props = {
-  user?: User | null;
-  userObject: User;
-  userFirstName: string;
-  profileImgUrl: CloudUrl;
-  cloudKey: string;
-  uploadPreset: string;
-  headerImage: string;
-  readContract: AddContractDetailsRequestBody;
-};
+// type Props = {
+//   user?: User | null,
+//   userObject: User,
+//   userFirstName: string,
+//   profileImgUrl: CloudUrl,
+//   cloudKey: string,
+//   uploadPreset: string,
+//   headerImage: string,
+//   readContract: AddContractDetailsRequestBody,
+// };
 
-export default function UserProfile(props: Props) {
+export default function UserProfile(props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
   const [imageUrl, setImageUrl] = useState(`/imgTest.png`);
-  const [userId, setUserId] = useState<number>(0);
+  // const [userId, setUserId] = useState < number > 0;
+  const [userId, setUserId] = useState(0);
+
   const [errors, setErrors] = useState('');
   console.log('Props_Profile_oi:', props);
 
@@ -131,13 +129,13 @@ export default function UserProfile(props: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <h1>Welcome X</h1>
-      <p>It's great to have you with us.</p> */}
+
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
       <section css={userProfileSectionTwoLayout}>
+        {errors && <p>Message: {errors}</p>}
         {/* <section css={sectionTwoLayout}> */}
 
         {/* <p> {`${props.user.username},  userId is: ${props.user.id} `}</p> */}
@@ -204,21 +202,23 @@ export default function UserProfile(props: Props) {
   );
 }
 
-type ImageType = {
-  imgUrl: string;
-};
+// type ImageType = {
+//   imgUrl: string,
+// };
 
-export async function getServerSideProps(
-  context: GetServerSidePropsContext,
-): Promise<
-  GetServerSidePropsResult<{
-    user?: User;
-    cloudKey?: string;
-    profileImgUrl?: ImageType | '';
-    uploadPreset?: string;
-    readContract?: AddContractDetailsRequestBody;
-  }>
-> {
+// export async function getServerSideProps(
+//   context: GetServerSidePropsContext,
+// ): Promise<
+//   GetServerSidePropsResult<{
+//     user?: User;
+//     cloudKey?: string;
+//     profileImgUrl?: ImageType | '';
+//     uploadPreset?: string;
+//     readContract?: AddContractDetailsRequestBody;
+//   }>
+// > {
+
+export async function getServerSideProps(context) {
   const token = context.req.cookies.sessionToken;
   const cloudKey = process.env.CLOUDKEY;
   const uploadPreset = process.env.UPLOAD_PRESET;
@@ -227,43 +227,43 @@ export async function getServerSideProps(
     // 2. check if token is valid
     // TO DO CHECK ROLE Of USER
     const session = await getValidSessionByToken(token);
-    const user = await getUserById(session.userId);
-    const readContract = await readContractDetails(user.id);
-
-    // check if not empty
-    if (readContract) {
-      readContract.startingDate = new Date(
-        readContract.startingDate,
-      ).toLocaleDateString('en-US');
-    }
 
     if (session) {
+      // read img url from db
+      const profileImgUrl = await readUserProfileImage(session.userId);
       // User id is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };
       }
+      const user = await getUserById(session.userId);
+      if (user) {
+        const readContract = await readContractDetails(user.id);
 
-      // read user from database
-      if (!user) {
-        context.res.statusCode = 404;
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (readContract) {
+          readContract.startingDate = new Date(
+            readContract.startingDate,
+          ).toLocaleDateString('en-US');
+        }
+        console.log('imageUrlInDB:', profileImgUrl);
         return {
-          // notFound: true, // also works, but generates a generic error page
-          props: {},
+          props: {
+            user: user,
+            readContract: readContract,
+            // readContract: JSON.parse(JSON.stringify(readContract)),
+            cloudKey: cloudKey,
+            profileImgUrl: profileImgUrl || '',
+            uploadPreset: uploadPreset,
+          },
         };
       }
-
-      // read img url from db
-      let profileImgUrl = await readUserProfileImage(session.userId);
-
-      console.log('imageUrlInDB:', profileImgUrl);
+      // read user from database
+      // if (!user) {
+      context.res.statusCode = 404;
       return {
-        props: {
-          user: user,
-          readContract: readContract || {},
-          cloudKey: cloudKey,
-          profileImgUrl: profileImgUrl || '',
-          uploadPreset: uploadPreset,
-        },
+        // notFound: true, // also works, but generates a generic error page
+        props: {},
+        // };
       };
     }
   }

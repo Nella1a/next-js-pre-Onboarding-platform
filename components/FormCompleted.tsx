@@ -1,35 +1,24 @@
-import Head from 'next/head';
 import { useState } from 'react';
-import {
-  FormResponseBodyGet,
-  UserAddressResponseBody,
-} from '../pages/api/documents/[userId]';
-import { AllPersonalInfo, ReadAllPersonalInfo, User } from '../util/database';
+import { UserAddressResponseBody } from '../pages/api/documents/[userId]';
+import { ReadAllPersonalInfo } from '../util/database';
 import { sectionFormCompletedLayout } from './elements';
-import Layout from './Layout';
 
 interface ChildProps {
-  readAllUserInfo: ReadAllPersonalInfo;
+  readFullUserInfo: ReadAllPersonalInfo;
   formStep: number;
-  setFormStep: React.Dispatch<React.SetStateAction<number>>;
-  user: User;
+  // setFormStep: React.Dispatch<React.SetStateAction<number>>;
+  // user: User;
   userId: number;
-  userObject: User;
-  userFirstName: string;
-  headerImage: string;
 }
 
 export default function FormCompleted({
-  readAllUserInfo,
+  readFullUserInfo,
   formStep,
-  setFormStep,
-  user,
+  // setFormStep,
+  // user,
   userId,
-  userObject,
-  userFirstName,
-  headerImage,
 }: ChildProps) {
-  console.log('gSSP:', readAllUserInfo);
+  console.log('gSSP:', readFullUserInfo);
   // console.log('gSSP_info:', props.readAllUserInfo.email);
 
   // const [userFormInfo, setUserFormInfo] = useState<AllPersonalInfo>('');
@@ -49,39 +38,39 @@ export default function FormCompleted({
   //   userFormInfo.maritalStatus,
   // );
 
-  // State Variable with the id of the animal on editMode
-  const [idFormEditId, setidFormEditId] = useState<number>();
+  // // State Variable with the id of the animal on editMode
+  // const [idFormEditId, setidFormEditId] = useState<number>();
   // ON-EDIT State Variables for the on Edit inputs
-  const [emailOnEdit, setEmailOnEdit] = useState(readAllUserInfo.email);
+  const [emailOnEdit, setEmailOnEdit] = useState(readFullUserInfo.email);
   const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState(
-    readAllUserInfo.dateOfBirth,
+    readFullUserInfo.dateOfBirth,
   );
   const [socialSecNumberOnEdit, setSocialSecNumberOnEdit] = useState(
-    readAllUserInfo.socialSecNb,
+    readFullUserInfo.socialSecNb,
   );
   const [nationalityOnEdit, setNationalityOnEdit] = useState(
-    readAllUserInfo.nationality,
+    readFullUserInfo.nationality,
   );
-  const [phoneOnEdit, setPhoneOnEdit] = useState(readAllUserInfo.userPhone);
+  const [phoneOnEdit, setPhoneOnEdit] = useState(readFullUserInfo.userPhone);
   const [addressOnEdit, setAddressOnEdit] = useState(
-    readAllUserInfo.streetAndNbr,
+    readFullUserInfo.streetAndNbr,
   );
-  const [cityOnEdit, setCityOnEdit] = useState(readAllUserInfo.city);
+  const [cityOnEdit, setCityOnEdit] = useState(readFullUserInfo.city);
   const [zipCodeOnEdit, setZipCodeOnEdit] = useState(
-    readAllUserInfo.postalCode,
+    readFullUserInfo.postalCode,
   );
   const [maritalStatusOnEdit, setMaritalStatusOnEdit] = useState(
-    readAllUserInfo.maritalStatusId,
+    readFullUserInfo.maritalStatusId,
   );
-  const [countryOnEdit, setCountryOnEdit] = useState(readAllUserInfo.country);
+  const [countryOnEdit, setCountryOnEdit] = useState(readFullUserInfo.country);
   const [sosContactfullNameOnEdit, setSosContactfullNameOnEdit] = useState(
-    readAllUserInfo.fullname,
+    readFullUserInfo.fullname,
   );
   const [sosContactPhoneOnEdit, setSosContactPhoneOnEdit] = useState(
-    readAllUserInfo.sosPhone,
+    readFullUserInfo.sosPhone,
   );
   const [sosContactRelationOnEdit, setSosContactRelationOnEdit] = useState(
-    readAllUserInfo.relationshipId,
+    readFullUserInfo.relationshipId,
   );
 
   const [isDisabled, setIsDisabled] = useState(true);
@@ -97,7 +86,7 @@ export default function FormCompleted({
   // }, []);
 
   // UPDATE
-  async function updateUserFormInputs(usersId: number) {
+  async function updateUserFormInputs() {
     const putResponse = await fetch(`/api/documents/${userId}`, {
       method: 'PUT',
       headers: {
@@ -144,6 +133,7 @@ export default function FormCompleted({
 
         <article>
           <h2>Personal Details</h2>
+          {error && <p>Error-Message: {error}</p>}
           <div>
             <p>
               <label htmlFor="email">
@@ -404,7 +394,7 @@ export default function FormCompleted({
             {' '}
             <button
               onClick={() => {
-                updateUserFormInputs(userId).catch(() => {});
+                updateUserFormInputs().catch(() => {});
                 setIsDisabled(true);
               }}
             >
