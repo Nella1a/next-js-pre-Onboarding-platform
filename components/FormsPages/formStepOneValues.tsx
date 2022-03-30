@@ -9,19 +9,19 @@ import {
   showForm,
 } from '../elements';
 
-export type Props = {
-  // userFirstName: string;
-  // headerImage: string;
-  // userId: number;
-  formStep: number;
-  currentStep: number;
-  nextFormStep: number;
-  // prevFormStep: number;
-  // user: User;
-  // formValues
-  // setFormValues
-  userFormInput?: AllPersonalInfo;
-};
+// export type Props = {
+//   // userFirstName: string;
+//   // headerImage: string;
+//   // userId: number;
+//   formStep: number;
+//   currentStep: number | undefined;
+//   nextFormStep: number;
+//   // prevFormStep: number;
+//   // user: User;
+//   // formValues
+//   // setFormValues
+//   userFormInput?: AllPersonalInfo;
+// };
 
 // type FormValuesOne = {
 //   firstName: string;
@@ -35,8 +35,8 @@ export type Props = {
 type Errors = { message: string }[];
 
 interface ChildProps {
-  formStep: number;
-  setFormStep: React.Dispatch<React.SetStateAction<number>>;
+  formStep: number | undefined;
+  setFormStep: React.Dispatch<React.SetStateAction<number | undefined>>;
   user: User;
 }
 
@@ -53,11 +53,9 @@ export default function FormStepOneValues({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<FormValuesOne>();
+  if (!formStep) {
+    return <>Test</>;
+  }
 
   return (
     <>

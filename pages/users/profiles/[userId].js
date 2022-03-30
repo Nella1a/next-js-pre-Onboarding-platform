@@ -46,7 +46,6 @@ export default function UserProfile(props) {
   const [imageUrl, setImageUrl] = useState(`/imgTest.png`);
   // const [userId, setUserId] = useState < number > 0;
   const [userId, setUserId] = useState(0);
-
   const [errors, setErrors] = useState('');
   console.log('Props_Profile_oi:', props);
 
@@ -249,7 +248,8 @@ export async function getServerSideProps(context) {
         return {
           props: {
             user: user,
-            readContract: readContract,
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            readContract: readContract || '',
             // readContract: JSON.parse(JSON.stringify(readContract)),
             cloudKey: cloudKey,
             profileImgUrl: profileImgUrl || '',
@@ -257,8 +257,7 @@ export async function getServerSideProps(context) {
           },
         };
       }
-      // read user from database
-      // if (!user) {
+
       context.res.statusCode = 404;
       return {
         // notFound: true, // also works, but generates a generic error page

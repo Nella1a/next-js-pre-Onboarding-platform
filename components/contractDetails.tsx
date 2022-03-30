@@ -1,5 +1,5 @@
 // import router, { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { errorStyles, formAddNewJoiner } from './elements';
 
 // type Props = {
@@ -31,17 +31,16 @@ export default function AddContractDetails(props: Props) {
   const [apiResponse, setApiResponse] = useState(false);
   const [errors, setErrors] = useState<Errors>([]);
 
-  if (props.newJoinerUserId) {
-    setIsDisabled(false);
-  }
+  useEffect(() => {
+    if (props.newJoinerUserId) {
+      setIsDisabled(false);
+    }
+  }, [props.newJoinerUserId]);
+
   return (
     <>
       {/* show error message if username already exists  */}
-      <div css={errorStyles}>
-        {errors.map((error) => {
-          return <div key={`error-${error.message}`}>{error.message}</div>;
-        })}
-      </div>
+      <div css={errorStyles}>{errors && <p>{errors}</p>}</div>
 
       <form
         css={formAddNewJoiner}

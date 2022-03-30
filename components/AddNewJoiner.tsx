@@ -29,10 +29,10 @@ interface ChildProps {
   setNewJoinerUserId: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function AddNewJoiner(
-  // props: ChildProps,
-  { newJoinerUserId, setNewJoinerUserId }: ChildProps,
-) {
+export default function AddNewJoiner({
+  newJoinerUserId,
+  setNewJoinerUserId,
+}: ChildProps) {
   // const requieredTrue = false;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -40,11 +40,6 @@ export default function AddNewJoiner(
   const [lastName, setLastName] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
   const userRole = 2;
-
-  /* TO Do: POST-Method nochmals anschauen ca. minute 52:00
-  I should post to the endpoint users , than receive the new user as a response from the API and update the State Variable = the representation of the new user inside the database; no need to reloade the page
-  // https://www.youtube.com/watch?v=0MmoyuO17QQ&list=PLMZMRynGmhsjXUZTmjuatMrVl_CKn-YuV&index=51
-  */
 
   return (
     <>
@@ -81,14 +76,11 @@ export default function AddNewJoiner(
             setErrors(registerResponseBody.errors);
             return;
           }
-
-          // update state variable new joiner
-          // props.setNewJoinerUserId(registerResponse.);
           console.log('registerResponseBody:', registerResponseBody);
           console.log('userID:', registerResponseBody.user.user.id);
           // api response okay ==> update state variable
+          console.log('Console REGISSTER:', registerResponseBody);
           setNewJoinerUserId(registerResponseBody.user.user.id);
-          // setNewUserAdded(true);
         }}
       >
         <section>

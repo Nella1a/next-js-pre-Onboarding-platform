@@ -355,6 +355,7 @@ WHERE
   expiry_timestamp < NOW()
 RETURNING *
 `;
+  camelcaseKeys(session);
 }
 
 /* ****************************** */
@@ -799,7 +800,7 @@ export async function updateFormStepDb(
 
 // READ
 export async function readFormStepDb(userId: number) {
-  const [formStep] = await sql<[AddFormStep]>`
+  const [formStep] = await sql<[{ currentStep: number | undefined }]>`
   SELECT
   current_step
   FROM

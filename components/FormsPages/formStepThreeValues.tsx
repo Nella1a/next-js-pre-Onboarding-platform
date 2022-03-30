@@ -9,7 +9,7 @@ interface ChildProps {
   uploadPreset: string;
   cloudKey: string;
   formStep: number;
-  setFormStep: React.Dispatch<React.SetStateAction<number>>;
+  setFormStep: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 export default function FormStepThreeValues({

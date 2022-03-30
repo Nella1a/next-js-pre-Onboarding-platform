@@ -11,7 +11,7 @@ import {
 
 interface ChildProps {
   formStep: number;
-  setFormStep: React.Dispatch<React.SetStateAction<number>>;
+  setFormStep: React.Dispatch<React.SetStateAction<number | undefined>>;
   // prevFormStep: number;
   user: User;
 }
