@@ -29,7 +29,7 @@ export default function AddContractDetails(props: Props) {
   const [benefits, setBenefits] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [apiResponse, setApiResponse] = useState(false);
-  const [errors, setErrors] = useState<Errors>([]);
+  const [errors, setErrors] = useState<Errors>();
 
   useEffect(() => {
     if (props.newJoinerUserId) {
@@ -47,7 +47,7 @@ export default function AddContractDetails(props: Props) {
         onSubmit={async (event) => {
           event.preventDefault();
 
-          // send new user to api
+          // send forminput to api
           const addContractResponse = await fetch(
             `/api/contract/${props.newJoinerUserId}}`,
             {
@@ -65,12 +65,13 @@ export default function AddContractDetails(props: Props) {
             },
           );
 
-          // response from api & check for error message
+          // check response from api for errors
           const addContractResponseBody = await addContractResponse.json();
           if ('errors' in addContractResponseBody) {
             setErrors(addContractResponseBody.errors);
             return;
           }
+          setErrors([]);
 
           if (addContractResponseBody) {
             setApiResponse(true);

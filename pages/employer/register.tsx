@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   errorStyles,
-  flexCenterWithWidthAndHeight,
   registerFlexCenterWithWidthAndHeight,
 } from '../../components/elements';
 import Layout from '../../components/Layout';
@@ -19,7 +18,7 @@ type Errors = { message: string }[];
 
 type Props = {
   refreshUserProfile: () => void;
-  userObject?: { username: string };
+  // userObject?: { username: string };
   csrfToken: string;
 };
 
@@ -28,9 +27,10 @@ export default function Register(props: Props) {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [userRole, setUserRole] = useState(1);
+  // const [userRole, setUserRole] = useState(1);
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
+  const userRole = 1;
 
   console.log('errors:', errors);
   return (
@@ -84,7 +84,7 @@ export default function Register(props: Props) {
                     username: username,
                     password: password,
                     csrfToken: props.csrfToken,
-                    userRole: parseInt(userRole),
+                    userRole: userRole,
                     firstName: firstName,
                     lastName: lastName,
                   }),

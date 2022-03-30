@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
+  AddFormStep,
   addFormStepDb,
   formInputPersonalDetails,
+  FormUpdateValues,
   FormValuesOne,
   readUserPersonalInfo,
 } from '../../util/database';
@@ -24,7 +26,8 @@ import {
 
 export type FormOneResponseBodyPost =
   | { errors: { message: string }[] }
-  | { formOneResp: FormValuesOne };
+  | { formOneResponse: FormValuesOne; formStepResp: AddFormStep }
+  | { readPersonalInfo: FormUpdateValues };
 
 type FormOneResponseBody = FormOneResponseBodyPost;
 
@@ -68,7 +71,7 @@ export default async function formInputHandler(
       request.body.phone,
     );
 
-    // add formStep into db
+    // add formStep db
     const stepInDB = await addFormStepDb(
       request.body.userId,
       request.body.formStep + 1,
@@ -76,7 +79,8 @@ export default async function formInputHandler(
     console.log('FormStep in Api:', stepInDB);
     console.log('formValues from db', formOneResponse);
     response.status(200).json({
-      formOneResp: formOneResponse,
+      formStepResp: stepInDB,
+      formOneResponse: formOneResponse,
     });
     return;
   }
@@ -84,15 +88,15 @@ export default async function formInputHandler(
   if (request.method === 'GET') {
     const readFormOne = await readUserPersonalInfo(request.body.userId);
 
-    if (!readFormOne) {
-      response.status(405).json({
-        errors: [{ message: 'no output form db' }],
-      });
-      return;
-    }
+    // if (!readFormOne) {
+    //   response.status(405).json({
+    //     errors: [{ message: 'no output form db' }],
+    //   });
+    //   return;
+    // }
 
     response.status(200).json({
-      personalInfo: readFormOne,
+      readPersonalInfo: readFormOne,
     });
     return;
   }

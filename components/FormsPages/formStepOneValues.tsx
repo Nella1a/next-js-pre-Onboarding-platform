@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AllPersonalInfo, User } from '../../util/database';
+import { User } from '../../util/database';
 // import { useForm } from 'react-hook-form';
 import {
   errorStyles,
@@ -9,29 +9,6 @@ import {
   showForm,
 } from '../elements';
 
-// export type Props = {
-//   // userFirstName: string;
-//   // headerImage: string;
-//   // userId: number;
-//   formStep: number;
-//   currentStep: number | undefined;
-//   nextFormStep: number;
-//   // prevFormStep: number;
-//   // user: User;
-//   // formValues
-//   // setFormValues
-//   userFormInput?: AllPersonalInfo;
-// };
-
-// type FormValuesOne = {
-//   firstName: string;
-//   lastName: string;
-//   dateOfBirth: Date;
-//   socialSecNumber: number;
-//   nationality: string | undefined;
-//   email: string | undefined;
-//   phone: string | undefined;
-// };
 type Errors = { message: string }[];
 
 interface ChildProps {
@@ -70,7 +47,7 @@ export default function FormStepOneValues({
         onSubmit={async (event) => {
           event.preventDefault();
 
-          // send input to api
+          // send form input to api
           const formInputResponse = await fetch('/api/formStepOneValues', {
             method: 'POST',
             headers: {
@@ -87,7 +64,7 @@ export default function FormStepOneValues({
             }),
           });
 
-          // get response from api & check for error message
+          // check response from api for errors
           const formInputResponseBody = await formInputResponse.json();
           if ('errors' in formInputResponseBody) {
             setErrorsApi(formInputResponseBody.errors);
@@ -95,11 +72,13 @@ export default function FormStepOneValues({
           }
           setErrorsApi([]);
 
-          const getValuesFromDatabase = async () => {
-            const response = await fetch('/api/formStepOneValues');
-            const responseBody = await response.json();
-            console.log('return formOneValue:', responseBody);
-          };
+          // const getValuesFromDatabase = async () => {
+          //   const response = await fetch('/api/formStepOneValues');
+          //   const responseBody = await response.json();
+          //   console.log('return formOneValue:', responseBody);
+          // };
+
+          // response from api okay ==> update formstep variable
           const nextFormStep = formStep + 1;
           setFormStep(nextFormStep);
         }}

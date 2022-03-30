@@ -5,22 +5,19 @@ import { verifyCsrfToken } from '../../util/auth';
 import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import {
   createSession,
-  createUser,
-  getUserByUsername,
   getUserByUserWithPasswordHashByUsername,
-  Session,
   User,
 } from '../../util/database';
 
-type LoginRequestBody = {
-  username: string;
-  password: string;
-  csrfToken: string;
-};
+// type LoginRequestBody = {
+//   username: string;
+//   password: string;
+//   csrfToken: string;
+// };
 
-type LoginNextApiRequest = Omit<NextApiRequest, 'body'> & {
-  body: LoginRequestBody;
-};
+// type LoginNextApiRequest = Omit<NextApiRequest, 'body'> & {
+//   body: LoginRequestBody;
+// };
 
 export type LoginResponseBody =
   | { errors: { message: string }[] }

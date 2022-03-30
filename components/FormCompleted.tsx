@@ -21,27 +21,6 @@ export default function FormCompleted({
   console.log('gSSP:', readFullUserInfo);
   // console.log('gSSP_info:', props.readAllUserInfo.email);
 
-  // const [userFormInfo, setUserFormInfo] = useState<AllPersonalInfo>('');
-
-  // const [dateOfBirth, setDateOfBirth] = useState('');
-  // const [socialSecNumber, setSocialSecNumber] = useState(
-  //   userFormInfo.socialSecNb,
-  // );
-  // const [nationality, setNationality] = useState(userFormInfo.nationality);
-  // const [email, setEmail] = useState(userFormInfo.email);
-  // const [userPhone, setUserPhone] = useState(userFormInfo.userPhone);
-  // const [address, setAddress] = useState(userFormInfo.streetAndNbr);
-  // const [city, setCity] = useState(userFormInfo.city);
-  // const [zipCode, setZipCode] = useState(userFormInfo.postalCode);
-  // const [country, setCountry] = useState(userFormInfo.country);
-  // const [maritalStatus, setMaritalStatus] = useState(
-  //   userFormInfo.maritalStatus,
-  // );
-
-  // // State Variable with the id of the animal on editMode
-  // const [idFormEditId, setidFormEditId] = useState<number>();
-  // ON-EDIT State Variables for the on Edit inputs
-
   const [emailOnEdit, setEmailOnEdit] = useState(readFullUserInfo.email);
   const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState(
     readFullUserInfo.dateOfBirth,
@@ -85,6 +64,25 @@ export default function FormCompleted({
   //   setUserFormInfo(responseBody.userFormInfo);
   //   console.log('userFormInfoResponse:', userFormInfo);
   // }, []);
+
+  // if (!readFullUserInfo) {
+  //   console.log('this is not working');
+  //   setEmailOnEdit('');
+  //   setDateOfBirthOnEdit('');
+  //   setSocialSecNumberOnEdit(0);
+  //   setNationalityOnEdit('');
+  //   setPhoneOnEdit(0);
+  //   setAddressOnEdit('');
+  //   setCityOnEdit('');
+  //   setZipCodeOnEdit(0);
+  //   setCountryOnEdit('');
+  //   setMaritalStatusOnEdit(0);
+  //   setSosContactfullNameOnEdit('');
+  //   setSosContactPhoneOnEdit(0);
+  //   setSosContactRelationOnEdit(0);
+
+  //   return <div>Hello</div>;
+  // }
 
   // UPDATE
   async function updateUserFormInputs() {

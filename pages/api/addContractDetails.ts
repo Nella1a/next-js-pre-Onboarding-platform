@@ -5,9 +5,9 @@ import {
   readContractDetails,
 } from '../../util/database';
 
-type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
-  body: AddContractDetailsRequestBody;
-};
+// type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
+//   body: AddContractDetailsRequestBody;
+// };
 
 export type AddContractResponseBody =
   | { errors: { message: string }[] }
@@ -54,12 +54,12 @@ export default async function registerHandler(
 
     console.log('added contract:', contractSummary);
     // error handling
-    if (!contractSummary) {
-      response.status(405).json({
-        errors: [{ message: 'failed to add contract summary to db' }],
-      });
-      return;
-    }
+    // if (!contractSummary) {
+    //   response.status(405).json({
+    //     errors: [{ message: 'failed to add contract summary to db' }],
+    //   });
+    //   return;
+    // }
 
     // success
     response.status(201).json({

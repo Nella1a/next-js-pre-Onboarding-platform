@@ -88,16 +88,16 @@ export default async function formInputHandler(
     );
 
     // error handling
-    if (!formResponseMaritalStaus) {
-      response.status(401).json({
-        errors: [
-          {
-            message: 'marital status not addded to database, please try again',
-          },
-        ],
-      });
-      return;
-    }
+    // if (!formResponseMaritalStaus) {
+    //   response.status(401).json({
+    //     errors: [
+    //       {
+    //         message: 'marital status not addded to database, please try again',
+    //       },
+    //     ],
+    //   });
+    //   return;
+    // }
 
     // update formStep in db
     const stepInDB = await updateFormStepDb(

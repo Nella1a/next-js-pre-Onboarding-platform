@@ -14,11 +14,9 @@ import FormStepTwoValues from '../../../components/FormsPages/formStepTwoValues'
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/Navigation';
 import {
-  AllPersonalInfo,
   getUserByValidSessionToken,
   ReadAllPersonalInfo,
   readFormStepDb,
-  readUserAddress,
   readUserAllPersonalInfo,
   User,
 } from '../../../util/database';
@@ -49,7 +47,6 @@ export default function Documents(props: Props) {
   //   setFormStep(props.currentStep.currentStep);
   // }, [props.currentStep.currentStep]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!props.currentStep) {
     return (
       <Layout
@@ -192,9 +189,7 @@ export async function getServerSideProps(
     user?: User;
     cloudKey?: string;
     uploadPreset?: string;
-    userFormInput?: AllPersonalInfo;
-    readAllUserInfo?: ReadAllPersonalInfo;
-    // readFormOneValues?: FormValuesOne;
+    readAllUserInfo: ReadAllPersonalInfo;
     currentStep: number | undefined;
   }>
 > {
@@ -206,30 +201,48 @@ export async function getServerSideProps(
   // 3. If user exists, return user and render page
   if (user) {
     // const readFormOneValues = await readUserPersonalInfo(user.id);
+
+    // get current formstep
     const readCurrentFormStep = await readFormStepDb(user.id);
-    const userAddress = await readUserAddress(user.id);
+
+    // const userAddress = await readUserAddress(user.id);
     const readAllUserInfo = await readUserAllPersonalInfo(user.id);
 
     console.log('current_FormStep gSSP:', readCurrentFormStep);
-    console.log('userAddress:', userAddress);
+    // console.log('userAddress:', userAddress);
     console.log('JoinreadPersonalDetails', readAllUserInfo);
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (readAllUserInfo) {
-      readAllUserInfo.dateOfBirth = new Date(
-        readAllUserInfo.dateOfBirth,
-      ).toLocaleDateString('en-US');
-    }
+    // const emptyFormInput = {
+    //   dateOfBirth: '',
+    //   socialSecNb: 0,
+    //   nationality: '',
+    //   email: '',
+    //   userPhone: 0,
+    //   streetAndNbr: '',
+    //   city: '',
+    //   postalCode: 0,
+    //   country: '',
+    //   maritalStatusId: 0,
+    //   relationshipId: 0,
+    //   fullname: '',
+    //   sosPhone: 0,
+    // };
+
+    // if (readAllUserInfo) {
+    readAllUserInfo.dateOfBirth = new Date(
+      readAllUserInfo.dateOfBirth,
+    ).toLocaleDateString('en-US');
+    // }
 
     return {
       props: {
         user: user,
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        readAllUserInfo: readAllUserInfo || '',
+        readAllUserInfo: readAllUserInfo,
         // readFormOneValues: readFormOneValues || null,
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        currentStep: readCurrentFormStep ? readCurrentFormStep.currentStep : 0,
-        // currentStep: readCurrentFormStep,
+
+        // currentStep: readCurrentFormStep ? readCurrentFormStep.currentStep : 0,
+
+        currentStep: readCurrentFormStep.currentStep,
       },
     };
   }

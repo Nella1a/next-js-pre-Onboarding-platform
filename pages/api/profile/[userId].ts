@@ -50,18 +50,18 @@ export default async function UploadFilesHandler(
     console.log('imageUrl', request.body.imageUrl);
     console.log('userIdBE', userId);
 
-    // Add image
+    // Add image to db
     const addImgUrlToDB = await addUserProfileImage(
       request.body.userId,
       request.body.imageUrl,
     );
 
-    if (!addImgUrlToDB) {
-      response.status(405).json({
-        errors: 'failed to save in db',
-      });
-      return;
-    }
+    // if (!addImgUrlToDB) {
+    //   response.status(405).json({
+    //     errors: 'failed to save in db',
+    //   });
+    //   return;
+    // }
 
     console.log('imgRead:', addImgUrlToDB);
     response.status(200).json({
@@ -77,11 +77,11 @@ export default async function UploadFilesHandler(
       request.body.imageUrl,
     );
 
-    if (!addImgUrlToDB) {
-      response.status(405).json({
-        errors: 'failed to save in db',
-      });
-    }
+    // if (!addImgUrlToDB) {
+    //   response.status(405).json({
+    //     errors: 'failed to save in db',
+    //   });
+    // }
 
     console.log('UpdateImage', addImgUrlToDB);
     response.status(200).json({

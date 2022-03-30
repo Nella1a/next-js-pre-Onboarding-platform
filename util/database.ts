@@ -50,15 +50,6 @@ export type NewJoiners = User & {
   role: string;
 };
 
-export type UserFullName = {
-  firstName: string;
-  lastName: string;
-};
-
-/* *************************** */
-/*        Table: roles         */
-/* *************************** */
-
 /* *************************** */
 /*        Table: users         */
 /* *************************** */
@@ -90,7 +81,7 @@ export async function getUserByUserWithPasswordHashByUsername(
   return user && camelcaseKeys(user);
 }
 
-// add user to database
+// CREATE
 export async function createUser(
   username: string,
   passwordHash: string,
@@ -113,7 +104,7 @@ export async function createUser(
   return camelcaseKeys(user);
 }
 
-// get user by id
+// READ
 export async function getUserById(id: number) {
   const [user] = await sql<[User | undefined]>`
     SELECT
@@ -233,39 +224,7 @@ export type ReadAllPersonalInfo = {
   sosPhone: number;
 };
 
-// // read all personal infos
-// export async function readUserAllPersonalInfo(userId: number) {
-//   const [allPersonalInfo] = await sql<[AllPersonalInfo]>`
-//   SELECT * FROM
-//   civil_status,
-//   user_personal_details,
-//   user_address,
-//   emergency_contact,
-//   users
-//   WHERE
-//   users.id = ${userId} AND
-// users.id = civil_status.user_id AND
-//    users.id = user_personal_details.user_id AND
-//    users.id = user_address.user_id AND
-//  users.id = emergency_contact.user_id
-//   `;
-//   return allPersonalInfo && camelcaseKeys(allPersonalInfo);
-// }
-
-// // read firstname
-// export async function readUserFirstName(userId: number) {
-//   const [userFirstName] = await sql`
-//   SELECT
-//   first_name
-//   FROM
-//   user_personal_details
-//   WHERE
-//   user_personal_details.user_id = ${userId}
-//   `;
-//   return userFirstName && camelcaseKeys(userFirstName);
-// }
-
-// READ all personal infos
+// READ
 export async function readUserAllPersonalInfo(userId: number) {
   const [allPersonalInfo] = await sql<[ReadAllPersonalInfo]>`
   SELECT
@@ -448,7 +407,7 @@ export async function readUserProfileImage(userId: number) {
   return readImageUrl && camelcaseKeys(readImageUrl);
 }
 
-type FormUpdateValues = {
+export type FormUpdateValues = {
   dateOfBirth: string;
   email: string;
   socialSecNb: number;
@@ -486,7 +445,7 @@ WHERE
 
 // READ
 export async function readUserPersonalInfo(userId: number) {
-  const [readFormiInput] = await sql`
+  const [readFormiInput] = await sql<[FormUpdateValues]>`
 SELECT
   (user_personal_details.date_of_birth) as date_of_birth,
   user_personal_details.social_sec_nb as social_sec_nb,
@@ -763,19 +722,18 @@ export async function readContractDetails(userId: number) {
 /*        Table: form_steps     */
 /* *************************** */
 
-// CREATE
 export type AddFormStep = {
-  userId: string;
-  currentFormStep: number;
+  currentStep: number;
 };
 
+// CREATE
 export async function addFormStepDb(userId: number, currentFormStep: number) {
   const [formStep] = await sql<[AddFormStep]>`
   INSERT INTO form_steps
   (user_id, current_step)
   VALUES
   (${userId},${currentFormStep})
-  RETURNING *
+  RETURNING current_step
   `;
   console.log('Add FormStepDB:', formStep);
   return formStep;
@@ -786,14 +744,14 @@ export async function updateFormStepDb(
   userId: number,
   currentFormStep: number,
 ) {
-  const [formStep] = await sql<[AddFormStep]>`
+  const [formStep] = await sql<[{ currentStep: number }]>`
   UPDATE
   form_steps
   SET
   current_step = ${currentFormStep}
   WHERE
   form_steps.user_id=${userId}
-  RETURNING *
+  RETURNING current_step
   `;
   return camelcaseKeys(formStep);
 }

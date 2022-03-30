@@ -22,7 +22,7 @@ type Errors = { message: string }[];
 
 type Props = {
   refreshUserProfile: () => void;
-  userObject?: { username: string };
+  // userObject?: { username: string };
   csrfToken: string;
 };
 

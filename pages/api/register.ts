@@ -4,25 +4,24 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyCsrfToken } from '../../util/auth';
 import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 import {
-  addUserRole,
   createSession,
   createUser,
   getUserByUsername,
   User,
 } from '../../util/database';
 
-type RegisterRequestBody = {
-  username: string;
-  password: string;
-  csrfToken: string;
-  userRole: number;
-  firstName: string;
-  lastName: string;
-};
+// type RegisterRequestBody = {
+//   username: string;
+//   password: string;
+//   csrfToken: string;
+//   userRole: number;
+//   firstName: string;
+//   lastName: string;
+// };
 
-type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
-  body: RegisterRequestBody;
-};
+// type RegisterNextApiRequest = Omit<NextApiRequest, 'body'> & {
+//   body: RegisterRequestBody;
+// };
 
 export type RegisterResponseBody =
   | { errors: { message: string }[] }
@@ -94,25 +93,10 @@ export default async function registerHandler(
       request.body.userRole,
     );
 
-    if (!user) {
-      response.status(405).json({
-        errors: [{ message: 'usser not added to the db' }],
-      });
-    }
-
-    // const userId = user.id;
-    // console.log('userIDDB + roleId:', userId);
-    // console.log('user', user);
-
-    // // add userRole to user_role table
-    // const userRole = await addUserRole(userId, request.body.roleId);
-    // console.log('userRole', userRole);
-
-    // if (!userRole) {
+    // if (!user) {
     //   response.status(405).json({
-    //     errors: [{ message: 'UserRole not added to the db' }],
+    //     errors: [{ message: 'usser not added to the db' }],
     //   });
-    //   return;
     // }
 
     // 1. Create a unique token (use node crypto)

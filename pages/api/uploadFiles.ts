@@ -1,21 +1,25 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { addUserProfileImage, readUserProfileImage } from '../../util/database';
+import {
+  addUserProfileImage,
+  ImgUrl,
+  readUserProfileImage,
+} from '../../util/database';
 
 // type FormRequestBody = { formResponse: Omit<AllPersonalInfo, 'id'> };
 
-type FileUploadRequestBody = { imageUrl: string; userId: number };
+type FileUploadRequestBody = { imageUrl: ImgUrl; userId: number };
 
 type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
   body: FileUploadRequestBody;
 };
 
 export type FileUploadResponseBodyGet = {
-  url: string;
+  url: ImgUrl;
 };
 
 export type UserFileUploadResponseBody =
   | { errors: string }
-  | { url: string | undefined };
+  | { url: ImgUrl | undefined };
 
 export type FormResponseBody =
   | FileUploadResponseBodyGet
@@ -37,7 +41,7 @@ export default async function UploadFilesHandler(
 
   console.log('imageUrl', request.body.imageUrl);
   console.log('userIdBE', request.body.userId);
-  if (!request.body.imageUrl || typeof request.body.imageUrl !== 'string') {
+  if (typeof request.body.imageUrl !== 'string') {
     response.status(400).json({
       errors: 'no valid image url',
     });
@@ -51,6 +55,11 @@ export default async function UploadFilesHandler(
       request.body.userId,
       request.body.imageUrl,
     );
+
+    response.status(201).json({
+      url: responseUrlImage,
+    });
+    return;
   }
 
   // *** GET METHOD ***
