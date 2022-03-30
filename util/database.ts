@@ -57,9 +57,7 @@ export type NewJoiners = User & {
 // check if username already exists in database
 export async function getUserByUsername(username: string) {
   const [user] = await sql<[id: number | undefined]>`
-
   SELECT id FROM users WHERE username = ${username}
-
   `;
   return user && camelcaseKeys(user);
 }
@@ -139,7 +137,6 @@ export async function addUserRole(userId: number, userRoleId: number) {
   VALUES
   (${userId}, ${userRoleId})
   RETURNING *
-
   `;
   return userRole;
 }
@@ -162,7 +159,6 @@ export async function getUserByValidSessionToken(token: string | undefined) {
       users,
       sessions,
       roles
-
     WHERE
       sessions.token = ${token} AND
       sessions.user_id = users.id AND
@@ -402,7 +398,6 @@ export async function readUserProfileImage(userId: number) {
   user_personal_details
   WHERE
   user_id = ${userId}
-
   `;
   return readImageUrl && camelcaseKeys(readImageUrl);
 }
@@ -438,7 +433,6 @@ WHERE
   nationality,
   email,
   user_phone
-
 `;
   return camelcaseKeys(updateFormiInput);
 }
@@ -545,12 +539,10 @@ export async function AddUserMaritalStatus(
   maritalStatus: number,
 ) {
   const [userMaritalStatus] = await sql<[MaritalStatus]>`
-
   INSERT INTO civil_status
     (user_id, marital_type_id)
   VALUES
    (${userId}, (SELECT id FROM marital_status WHERE id = ${maritalStatus} ))
-
    RETURNING
    id,
    marital_type_id
@@ -605,17 +597,14 @@ export async function AddUserEmergencyContact(
   relationshipId: number,
 ) {
   const [userEmergencyContact] = await sql<[SosContact]>`
-
   INSERT INTO emergency_contact
     (user_id, fullName, sos_phone, relationship_id)
-
   VALUES
    (${userId}, ${fullName}, ${sosPhone}, ${relationshipId})
    RETURNING
   relationship_id,
    fullName,
    sos_phone
-
   `;
   return camelcaseKeys(userEmergencyContact);
 }
@@ -628,7 +617,6 @@ export async function updateUserEmergencyContact(
   relationshipId: number,
 ) {
   const updateEmergencyContact = await sql`
-
 UPDATE
 emergency_contact
 SET

@@ -30,7 +30,7 @@ export default function FormStepOneValues({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
-  if (!formStep) {
+  if (formStep !== 0) {
     return <>Test</>;
   }
 

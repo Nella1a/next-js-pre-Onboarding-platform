@@ -36,7 +36,7 @@ type FormNextApiRequest = Omit<NextApiRequest, 'body'> & {
 };
 
 export type FormResponseBodyGet = {
-  userFormInfo: ReadAllPersonalInfo;
+  userFormInfo: ReadAllPersonalInfo | undefined;
 };
 
 export type UserAddressResponseBody =
@@ -109,6 +109,8 @@ export default async function formInputHandler(
   if (request.method === 'GET') {
     // read all personal information from db
     const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
+
+    console.log('P-Info API', userAllPersonalInfoResponse);
 
     // if (!userAllPersonalInfoResponse) {
     //   response.status(400).json({

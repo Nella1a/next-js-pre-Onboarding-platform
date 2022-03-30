@@ -47,7 +47,7 @@ export default function Documents(props: Props) {
   //   setFormStep(props.currentStep.currentStep);
   // }, [props.currentStep.currentStep]);
 
-  if (!props.currentStep) {
+  if (!formStep) {
     return (
       <Layout
         userObject={props.userObject}
@@ -228,21 +228,23 @@ export async function getServerSideProps(
     //   sosPhone: 0,
     // };
 
-    // if (readAllUserInfo) {
-    readAllUserInfo.dateOfBirth = new Date(
-      readAllUserInfo.dateOfBirth,
-    ).toLocaleDateString('en-US');
-    // }
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (readAllUserInfo) {
+      readAllUserInfo.dateOfBirth = new Date(
+        readAllUserInfo.dateOfBirth,
+      ).toLocaleDateString('en-US');
+    }
 
     return {
       props: {
         user: user,
-        readAllUserInfo: readAllUserInfo,
+        readAllUserInfo: readAllUserInfo || null,
         // readFormOneValues: readFormOneValues || null,
 
-        // currentStep: readCurrentFormStep ? readCurrentFormStep.currentStep : 0,
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        currentStep: readCurrentFormStep ? readCurrentFormStep.currentStep : 0,
 
-        currentStep: readCurrentFormStep.currentStep,
+        // currentStep: readCurrentFormStep.currentStep,
       },
     };
   }

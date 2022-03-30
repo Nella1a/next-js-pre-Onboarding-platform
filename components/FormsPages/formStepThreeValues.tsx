@@ -87,7 +87,7 @@ export default function FormStepThreeValues({
             body: JSON.stringify({
               userId: user.id,
               fileOneUrl: fileUploadOne,
-              fileType: fileUploadOneSelect,
+              fileType: parseInt(fileUploadOneSelect),
               sosContactfullName: sosContactfullName,
               sosContactPhone: sosContactPhone,
               sosContactRelation: parseInt(sosContactRelation),
