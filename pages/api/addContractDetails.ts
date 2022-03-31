@@ -11,7 +11,7 @@ import {
 
 export type AddContractResponseBody =
   | { errors: { message: string }[] }
-  | { contractSummary: AddContractDetailsRequestBody };
+  | { contractSummary: AddContractDetailsRequestBody | undefined };
 
 export default async function registerHandler(
   request: NextApiRequest,

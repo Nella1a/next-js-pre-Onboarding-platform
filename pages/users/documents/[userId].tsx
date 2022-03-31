@@ -238,6 +238,7 @@ export async function getServerSideProps(
     return {
       props: {
         user: user,
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         readAllUserInfo: readAllUserInfo || null,
         // readFormOneValues: readFormOneValues || null,
 

@@ -43,6 +43,7 @@ export default function FormStepOneValues({
         })}
       </div>
       <form
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         css={[formStyle, formStep === 0 ? showForm : hideForm]}
         onSubmit={async (event) => {
           event.preventDefault();
