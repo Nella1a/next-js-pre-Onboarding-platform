@@ -25,11 +25,23 @@ export default async function profileHandler(
 
     // 2. Retrieve user by valid sessionToken
     const user = await getUserByValidSessionToken(token);
+
+    if (!user) {
+      res.status(400).json({
+        errors: [
+          {
+            message: 'could not found user',
+          },
+        ],
+      });
+      return;
+    }
+
     const userId = user.id;
     const profileImgUrl = await readUserProfileImage(userId);
 
     // If user exists but no img url
-    if (user && !profileImgUrl) {
+    if (!profileImgUrl) {
       res.status(200).json({
         user: user,
         profileImgUrl: '',
@@ -37,25 +49,23 @@ export default async function profileHandler(
       return;
     }
 
-    // If user & img url exists, return user and render page
-    if (user && profileImgUrl) {
-      res.status(200).json({
-        user: user,
-        profileImgUrl: profileImgUrl,
-      });
-      return;
-    }
-
-    // If user is undefined, send error message
-    res.status(404).json({
-      errors: [
-        {
-          message: 'User not found or session token not valid',
-        },
-      ],
+    res.status(200).json({
+      user: user,
+      profileImgUrl: profileImgUrl,
     });
     return;
   }
+
+  //   // If user is undefined, send error message
+  //   res.status(404).json({
+  //     errors: [
+  //       {
+  //         message: 'User not found or session token not valid',
+  //       },
+  //     ],
+  //   });
+  //   return;
+  // }
 
   res.status(405).json({
     errors: [

@@ -238,21 +238,20 @@ export async function getServerSideProps(context) {
       if (user) {
         const readContract = await readContractDetails(user.id);
 
-        // if (readContract) {
-        // readContract.startingDate = new Date(
-        //   readContract.startingDate,
-        // ).toLocaleDateString('en-US');
+        if (readContract) {
+          readContract.startingDate = new Date(
+            readContract.startingDate,
+          ).toLocaleDateString('en-US');
 
-        readContract.startingDate =
-          readContract.startingDate.toLocaleDateString('en-US');
-
-        // }
+          // readContract.startingDate =
+          //   readContract.startingDate.toLocaleDateString('en-US');
+        }
         console.log('imageUrlInDB:', profileImgUrl);
         return {
           props: {
             user: user,
             // readContract: readContract || '',
-            readContract: readContract,
+            readContract: readContract || '',
             // readContract: JSON.parse(JSON.stringify(readContract)),
             cloudKey: cloudKey,
             profileImgUrl: profileImgUrl || '',

@@ -704,7 +704,7 @@ export async function addContractDetails(
 
 // READ
 export async function readContractDetails(userId: number) {
-  const [contract] = await sql<[AddContractDetailsRequestBody]>`
+  const [contract] = await sql<[AddContractDetailsRequestBody | undefined]>`
   SELECT
   user_id,
   starting_date,
@@ -716,7 +716,7 @@ export async function readContractDetails(userId: number) {
   WHERE
   user_id = ${userId}
   `;
-  return camelcaseKeys(contract);
+  return contract && camelcaseKeys(contract);
 }
 
 /* *************************** */

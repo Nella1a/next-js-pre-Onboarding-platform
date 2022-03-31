@@ -40,7 +40,7 @@ export default async function loginHandler(
       response.status(400).json({
         errors: [{ message: 'Username, password or CSRF token not provided' }],
       });
-      return; // Always include a return in api route, important because it will prevent "Headers" already sent" error
+      return;
     }
 
     // Verify CSRF Token
