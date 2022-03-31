@@ -3,6 +3,9 @@ import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 // 1. Import postgres (= client library which connects to DBMS)
 import postgres from 'postgres';
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku.js';
+
+setPostgresDefaultsOnHeroku();
 
 config();
 
@@ -11,17 +14,27 @@ declare module globalThis {
   let postgresSqlClient: ReturnType<typeof postgres> | undefined;
 }
 
-// Connect only once to the database
-// https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
 function connectOneTimeToDatabase() {
-  // When in development, connect only once to the database
-  if (!globalThis.postgresSqlClient) {
-    globalThis.postgresSqlClient = postgres();
+  let sql;
+
+  // production:
+  if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
+    // Heroku needs SSL connections but
+    // has an "unauthorized" certificate
+    // https://devcenter.heroku.com/changelog-items/852
+    sql = postgres({ ssl: { rejectUnauthorized: false } });
   }
-  const sql = globalThis.postgresSqlClient;
+  // local environment:
+  else {
+    if (!globalThis.postgresSqlClient) {
+      globalThis.postgresSqlClient = postgres();
+    }
+    sql = globalThis.postgresSqlClient;
+  }
   return sql;
 }
 
+// Connect to PostgresSQl
 const sql = connectOneTimeToDatabase();
 
 /* *************************** */
