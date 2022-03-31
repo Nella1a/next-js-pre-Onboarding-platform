@@ -113,14 +113,9 @@ export default async function registerHandler(
 
     // Add user to the response body
     // 4. Add cookie to the header response
-    response
-      .status(201)
-      .setHeader('Set-Cookie', serializedCookie)
-      .json({
-        user: {
-          user: user,
-        },
-      });
+    response.status(201).setHeader('Set-Cookie', serializedCookie).json({
+      user: user,
+    });
     return;
   }
   response.status(405).json({
