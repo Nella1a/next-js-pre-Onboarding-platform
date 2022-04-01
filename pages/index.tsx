@@ -70,7 +70,7 @@ export default function Home(props: Props) {
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum
               </p>
-              <Link href="/" passHref>
+              <Link href={`/users/profiles/${props.user.id}}`} passHref>
                 <button>
                   <span>
                     {' '}
@@ -100,7 +100,7 @@ export default function Home(props: Props) {
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum
               </p>
-              <Link href="/" passHref>
+              <Link href={`/users/contract/${props.user.id}}`} passHref>
                 <button>
                   <span>
                     {' '}
@@ -127,7 +127,7 @@ export default function Home(props: Props) {
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum
               </p>
-              <Link href="/" passHref>
+              <Link href={`/users/documents/${props.user.id}}`} passHref>
                 <button>
                   <span>
                     {' '}
@@ -157,7 +157,7 @@ export default function Home(props: Props) {
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum
               </p>
-              <Link href="/" passHref>
+              <Link href="/dashboard" passHref>
                 <button>
                   <span>
                     {' '}
@@ -178,13 +178,13 @@ export default function Home(props: Props) {
               <Image src={homeNews} alt="" width="460" height="146" />
             </div>
             <div>
-              <h2>News and Updates</h2>
+              <h2>Add new Joiner</h2>
               <p>
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum
               </p>
-              <Link href="/" passHref>
+              <Link href="/addNewjoiner" passHref>
                 <button>
                   <span>
                     {' '}
@@ -195,7 +195,7 @@ export default function Home(props: Props) {
                       height="20"
                     />
                   </span>
-                  <span>Updates</span>
+                  <span>New Joiner</span>
                 </button>
               </Link>
             </div>

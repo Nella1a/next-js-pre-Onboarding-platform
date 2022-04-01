@@ -649,7 +649,7 @@ export const indexSectionTwoLayout = css`
       /* gap: 1rem; */
       align-items: center;
       justify-content: center;
-      border: 2px solid yellow;
+      /* border: 2px solid yellow; */
       background-color: var(--fontColorWhite);
 
       div:nth-of-type(2) {

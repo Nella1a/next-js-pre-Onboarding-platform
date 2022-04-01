@@ -41,8 +41,8 @@ export default function Header(props: Props) {
         <div>
           {' '}
           <p>
-            Hello <strong>{props.userFirstName}</strong> Good to have you on the
-            team
+            Hello <strong>{props.userFirstName}</strong>, good to have you on
+            the team
           </p>
         </div>
         <div>
