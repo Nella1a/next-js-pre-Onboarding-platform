@@ -5,7 +5,6 @@ import iconDashboard from '../public/img/menu/iconDashboard.svg';
 import iconDocuments from '../public/img/menu/iconDocuments.svg';
 import iconHome from '../public/img/menu/iconHome.svg';
 import iconProfile from '../public/img/menu/iconProfile.png';
-import iconUpdates from '../public/img/menu/iconUpdates.svg';
 import { navigationStyle } from './elements';
 
 type Props = {
@@ -84,7 +83,7 @@ export default function Navigation(props: Props) {
             </Link>
           </li>
         )}
-        <li>
+        {/* <li>
           <Image
             src={iconUpdates}
             alt="Documents Icon"
@@ -94,7 +93,7 @@ export default function Navigation(props: Props) {
           <Link href="/welcome">
             <a>Updates</a>
           </Link>
-        </li>
+        </li> */}
       </ul>
 
       {/* This should be a normal a link, thus we want the page to relode*/}
