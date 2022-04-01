@@ -336,7 +336,6 @@ export const flexCenterWithWidthAndHeight = css`
 
         p {
           width: 100%;
-          margin-top: 3rem;
         }
       }
     }
@@ -467,7 +466,6 @@ export const registerFlexCenterWithWidthAndHeight = css`
 
         p {
           width: 100%;
-          margin-top: 0.5rem;
         }
       }
     }
