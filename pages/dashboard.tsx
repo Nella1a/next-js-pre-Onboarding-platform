@@ -1,7 +1,11 @@
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-import { sectionOneLayout } from '../components/elements';
+import {
+  dashboardStyle,
+  sectionOneLayout,
+  sectionTwoLayoutForm,
+} from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import {
@@ -61,37 +65,25 @@ export default function Dashboard(props: Props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
-      <section>
-        <h1>
-          {' '}
-          Personal Details: Hello {props.user.username} User_id: {props.user.id}
-          User_role: {props.user.roleId}{' '}
-        </h1>
-
-        <table>
-          <caption>All New Hires</caption>
-          <thead>
-            <tr>
-              <th>First Name </th>
-              <th>Last Name</th>
-              <th>Starting Date</th>
-              <th>Position</th>
-              <th>Department</th>
-            </tr>
-          </thead>
-          <tbody>
-            {props.newJoiners.map((joiner) => {
-              return (
-                <tr key={`overview-${joiner.id}`} css={styleNewHire}>
-                  <td> First Name: {joiner.firstName} </td>
-                  <td> Last Name: {joiner.lastName} </td>
-                  <td> Id: {joiner.id} </td>
-                  <td> roleId:{joiner.roleId}</td>{' '}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <section css={dashboardStyle}>
+        <div>
+          <article>
+            <div>First Name</div>
+            <div>Last Name</div>
+            <div>Starting Date</div>
+            <div>Position</div>
+          </article>
+          {props.newJoiners.map((joiner) => {
+            return (
+              <article key={`overview-${joiner.id}`} css={styleNewHire}>
+                <div>FN:{joiner.firstName}</div>
+                <div>LN:{joiner.lastName} </div>
+                <div>Id: {joiner.id}</div>
+                <div>roleId:{joiner.roleId}</div>
+              </article>
+            );
+          })}
+        </div>
       </section>
     </Layout>
   );

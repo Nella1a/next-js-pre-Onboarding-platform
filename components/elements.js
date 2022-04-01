@@ -1092,3 +1092,54 @@ export const formAddNewJoiner = css`
     }
   }
 `;
+
+/* *************************** */
+/*       Dashboard      */
+/* *************************** */
+export const dashboardStyle = css`
+  min-width: 85%;
+  background-color: var(--backGroundColorGrey);
+  padding: 1.5rem;
+
+  > div {
+    ${displayFlex('flex', 'column', 'space-between', 'center')}
+    background-color: #fff;
+    width: 85%;
+    min-width: 57.5rem;
+    height: 95%;
+    padding: 1.5rem;
+    border-radius: 20px;
+    /* gap: 3rem; */
+
+    article:first-of-type {
+      display: flex;
+      margin-bottom: 0.5rem;
+      gap: 0.8rem;
+
+      div {
+        ${displayFlex('flex', 'row', 'center', 'center')}
+        background-color: var(--colorMainBlue);
+        color: var(--fontColorWhite);
+        font-weight: 600;
+        text-align: center;
+        /* margin-right: 0.8rem; */
+        width: 13rem;
+        height: 3rem;
+        border-radius: 5px;
+      }
+    }
+    article {
+      div {
+        ${displayFlex('flex', 'row', 'center', 'center')}
+        background-color: var(--backGroundColorGrey);
+        color: var(--colorMainBlue);
+        font-weight: 300;
+        text-align: center;
+        /* margin-right: 0.8rem; */
+        width: 13rem;
+        height: 3rem;
+        border-radius: 5px;
+      }
+    }
+  }
+`;
