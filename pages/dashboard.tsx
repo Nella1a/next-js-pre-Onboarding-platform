@@ -125,15 +125,15 @@ export async function getServerSideProps(
   if (user.roleId === 1) {
     const userRoleId = 2;
     // get all new joiners
-    const newJoiners = await getAllNewJoiners(userRoleId);
+    // const newJoiners = await getAllNewJoiners(userRoleId);
     const readNewJoiners = await readAllNewJoiners(userRoleId);
-    console.log('newJoiners gSSP', newJoiners);
+    // console.log('newJoiners gSSP', newJoiners);
     console.log('readNewJoiner - gSSP:', readNewJoiners);
 
     return {
       props: {
         user: user,
-        newJoiners: JSON.parse(JSON.stringify(newJoiners)),
+        newJoiners: JSON.parse(JSON.stringify(readNewJoiners)),
 
         //  Fix the error using JSON.parse() and JSON.stringify()
       },

@@ -206,7 +206,8 @@ id,
 }
 
 export async function readAllNewJoiners(userRoleId: number) {
-  const newJoiners = await sql<[ReadNewJoiners | undefined]>`
+  // const newJoiners = await sql<[ReadNewJoiners | undefined]>`
+  const newJoiners = await sql<ReadNewJoiners[]>`
   SELECT
   users.id,
   users.username,
@@ -221,11 +222,13 @@ export async function readAllNewJoiners(userRoleId: number) {
   users,
   user_contract
   WHERE
-  users.role_id = ${userRoleId}
+  users.role_id = ${userRoleId} AND
+  user_contract.user_id = users.id
 
   `;
-  console.log('readNewJoiner - DB:', newJoiners);
-  return camelcaseKeys(newJoiners);
+
+  return newJoiners.map((joiner) => camelcaseKeys(joiner));
+  // console.log('readNewJoiner - DB:', newJoiners);
 }
 
 export type AllPersonalInfo = {
