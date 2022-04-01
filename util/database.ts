@@ -181,6 +181,13 @@ export async function getUserByValidSessionToken(token: string | undefined) {
   return user && camelcaseKeys(user);
 }
 
+export type ReadNewJoiners = User & {
+  startingDate: string;
+  jobTitle: string;
+  salary: number;
+  benefits: string;
+};
+
 // Read all new joiners
 export async function getAllNewJoiners(userRoleId: number) {
   const newJoiners = await sql<[User | undefined]>`
@@ -195,6 +202,29 @@ id,
   WHERE
   users.role_Id = ${userRoleId}
   `;
+  return camelcaseKeys(newJoiners);
+}
+
+export async function readAllNewJoiners(userRoleId: number) {
+  const newJoiners = await sql<[ReadNewJoiners | undefined]>`
+  SELECT
+  users.id,
+  users.username,
+  users.first_name,
+  users.last_name,
+  users.role_id,
+  user_contract.starting_date,
+  user_contract.job_title,
+  user_contract.salary,
+  user_contract.benefits
+  FROM
+  users,
+  user_contract
+  WHERE
+  users.role_id = ${userRoleId}
+
+  `;
+  console.log('readNewJoiner - DB:', newJoiners);
   return camelcaseKeys(newJoiners);
 }
 
@@ -716,6 +746,7 @@ export async function readContractDetails(userId: number) {
   WHERE
   user_id = ${userId}
   `;
+  console.log('contractDetails: DB', contract);
   return contract && camelcaseKeys(contract);
 }
 

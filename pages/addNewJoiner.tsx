@@ -27,6 +27,8 @@ type Props = {
   userObject: User;
   userFirstName: string;
   headerImage: string;
+  cloudKey: string;
+  uploadPreset: string;
 };
 
 export default function UserProfile(props: Props) {
@@ -81,7 +83,11 @@ export default function UserProfile(props: Props) {
           />
         </article>
         <article>
-          <AddContractDetails newJoinerUserId={newJoinerUserId} />
+          <AddContractDetails
+            newJoinerUserId={newJoinerUserId}
+            cloudKey={props.cloudKey}
+            uploadPreset={props.uploadPreset}
+          />
         </article>
       </section>
     </Layout>
@@ -105,6 +111,8 @@ export async function getServerSideProps(
   const token = context.req.cookies.sessionToken;
   const cloudKey = process.env.CLOUDKEY;
   const uploadPreset = process.env.UPLOAD_PRESET;
+  console.log('CloudKey', cloudKey);
+  console.log('uploadPreset', uploadPreset);
 
   if (token) {
     // 2. check if token is valid

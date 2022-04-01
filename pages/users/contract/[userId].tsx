@@ -14,6 +14,7 @@ import {
   AddContractDetailsRequestBody,
   getUserById,
   getValidSessionByToken,
+  readContractDetails,
   User,
 } from '../../../util/database';
 
@@ -22,7 +23,7 @@ type Props = {
   userFirstName: string;
   headerImage: string;
   user?: User;
-  // readContract?: AddContractDetailsRequestBody;
+  readContract: AddContractDetailsRequestBody | string;
 };
 
 export default function UserProfile(props: Props) {
@@ -58,6 +59,12 @@ export default function UserProfile(props: Props) {
 
     fetchData().catch(() => {});
   }, [props.userObject.id]);
+
+  // const downloadContract = async () => {
+  //   const requestConstract = await fetch(props.readContract.benefits);
+  //   const requestResponse = await requestConstract.json();
+  //   console.log('contract, ', requestResponse);
+  // };
 
   console.log('props_contract:', props);
   if (!props.user) {
@@ -153,7 +160,7 @@ export default function UserProfile(props: Props) {
               </li>
             </div>
 
-            <div>
+            {/* <div>
               <li>
                 <label htmlFor="benefits">Benefits</label>
               </li>
@@ -166,11 +173,19 @@ export default function UserProfile(props: Props) {
                   disabled={isDisabled}
                 />
               </li>
-            </div>
+            </div> */}
             <div>
-              {' '}
-              <button> Download Contract</button>
+              <li>
+                <label htmlFor="benefits">Contract</label>
+              </li>
+              {/* <li>
+                <button onClick={downloadContract}> Download Contract</button>
+              </li> */}
+              <li>
+                <button> Download Contract</button>
+              </li>
             </div>
+            <div> </div>
           </ul>
         </article>
       </section>
@@ -183,10 +198,7 @@ export async function getServerSideProps(
 ): Promise<
   GetServerSidePropsResult<{
     user?: User;
-    readContract?: AddContractDetailsRequestBody;
-
-    // cloudKey?: string;
-    // uploadPreset?: string;
+    readContract?: AddContractDetailsRequestBody | string;
   }>
 > {
   const token = context.req.cookies.sessionToken;
@@ -195,8 +207,6 @@ export async function getServerSideProps(
     // 2. check if token is valid
     // TO DO CHECK ROLE Of USER
     const session = await getValidSessionByToken(token);
-
-    // const readContract = await readContractDetails(user.id);
 
     // check if not empty
     // if (readContract) {
@@ -208,6 +218,7 @@ export async function getServerSideProps(
     // console.log('readContract', readContract);
     if (session) {
       const user = await getUserById(session.userId);
+
       // User id is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };
@@ -220,11 +231,19 @@ export async function getServerSideProps(
           props: {},
         };
       }
+      const readContract = await readContractDetails(user.id);
+      console.log('contractDetails gSSP:', readContract);
+      // check if not empty
+      if (readContract) {
+        readContract.startingDate = new Date(
+          readContract.startingDate,
+        ).toLocaleDateString('en-US');
+      }
 
       return {
         props: {
           user: user,
-          // readContract: readContract || {},
+          readContract: readContract ? readContract : '',
         },
       };
     }

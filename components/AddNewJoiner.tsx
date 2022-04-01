@@ -165,8 +165,8 @@ export default function AddNewJoiner({
               </ul>
             ) : (
               <div>
-                <p>New user succesfully Added</p>
-                <p>U can proceed with the offer Details</p>
+                <p>New user succesfully added</p>
+                <p>Please proceed with the offer details</p>
               </div>
             )}
           </article>

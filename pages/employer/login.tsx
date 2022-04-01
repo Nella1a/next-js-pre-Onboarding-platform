@@ -108,7 +108,7 @@ export default function Login(props: Props) {
                   id="username"
                   name="username"
                   value={username}
-                  placeholder="Choose your username"
+                  // placeholder="Choose your username"
                   onChange={(event) => setUsername(event.currentTarget.value)}
                 />
               </div>
@@ -119,7 +119,7 @@ export default function Login(props: Props) {
                   type="password"
                   name="password"
                   value={password}
-                  placeholder="Choose your password"
+                  // placeholder="Choose your password"
                   onChange={(event) => setPassword(event.currentTarget.value)}
                 />
               </div>

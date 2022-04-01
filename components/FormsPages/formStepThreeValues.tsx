@@ -72,7 +72,7 @@ export default function FormStepThreeValues({
 
   return (
     <>
-      <h2> Step {formStep + 1} of 4</h2>
+      <h1> Step {formStep + 1} of 4</h1>
       <form
         css={[formStyle, formStep === 2 ? showForm : hideForm]}
         onSubmit={async (event) => {

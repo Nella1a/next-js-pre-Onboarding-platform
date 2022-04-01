@@ -56,7 +56,7 @@ export default function FormStepTwoValues({
 
   return (
     <>
-      <h2> Step {formStep + 1} of 4</h2>
+      <h1> Step {formStep + 1} of 4</h1>
       {/* show error message if username or password does not match  */}
       <div css={errorStyles}>
         {errorsApi.map((error) => {

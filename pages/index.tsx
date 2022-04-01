@@ -195,7 +195,7 @@ export default function Home(props: Props) {
                       height="20"
                     />
                   </span>
-                  <span>New Joiner</span>
+                  <span>Add New Joiner</span>
                 </button>
               </Link>
             </div>

@@ -68,11 +68,6 @@ export default function Documents(props: Props) {
 
         <section css={sectionTwoLayoutForm}>
           <div>
-            <h1>
-              {' '}
-              Personal Details: uName: {props.user.username} - uId:{' '}
-              {props.user.id} - uRole: {props.user.roleId}
-            </h1>
             <div css={formStyleContainer}>
               {/* <FormCard
               currentStep={formStep}
@@ -122,11 +117,6 @@ export default function Documents(props: Props) {
 
       <section css={sectionTwoLayoutForm}>
         <div>
-          <h1>
-            {' '}
-            Personal Details: uName: {props.user.username} - uId:{' '}
-            {props.user.id} - uRole: {props.user.roleId}
-          </h1>
           <div css={formStyleContainer}>
             {/* <FormCard
             currentStep={formStep}

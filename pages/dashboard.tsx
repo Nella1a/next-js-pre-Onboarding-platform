@@ -1,16 +1,13 @@
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
-import {
-  dashboardStyle,
-  sectionOneLayout,
-  sectionTwoLayoutForm,
-} from '../components/elements';
+import { dashboardStyle, sectionOneLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import {
   getAllNewJoiners,
   getUserByValidSessionToken,
+  readAllNewJoiners,
   User,
 } from '../util/database';
 
@@ -76,8 +73,8 @@ export default function Dashboard(props: Props) {
           {props.newJoiners.map((joiner) => {
             return (
               <article key={`overview-${joiner.id}`} css={styleNewHire}>
-                <div>FN:{joiner.firstName}</div>
-                <div>LN:{joiner.lastName} </div>
+                <div>{joiner.firstName}</div>
+                <div>{joiner.lastName} </div>
                 <div>Id: {joiner.id}</div>
                 <div>roleId:{joiner.roleId}</div>
               </article>
@@ -129,8 +126,9 @@ export async function getServerSideProps(
     const userRoleId = 2;
     // get all new joiners
     const newJoiners = await getAllNewJoiners(userRoleId);
-
-    console.log('newJoiners', newJoiners);
+    const readNewJoiners = await readAllNewJoiners(userRoleId);
+    console.log('newJoiners gSSP', newJoiners);
+    console.log('readNewJoiner - gSSP:', readNewJoiners);
 
     return {
       props: {

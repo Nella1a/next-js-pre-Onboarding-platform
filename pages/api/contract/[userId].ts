@@ -17,16 +17,6 @@ export default async function AddContractHandler(
   request: NextApiRequest,
   response: NextApiResponse<AddContractResponseBody>,
 ) {
-  // * check if userId is a number
-  const userId: number = Number(request.query.userId);
-  console.log('userId:', userId);
-  if (!userId) {
-    response.status(400).json({
-      errors: 'no valid userId',
-    });
-    return;
-  }
-
   if (request.method === 'POST') {
     // check if request body not empty
     console.log('request.body:', request.body);
@@ -68,6 +58,16 @@ export default async function AddContractHandler(
   }
 
   if (request.method === 'GET') {
+    // * check if userId is a number
+    const userId: number = Number(request.query.userId);
+    console.log('userId:', userId);
+    if (!userId) {
+      response.status(400).json({
+        errors: 'no valid userId',
+      });
+      return;
+    }
+
     const readContract = await readContractDetails(userId);
     console.log('readContract:', readContract);
 
