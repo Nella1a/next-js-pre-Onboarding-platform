@@ -23,7 +23,7 @@ type Props = {
   userFirstName: string;
   headerImage: string;
   user?: User;
-  readContract: AddContractDetailsRequestBody | string;
+  // readContract: AddContractDetailsRequestBody | string;
 };
 
 export default function UserProfile(props: Props) {
@@ -39,7 +39,7 @@ export default function UserProfile(props: Props) {
   const [benefits, setBenefits] = useState();
   const [startingDate, setStartingDate] = useState('');
   const isDisabled = true;
-
+  console.log(benefits);
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(`/api/contract/${props.userObject.id}`);

@@ -151,6 +151,7 @@ export default function FormCompleted({
               <label htmlFor="dateOfBirth">
                 <span>Date of birth </span>
               </label>
+
               <input
                 type="date"
                 id="dateOfBirth"
