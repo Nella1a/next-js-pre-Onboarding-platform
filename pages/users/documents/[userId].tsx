@@ -220,9 +220,26 @@ export async function getServerSideProps(
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readAllUserInfo) {
+      // function dateFormatter(date) {
+      //   date = new Date(date);
+      //   const date_string =
+      //     (date.getDate().toString().length === 2
+      //       ? date.getDate()
+      //       : '0' + date.getDate().toString()) +
+      //     '-' +
+      //     ((date.getMonth() + 1).toString().length === 2
+      //       ? date.getMonth() + 1
+      //       : '0' + (date.getMonth() + 1).toString()) +
+      //     '-' +
+      //     date.getFullYear();
+      //   return date_string;
+      // }
+
+      // readAllUserInfo.dateOfBirth = dateFormatter(readAllUserInfo.dateOfBirth);
+
       readAllUserInfo.dateOfBirth = new Date(
         readAllUserInfo.dateOfBirth,
-      ).toLocaleDateString('en-US');
+      ).toLocaleDateString('de-DE');
     }
 
     return {

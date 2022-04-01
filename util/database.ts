@@ -260,7 +260,7 @@ export type ReadAllPersonalInfo = {
   city: string;
   postalCode: number;
   country: string;
-  maritalStatusId: number;
+  maritalTypeId: number;
   relationshipId: number;
   fullname: string;
   sosPhone: number;

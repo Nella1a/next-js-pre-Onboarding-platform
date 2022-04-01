@@ -40,7 +40,7 @@ export default function FormCompleted({
     readFullUserInfo.postalCode,
   );
   const [maritalStatusOnEdit, setMaritalStatusOnEdit] = useState(
-    readFullUserInfo.maritalStatusId,
+    readFullUserInfo.maritalTypeId,
   );
   const [countryOnEdit, setCountryOnEdit] = useState(readFullUserInfo.country);
   const [sosContactfullNameOnEdit, setSosContactfullNameOnEdit] = useState(
@@ -162,6 +162,8 @@ export default function FormCompleted({
                   setDateOfBirthOnEdit(event.currentTarget.value)
                 }
               />
+              {console.log('Birthday,', dateOfBirthOnEdit)}
+              {console.log('Birthday-Typeof,', typeof dateOfBirthOnEdit)}
             </p>
             <p>
               <label htmlFor="socialSecNumber">
