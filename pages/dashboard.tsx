@@ -5,9 +5,9 @@ import { dashboardStyle, sectionOneLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import {
-  getAllNewJoiners,
   getUserByValidSessionToken,
   readAllNewJoiners,
+  ReadNewJoiners,
   User,
 } from '../util/database';
 
@@ -22,7 +22,7 @@ type Props = {
   userFirstName: string;
   headerImage: string;
   user?: User;
-  newJoiners: User[];
+  newJoiners: ReadNewJoiners[];
 };
 
 export default function Dashboard(props: Props) {
@@ -71,12 +71,16 @@ export default function Dashboard(props: Props) {
             <div>Position</div>
           </article>
           {props.newJoiners.map((joiner) => {
+            const newStartingDate = new Date(
+              joiner.startingDate,
+            ).toLocaleDateString();
+
             return (
               <article key={`overview-${joiner.id}`} css={styleNewHire}>
                 <div>{joiner.firstName}</div>
                 <div>{joiner.lastName} </div>
-                <div>Id: {joiner.id}</div>
-                <div>roleId:{joiner.roleId}</div>
+                <div>{newStartingDate}</div>
+                <div>{joiner.jobTitle}</div>
               </article>
             );
           })}
@@ -91,7 +95,7 @@ export async function getServerSideProps(
 ): Promise<
   GetServerSidePropsResult<{
     user?: User;
-    newJoiners?: User;
+    newJoiners?: ReadNewJoiners[];
   }>
 > {
   // 1. Get current user from the cookie sessionToken
@@ -101,7 +105,7 @@ export async function getServerSideProps(
   const user = await getUserByValidSessionToken(token);
   // TO DO CHECK ROLE Of USER
 
-  // Error Handling: if user exists but does not have the right role redirect to home
+  // if user exists but does not have the right role redirect to home
   if (user && user.roleId !== 1) {
     return {
       redirect: {
@@ -111,7 +115,7 @@ export async function getServerSideProps(
     };
   }
 
-  // Error Handling: if user does not exist (= no token) redirect to login
+  // if user does not exist (= no token) redirect to login
   if (!user) {
     return {
       redirect: {

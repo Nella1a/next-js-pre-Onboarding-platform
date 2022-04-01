@@ -1071,7 +1071,7 @@ export const dashboardStyle = css`
     background-color: #fff;
     width: 85%;
     min-width: 57.5rem;
-    height: 95%;
+    /* height: 95%; */
     padding: 1.5rem;
     border-radius: 20px;
     /* gap: 3rem; */
