@@ -67,8 +67,8 @@ export default function Dashboard(props: Props) {
           <article>
             <div>First Name</div>
             <div>Last Name</div>
-            <div>Starting Date</div>
-            <div>Position</div>
+            <div>Start Date</div>
+            <div>Job Title</div>
           </article>
           {props.newJoiners.map((joiner) => {
             const newStartingDate = new Date(

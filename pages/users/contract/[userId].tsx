@@ -112,12 +112,12 @@ export default function UserProfile(props: Props) {
           </div>
         </article>
         <article>
-          <h2>Offer Overview</h2>
+          <h2>Job Offer</h2>
           <ul>
             <div>
               {' '}
               <li>
-                <label htmlFor="startingDate">Starting Date</label>
+                <label htmlFor="startingDate">Start Date</label>
               </li>
               <li>
                 {' '}
@@ -147,7 +147,7 @@ export default function UserProfile(props: Props) {
             <div>
               {' '}
               <li>
-                <label htmlFor="salary">Annual salary</label>
+                <label htmlFor="salary">Annual Salary</label>
               </li>
               <li>
                 <input
@@ -182,7 +182,7 @@ export default function UserProfile(props: Props) {
                 <button onClick={downloadContract}> Download Contract</button>
               </li> */}
               <li>
-                <button> Download Contract</button>
+                <button> Read Contract</button>
               </li>
             </div>
             <div> </div>

@@ -58,7 +58,7 @@ export default function Register(props: Props) {
             </div>
             <div>
               <h1>Create account</h1>
-              <p>Creat your account and start your Pre-Onboarding </p>
+              <p>Creat your account and start your pre-onboarding </p>
             </div>
 
             {/* show error message if username already exists  */}
@@ -132,7 +132,7 @@ export default function Register(props: Props) {
                   />
                 </p>
                 <p>
-                  <label htmlFor="lastName">last name</label>
+                  <label htmlFor="lastName">Last name</label>
                   <input
                     id="lastName"
                     name="lastName"

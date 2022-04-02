@@ -103,13 +103,14 @@ export default function FormStepTwoValues({
           {/* <h2>Personal Details </h2> */}
           <p>
             <label htmlFor="address">
-              <span>Adress: </span>
+              <span>Address: </span>
             </label>
             <input
               id="address"
               data-test-id="userAddress-street"
               name="address"
               value={address}
+              placeholder="Sunshinestreet 1/20"
               onChange={(event) => setAddress(event.currentTarget.value)}
             />
           </p>
@@ -123,6 +124,7 @@ export default function FormStepTwoValues({
                 data-test-id="userAddress-city"
                 name="city"
                 value={city}
+                placeholder="Vienna"
                 onChange={(event) => setCity(event.currentTarget.value)}
               />
             </p>
@@ -137,6 +139,7 @@ export default function FormStepTwoValues({
                 data-test-id="useAddress-zipCode"
                 name="zipCode"
                 value={zipCode}
+                placeholder="1050"
                 title="Please enter a Zip Code"
                 pattern="^\s*?\d{4}(?:[-\s]\d{4})?\s*?$"
                 // To be friendly to the user, this also permits whitespace before/after the string, which the developer will need to trim serverside.
@@ -154,6 +157,7 @@ export default function FormStepTwoValues({
                 data-test-id="userAddress-country"
                 name="country"
                 value={country}
+                placeholder="Austria"
                 onChange={(event) => setCountry(event.currentTarget.value)}
               />
             </p>
@@ -173,7 +177,7 @@ export default function FormStepTwoValues({
                 <option value="0">-- please select --</option>
                 <option value="1">single</option>
                 <option value="2">married</option>
-                <option value="3">registered Partnership</option>
+                <option value="3">registered partnership</option>
                 <option value="4">divorced</option>
                 <option value="5">widowed</option>
                 <option value="6">other</option>
@@ -182,7 +186,7 @@ export default function FormStepTwoValues({
           </div>
         </section>
         {/* <Link href="/users/uploads/" passHref> */}
-        <button>Step 3: Uploads</button>
+        <button>Step 3</button>
         {/* </Link> */}
       </form>
       {/* </section> */}

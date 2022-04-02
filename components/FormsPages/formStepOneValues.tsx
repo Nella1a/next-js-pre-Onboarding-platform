@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { User } from '../../util/database';
 // import { useForm } from 'react-hook-form';
 import {
@@ -88,7 +88,7 @@ export default function FormStepOneValues({
           {/* <h2>Personal Details </h2> */}
           <p>
             <label htmlFor="email">
-              <span>Email </span>
+              <span>E-mail: </span>
             </label>
             <input
               type="email"
@@ -102,7 +102,7 @@ export default function FormStepOneValues({
           <div css={flexStyle}>
             <p>
               <label htmlFor="dateOfBirth">
-                <span>Date of birth </span>
+                <span>Date Of Birth: </span>
               </label>
               <input
                 type="date"
@@ -114,13 +114,13 @@ export default function FormStepOneValues({
             </p>
             <p>
               <label htmlFor="socialSecNumber">
-                <span>Social Security No. </span>
+                <span>Social Security Number: </span>
               </label>
               <input
                 type="tel"
                 id="socialSecNumber"
                 name="socialSecNumber"
-                placeholder="XXX DDMMYY"
+                placeholder="XXXX DDMMYY"
                 // maxLength={15}
                 value={socialSecNumber}
                 onChange={(event) =>
@@ -139,26 +139,28 @@ export default function FormStepOneValues({
                 id="nationality"
                 name="nationality"
                 value={nationality}
+                placeholder="Italian"
                 onChange={(event) => setNationality(event.currentTarget.value)}
               />
             </p>
             <p>
-              <label htmlFor="Phone">
-                <span>Phone </span>
+              <label htmlFor="phone">
+                <span>Phone: </span>
               </label>
               <input
-                id="phone"
                 type="tel"
+                id="phone"
                 name="phone"
+                min={0}
                 // maxLength={15}
                 value={phone}
-                placeholder="0043 06660 000 000"
+                placeholder="0043 660 0000 00 00"
                 onChange={(event) => setPhone(event.currentTarget.value)}
               />
             </p>
           </div>
         </section>
-        <button>Go to Step 2: </button>
+        <button>Step 2 </button>
       </form>
     </>
   );

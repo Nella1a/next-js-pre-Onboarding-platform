@@ -56,7 +56,7 @@ export default async function formInputHandler(
       // !request.body.formStep
     ) {
       response.status(400).json({
-        errors: [{ message: 'user input is not correct' }],
+        errors: [{ message: 'Please provide all information to proceed.' }],
       });
       return;
     }
