@@ -56,34 +56,6 @@ export default function FormCompleted({
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState('');
 
-  // READ
-
-  // const refresh = useCallback(async () => {
-  //   const response = await fetch(`/api/documents/${props.userId}`);
-  //   const responseBody = (await response.json()) as FormResponseBodyGet;
-  //   setUserFormInfo(responseBody.userFormInfo);
-  //   console.log('userFormInfoResponse:', userFormInfo);
-  // }, []);
-
-  // if (!readFullUserInfo) {
-  //   console.log('this is not working');
-  //   setEmailOnEdit('');
-  //   setDateOfBirthOnEdit('');
-  //   setSocialSecNumberOnEdit(0);
-  //   setNationalityOnEdit('');
-  //   setPhoneOnEdit(0);
-  //   setAddressOnEdit('');
-  //   setCityOnEdit('');
-  //   setZipCodeOnEdit(0);
-  //   setCountryOnEdit('');
-  //   setMaritalStatusOnEdit(0);
-  //   setSosContactfullNameOnEdit('');
-  //   setSosContactPhoneOnEdit(0);
-  //   setSosContactRelationOnEdit(0);
-
-  //   return <div>Hello</div>;
-  // }
-
   // UPDATE
   async function updateUserFormInputs() {
     const putResponse = await fetch(`/api/documents/${userId}`, {
@@ -136,7 +108,7 @@ export default function FormCompleted({
           <div>
             <p>
               <label htmlFor="email">
-                <span>Email </span>
+                <span>E-mail </span>
               </label>
               <input
                 type="email"
@@ -147,27 +119,45 @@ export default function FormCompleted({
                 onChange={(event) => setEmailOnEdit(event.currentTarget.value)}
               />
             </p>
-            <p>
-              <label htmlFor="dateOfBirth">
-                <span>Date of birth </span>
-              </label>
 
-              <input
-                type="date"
-                id="dateOfBirth"
-                name="dateOfBirth"
-                disabled={isDisabled}
-                value={dateOfBirthOnEdit}
-                onChange={(event) =>
-                  setDateOfBirthOnEdit(event.currentTarget.value)
-                }
-              />
-              {console.log('Birthday,', dateOfBirthOnEdit)}
-              {console.log('Birthday-Typeof,', typeof dateOfBirthOnEdit)}
-            </p>
+            {isDisabled ? (
+              <p>
+                <label htmlFor="dateOfBirth">
+                  <span>Date Of Birth: </span>
+                </label>
+                <input
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  disabled={isDisabled}
+                  value={dateOfBirthOnEdit}
+                  onChange={(event) =>
+                    setDateOfBirthOnEdit(event.currentTarget.value)
+                  }
+                />
+                {console.log('Birthday,', dateOfBirthOnEdit)}
+                {console.log('Birthday-Typeof,', typeof dateOfBirthOnEdit)}
+              </p>
+            ) : (
+              <p>
+                <label htmlFor="dateOfBirth">
+                  <span>Date Of Birth: </span>
+                </label>
+                <input
+                  type="date"
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  disabled={isDisabled}
+                  value={dateOfBirthOnEdit}
+                  onChange={(event) =>
+                    setDateOfBirthOnEdit(event.currentTarget.value)
+                  }
+                />
+              </p>
+            )}
+
             <p>
               <label htmlFor="socialSecNumber">
-                <span>Social Security No. </span>
+                <span>Social Security Number: </span>
               </label>
               <input
                 type="tel"
@@ -197,7 +187,7 @@ export default function FormCompleted({
             </p>
             <p>
               <label htmlFor="Phone">
-                <span>Phone </span>
+                <span>Phone: </span>
               </label>
               <input
                 id="phone"
@@ -309,7 +299,7 @@ export default function FormCompleted({
           <div>
             <p>
               <label htmlFor="userSosContactFullName">
-                <span>Full Name </span>
+                <span>Full Name: </span>
               </label>
               <input
                 id="userSosContactFullName"
@@ -324,7 +314,7 @@ export default function FormCompleted({
             </p>
             <p>
               <label htmlFor="userSosContactPhone">
-                <span>Phone </span>
+                <span>Phone: </span>
               </label>
               <input
                 type="tel"
@@ -342,7 +332,7 @@ export default function FormCompleted({
 
             <p>
               <label htmlFor="sosContactRelation">
-                <span>Relationship to Contact</span>
+                <span>Relationship to Contact:</span>
               </label>
               <select
                 id="sosContactRelation"
@@ -358,7 +348,7 @@ export default function FormCompleted({
               >
                 <option value="0"> -- please select ---</option>
                 <option value="1">friend</option>
-                <option value="2">Partner</option>
+                <option value="2">partner</option>
                 <option value="3">sibling</option>
                 <option value="4">parent</option>
                 <option value="5">child</option>

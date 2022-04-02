@@ -52,22 +52,6 @@ export default function FormStepThreeValues({
     // cloud response ok ==> update state variable
     setFileUploadOne(responseUrl);
     console.log('StateVariable:', responseUrl);
-
-    // if (fileUploadOne) {
-    //   const saveFileInDb = await fetch(`/api/formStepThreeValues`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       fileOneUrl: fileUploadOne,
-    //       fileType: fileUploadOneSelect,
-    //       userId: user.id,
-    //     }),
-    //   });
-    //   const saveFileInDbResponse = await saveFileInDb.json();
-    //   console.log('Url-response-from DB:', saveFileInDbResponse);
-    // }
   };
 
   return (
@@ -104,27 +88,28 @@ export default function FormStepThreeValues({
         }}
       >
         <section css={uploadFormStyle}>
-          <p>Emergency Contact</p>
+          <h2>Emergency Contact</h2>
 
           <p>
             <label htmlFor="userSosContactFullName">
-              <span>Full Name </span>
+              <span>Full Name: </span>
             </label>
             <input
               id="userSosContactFullName"
               data-test-id="userSosContact-fullName"
               name="userSosContactFullName"
               value={sosContactfullName}
+              placeholder="Jane Doe"
               onChange={(event) =>
                 setSosContactfullName(event.currentTarget.value)
               }
             />
           </p>
 
-          <div>
+          <article>
             <p>
               <label htmlFor="userSosContactPhone">
-                <span>Phone </span>
+                <span>Phone:</span>
               </label>
               <input
                 type="tel"
@@ -133,6 +118,7 @@ export default function FormStepThreeValues({
                 data-test-id="userSosContact-phone"
                 name="userSosContactPhone"
                 value={sosContactPhone}
+                placeholder="0043 660 000 00 00"
                 onChange={(event) =>
                   setSosContactPhone(event.currentTarget.value)
                 }
@@ -141,7 +127,7 @@ export default function FormStepThreeValues({
 
             <p>
               <label htmlFor="sosContactRelation">
-                <span>Relationship to Contact</span>
+                <span>Relationship to Contact:</span>
               </label>
               <select
                 id="sosContactRelation"
@@ -154,18 +140,18 @@ export default function FormStepThreeValues({
               >
                 <option value="0"> -- please select ---</option>
                 <option value="1">friend</option>
-                <option value="2">Partner</option>
+                <option value="2">partner</option>
                 <option value="3">sibling</option>
                 <option value="4">parent</option>
                 <option value="5">child</option>
                 <option value="6">other</option>
               </select>
             </p>
-          </div>
-          <p>Documents Upload</p>
-          <div>
+          </article>
+          <h2>Documents</h2>
+          <article>
             <p>
-              <label htmlFor="fileUploadOne">Document 1</label>
+              <label htmlFor="fileUploadOne"> </label>
               <input
                 type="file"
                 id="fileUploadOne"
@@ -190,10 +176,10 @@ export default function FormStepThreeValues({
                 <option value="0">-- please select ---</option>
                 <option value="1">sigend contract</option>
                 <option value="2">documents</option>
-                <option value="4">other</option>
+                <option value="3">other</option>
               </select>
             </p>
-          </div>
+          </article>
           {/* <button onClick={uploadImage}>Upload Image</button> */}
           {/* {responseFileUpload ? <p>Success</p> : <p>no Success</p>} */}
           {/* <div>
@@ -228,7 +214,7 @@ export default function FormStepThreeValues({
           </div> */}
           {/* <button onClick={uploadFile}>Upload Image</button> */}
         </section>
-        <button>Step 4: Review &#38; Submit </button>
+        <button>Step 4 - Review &#38; Submit </button>
       </form>
 
       {/* </section> */}

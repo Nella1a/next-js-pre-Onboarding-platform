@@ -76,6 +76,7 @@ export const globalStyleBody = (theme) => css`
     min-height: 3.5rem;
     padding: 1rem;
     border: 1px solid var(--backGroundColorGrey);
+    margin-bottom: 0.8rem;
   }
 
   label {
@@ -700,7 +701,7 @@ export const indexSectionTwoLayout = css`
 `;
 
 /* *************************** */
-/*   Profile / UserProfile     */
+/*  user/profiles/[userId].js  */
 /* *************************** */
 
 export const userProfileSectionTwoLayout = css`
@@ -811,7 +812,7 @@ export const userProfileSectionTwoLayout = css`
 `;
 
 /* *************************** */
-/*          Documents          */
+/*   user/documents/[userId]   */
 /* *************************** */
 
 export const sectionTwoLayoutForm = css`
@@ -842,12 +843,52 @@ export const sectionTwoLayoutForm = css`
   }
 `;
 
+export const uploadFormStyle = css`
+  margin: 0 auto;
+  article {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    p {
+      width: 70%;
+    }
+    p + p {
+      width: 30%;
+      align-self: center;
+    }
+  }
+
+  article:first-of-type {
+    margin-bottom: 1rem;
+  }
+`;
+
 export const formStyleContainer = css`
-  /* border: 2px solid yellow; */
   height: 85%;
 
   button {
     ${size('17.65rem', '1.47rem')}
+  }
+`;
+export const formOneStyle = css`
+  h1 {
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  span {
+    font-weight: 600;
+  }
+
+  span::after {
+    content: '';
+    display: block;
+    margin-bottom: 0.4rem;
   }
 `;
 
@@ -857,6 +898,10 @@ export const formStyle = css`
   margin-top: 2rem;
   /* width: 65rem; */
   min-width: 100%;
+
+  h1 {
+    text-align: center;
+  }
 
   section {
     width: 100%;
@@ -888,30 +933,6 @@ export const flexStyle = css`
 
   p {
     width: 50%;
-  }
-`;
-
-/* *************************** */
-/*             Uploads         */
-/* *************************** */
-
-export const uploadFormStyle = css`
-  margin: 0 auto;
-
-  div {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-
-    p {
-      width: 60%;
-    }
-
-    p + p {
-      width: 30%;
-      align-self: center;
-      margin-top: 0.8rem;
-    }
   }
 `;
 

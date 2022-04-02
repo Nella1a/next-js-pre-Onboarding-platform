@@ -171,7 +171,7 @@ export default function Home(props: Props) {
               />
             </div>
             <div>
-              <h2>All new hires</h2>
+              <h2>All new joiners</h2>
               <p>
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum

@@ -56,7 +56,7 @@ export default async function formInputHandler(
       typeof request.body.formStep !== 'number'
     ) {
       response.status(400).json({
-        errors: [{ message: 'please provide missing data' }],
+        errors: [{ message: 'Please provide all information to proceed.' }],
       });
       return;
     }

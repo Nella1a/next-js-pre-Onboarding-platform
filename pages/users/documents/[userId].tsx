@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
 import {
+  formOneStyle,
   formStyleContainer,
   sectionOneLayout,
   sectionTwoLayoutForm,
@@ -68,7 +69,7 @@ export default function Documents(props: Props) {
 
         <section css={sectionTwoLayoutForm}>
           <div>
-            <div css={formStyleContainer}>
+            <div css={[formStyleContainer, formOneStyle]}>
               {/* <FormCard
               currentStep={formStep}
               prevFormStep={prevFormStep}
@@ -77,17 +78,9 @@ export default function Documents(props: Props) {
 
               {/* {formStep === 0 && ( */}
               <FormStepOneValues
-                // userObject={props.userObject}
-                // userFirstName={props.userFirstName}
-                // headerImage={props.headerImage}
-                // userId={props.user.id}
                 formStep={formStep}
-                // currentStep={formStep}
                 setFormStep={setFormStep}
-                // prevFormStep={prevFormStep}
                 user={props.user}
-                // formValues={formValues}
-                // setFormValues={setFormValues}
               />
               {/* )} */}
             </div>
@@ -117,29 +110,7 @@ export default function Documents(props: Props) {
 
       <section css={sectionTwoLayoutForm}>
         <div>
-          <div css={formStyleContainer}>
-            {/* <FormCard
-            currentStep={formStep}
-            prevFormStep={prevFormStep}
-            css={displayFlexDiv}
-          >*/}
-            {/*
-            {formStep === 0 && (
-              <FormStepOneValues
-                // userObject={props.userObject}
-                // userFirstName={props.userFirstName}
-                // headerImage={props.headerImage}
-                // userId={props.user.id}
-                formStep={formStep}
-                // currentStep={formStep}
-                setFormStep={setFormStep}
-                // prevFormStep={prevFormStep}
-                user={props.user}
-                // formValues={formValues}
-                // setFormValues={setFormValues}
-              />
-            )} */}
-
+          <div css={[formStyleContainer, formOneStyle]}>
             {formStep === 1 && (
               <FormStepTwoValues
                 formStep={formStep}
@@ -226,11 +197,11 @@ export async function getServerSideProps(
       //     (date.getDate().toString().length === 2
       //       ? date.getDate()
       //       : '0' + date.getDate().toString()) +
-      //     '-' +
+      //     '.' +
       //     ((date.getMonth() + 1).toString().length === 2
       //       ? date.getMonth() + 1
       //       : '0' + (date.getMonth() + 1).toString()) +
-      //     '-' +
+      //     '.' +
       //     date.getFullYear();
       //   return date_string;
       // }
