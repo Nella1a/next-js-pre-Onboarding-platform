@@ -1,4 +1,4 @@
-### Pre-onboarding app build with Next.js
+### Pre-onboarding web app build with Next.js
 
 This is a pre-onboarding app for employers (HR) and new starters which should help to provide a great pre-onboarding experience by completing new starter paperwork online.
 
