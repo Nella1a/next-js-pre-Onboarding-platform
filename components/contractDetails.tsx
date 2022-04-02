@@ -1,6 +1,11 @@
 // import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { errorStyles, fileUploadStyle, formAddNewJoiner } from './elements';
+import {
+  errorStyles,
+  fileUploadStyle,
+  formAddNewJoiner,
+  successStyle,
+} from './elements';
 
 // type Props = {
 //   user: User | null;
@@ -140,7 +145,7 @@ export default function AddContractDetails(props: Props) {
                 <div>
                   {' '}
                   <li>
-                    <label htmlFor="startingDate">Starting Date</label>
+                    <label htmlFor="startingDate">Start Date</label>
                   </li>
                   <li>
                     {' '}
@@ -176,7 +181,7 @@ export default function AddContractDetails(props: Props) {
                 <div>
                   {' '}
                   <li>
-                    <label htmlFor="salary">Annual salary</label>
+                    <label htmlFor="salary">Annual Salary</label>
                   </li>
                   <li>
                     <input
@@ -239,7 +244,7 @@ export default function AddContractDetails(props: Props) {
                 </div>
               </ul>
             ) : (
-              <div>
+              <div css={successStyle}>
                 <p>Offer details succesfully added!</p>
               </div>
             )}
