@@ -1,6 +1,6 @@
 // import router, { useRouter } from 'next/router';
 import { useState } from 'react';
-import { errorStyles, formAddNewJoiner } from './elements';
+import { errorStyles, formAddNewJoiner, successStyle } from './elements';
 
 // type Props = {
 //   user: User | null;
@@ -91,7 +91,7 @@ export default function AddNewJoiner({
                 <div>
                   {' '}
                   <li>
-                    <label htmlFor="firstName">First name</label>
+                    <label htmlFor="firstName">First Name</label>
                   </li>
                   <li>
                     {' '}
@@ -109,7 +109,7 @@ export default function AddNewJoiner({
                 <div>
                   <li>
                     {' '}
-                    <label htmlFor="lastName">Last name</label>
+                    <label htmlFor="lastName">Last Name</label>
                   </li>
                   <li>
                     <input
@@ -164,7 +164,7 @@ export default function AddNewJoiner({
                 </div>
               </ul>
             ) : (
-              <div>
+              <div css={successStyle}>
                 <p>New user succesfully added</p>
                 <p>Please proceed with the offer details</p>
               </div>

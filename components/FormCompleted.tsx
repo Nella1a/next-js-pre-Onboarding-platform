@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { UserAddressResponseBody } from '../pages/api/documents/[userId]';
 import { ReadAllPersonalInfo } from '../util/database';
-import { sectionFormCompletedLayout } from './elements';
+import {
+  buttonFlex,
+  flexRow,
+  flexStyle,
+  sectionFormCompletedLayout,
+} from './elements';
 
 interface ChildProps {
   readFullUserInfo: ReadAllPersonalInfo;
@@ -101,199 +106,136 @@ export default function FormCompleted({
       {/* <h2>Review your inputs! 🎉</h2> */}
       <section css={sectionFormCompletedLayout}>
         {console.log('userAddress:')}
-
         <article>
           <h2>Personal Details</h2>
-          {error && <p>Error-Message: {error}</p>}
           <div>
-            <p>
-              <label htmlFor="email">
-                <span>E-mail </span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                disabled={isDisabled}
-                value={emailOnEdit}
-                onChange={(event) => setEmailOnEdit(event.currentTarget.value)}
-              />
-            </p>
-
-            {isDisabled ? (
+            {error && <p>Error-Message: {error}</p>}
+            <div>
               <p>
-                <label htmlFor="dateOfBirth">
-                  <span>Date Of Birth: </span>
+                <label htmlFor="email">
+                  <span>E-mail: </span>
                 </label>
                 <input
-                  id="dateOfBirth"
-                  name="dateOfBirth"
+                  type="email"
+                  id="email"
+                  name="email"
                   disabled={isDisabled}
-                  value={dateOfBirthOnEdit}
+                  value={emailOnEdit}
                   onChange={(event) =>
-                    setDateOfBirthOnEdit(event.currentTarget.value)
-                  }
-                />
-                {console.log('Birthday,', dateOfBirthOnEdit)}
-                {console.log('Birthday-Typeof,', typeof dateOfBirthOnEdit)}
-              </p>
-            ) : (
-              <p>
-                <label htmlFor="dateOfBirth">
-                  <span>Date Of Birth: </span>
-                </label>
-                <input
-                  type="date"
-                  id="dateOfBirth"
-                  name="dateOfBirth"
-                  disabled={isDisabled}
-                  value={dateOfBirthOnEdit}
-                  onChange={(event) =>
-                    setDateOfBirthOnEdit(event.currentTarget.value)
+                    setEmailOnEdit(event.currentTarget.value)
                   }
                 />
               </p>
-            )}
 
-            <p>
-              <label htmlFor="socialSecNumber">
-                <span>Social Security Number: </span>
-              </label>
-              <input
-                type="tel"
-                id="socialSecNumber"
-                name="socialSecNumber"
-                disabled={isDisabled}
-                value={socialSecNumberOnEdit}
-                onChange={(event) =>
-                  setSocialSecNumberOnEdit(parseInt(event.currentTarget.value))
-                }
-              />
-            </p>
+              {isDisabled ? (
+                <p>
+                  <label htmlFor="dateOfBirth">
+                    <span>Date Of Birth: </span>
+                  </label>
+                  <input
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    disabled={isDisabled}
+                    value={dateOfBirthOnEdit}
+                    onChange={(event) =>
+                      setDateOfBirthOnEdit(event.currentTarget.value)
+                    }
+                  />
+                  {console.log('Birthday,', dateOfBirthOnEdit)}
+                  {console.log('Birthday-Typeof,', typeof dateOfBirthOnEdit)}
+                </p>
+              ) : (
+                <p>
+                  <label htmlFor="dateOfBirth">
+                    <span>Date Of Birth: </span>
+                  </label>
+                  <input
+                    type="date"
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    disabled={isDisabled}
+                    value={dateOfBirthOnEdit}
+                    onChange={(event) =>
+                      setDateOfBirthOnEdit(event.currentTarget.value)
+                    }
+                  />
+                </p>
+              )}
 
-            <p>
-              <label htmlFor="nationality">
-                <span>Nationality: </span>
-              </label>
-              <input
-                id="nationality"
-                name="nationality"
-                disabled={isDisabled}
-                value={nationalityOnEdit}
-                onChange={(event) =>
-                  setNationalityOnEdit(event.currentTarget.value)
-                }
-              />
-            </p>
-            <p>
-              <label htmlFor="Phone">
-                <span>Phone: </span>
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                name="phone"
-                disabled={isDisabled}
-                value={phoneOnEdit}
-                onChange={(event) =>
-                  setPhoneOnEdit(parseInt(event.currentTarget.value))
-                }
-              />
-            </p>
-            <p>
-              <label htmlFor="maritalStatus">
-                <span>Marital Status:</span>
-              </label>
-              <select
-                id="maritalStatus"
-                data-test-id="userMartital-status"
-                name="martitalStatus"
-                disabled={isDisabled}
-                value={maritalStatusOnEdit}
-                onChange={(event) =>
-                  setMaritalStatusOnEdit(parseInt(event.currentTarget.value))
-                }
-              >
-                <option value="0">-- please select --</option>
-                <option value="1">single</option>
-                <option value="2">married</option>
-                <option value="3">registered Partnership</option>
-                <option value="4">divorced</option>
-                <option value="5">widowed</option>
-                <option value="6">widowed</option>
-              </select>
-            </p>
+              <p>
+                <label htmlFor="socialSecNumber">
+                  <span>Social Security Number: </span>
+                </label>
+                <input
+                  type="tel"
+                  id="socialSecNumber"
+                  name="socialSecNumber"
+                  disabled={isDisabled}
+                  value={socialSecNumberOnEdit}
+                  onChange={(event) =>
+                    setSocialSecNumberOnEdit(
+                      parseInt(event.currentTarget.value),
+                    )
+                  }
+                />
+              </p>
+            </div>
+            <div>
+              <p>
+                <label htmlFor="nationality">
+                  <span>Nationality: </span>
+                </label>
+                <input
+                  id="nationality"
+                  name="nationality"
+                  disabled={isDisabled}
+                  value={nationalityOnEdit}
+                  onChange={(event) =>
+                    setNationalityOnEdit(event.currentTarget.value)
+                  }
+                />
+              </p>
+              <p>
+                <label htmlFor="Phone">
+                  <span>Phone: </span>
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  name="phone"
+                  disabled={isDisabled}
+                  value={phoneOnEdit}
+                  onChange={(event) =>
+                    setPhoneOnEdit(parseInt(event.currentTarget.value))
+                  }
+                />
+              </p>
+              <p>
+                <label htmlFor="maritalStatus">
+                  <span>Marital Status:</span>
+                </label>
+                <select
+                  id="maritalStatus"
+                  data-test-id="userMartital-status"
+                  name="martitalStatus"
+                  disabled={isDisabled}
+                  value={maritalStatusOnEdit}
+                  onChange={(event) =>
+                    setMaritalStatusOnEdit(parseInt(event.currentTarget.value))
+                  }
+                >
+                  <option value="0">-- please select --</option>
+                  <option value="1">single</option>
+                  <option value="2">married</option>
+                  <option value="3">registered Partnership</option>
+                  <option value="4">divorced</option>
+                  <option value="5">widowed</option>
+                  <option value="6">widowed</option>
+                </select>
+              </p>
+            </div>
           </div>
         </article>
-
-        <article>
-          <h2> Address</h2>
-          <div>
-            <p>
-              <label htmlFor="address">
-                <span>Street: </span>
-              </label>
-              <input
-                id="address"
-                data-test-id="userAddress-street"
-                name="address"
-                disabled={isDisabled}
-                value={addressOnEdit}
-                onChange={(event) =>
-                  setAddressOnEdit(event.currentTarget.value)
-                }
-              />
-            </p>
-            <p>
-              <label htmlFor="city">
-                <span>City: </span>
-              </label>
-              <input
-                id="city"
-                data-test-id="userAddress-city"
-                name="city"
-                disabled={isDisabled}
-                value={cityOnEdit}
-                onChange={(event) => setCityOnEdit(event.currentTarget.value)}
-              />
-            </p>
-            <p>
-              <label htmlFor="zipCode">
-                <span>Postal Code: </span>
-              </label>
-              <input
-                type="tel"
-                min="0"
-                id="zipCode"
-                data-test-id="useAddress-zipCode"
-                name="zipCode"
-                disabled={isDisabled}
-                value={zipCodeOnEdit}
-                title="Please enter a Zip Code"
-                pattern="^\s*?\d{4}(?:[-\s]\d{4})?\s*?$"
-                onChange={(event) =>
-                  setZipCodeOnEdit(parseInt(event.currentTarget.value))
-                }
-              />
-            </p>
-            <p>
-              <label htmlFor="country">
-                <span>Country: </span>
-              </label>
-              <input
-                id="country"
-                data-test-id="userAddress-country"
-                name="country"
-                disabled={isDisabled}
-                value={countryOnEdit}
-                onChange={(event) =>
-                  setCountryOnEdit(event.currentTarget.value)
-                }
-              />
-            </p>
-          </div>
-        </article>
-
         <article>
           <h2>Emergency Contact</h2>
           <div>
@@ -358,25 +300,84 @@ export default function FormCompleted({
           </div>
         </article>
       </section>
-      <section>
+      <section css={sectionFormCompletedLayout}>
+        <article>
+          <h2> Address</h2>
+          <div>
+            <div>
+              <p>
+                <label htmlFor="address">
+                  <span>Street: </span>
+                </label>
+                <input
+                  id="address"
+                  data-test-id="userAddress-street"
+                  name="address"
+                  disabled={isDisabled}
+                  value={addressOnEdit}
+                  onChange={(event) =>
+                    setAddressOnEdit(event.currentTarget.value)
+                  }
+                />
+              </p>
+              <p>
+                <label htmlFor="city">
+                  <span>City: </span>
+                </label>
+                <input
+                  id="city"
+                  data-test-id="userAddress-city"
+                  name="city"
+                  disabled={isDisabled}
+                  value={cityOnEdit}
+                  onChange={(event) => setCityOnEdit(event.currentTarget.value)}
+                />
+              </p>
+            </div>
+            <div>
+              <p>
+                <label htmlFor="zipCode">
+                  <span>Postal Code: </span>
+                </label>
+                <input
+                  type="tel"
+                  min="0"
+                  id="zipCode"
+                  data-test-id="useAddress-zipCode"
+                  name="zipCode"
+                  disabled={isDisabled}
+                  value={zipCodeOnEdit}
+                  title="Please enter a Zip Code"
+                  pattern="^\s*?\d{4}(?:[-\s]\d{4})?\s*?$"
+                  onChange={(event) =>
+                    setZipCodeOnEdit(parseInt(event.currentTarget.value))
+                  }
+                />
+              </p>
+              <p>
+                <label htmlFor="country">
+                  <span>Country: </span>
+                </label>
+                <input
+                  id="country"
+                  data-test-id="userAddress-country"
+                  name="country"
+                  disabled={isDisabled}
+                  value={countryOnEdit}
+                  onChange={(event) =>
+                    setCountryOnEdit(event.currentTarget.value)
+                  }
+                />
+              </p>
+            </div>
+          </div>
+        </article>
+      </section>
+      <section css={buttonFlex}>
         {isDisabled ? (
           <button
             onClick={() => {
               setIsDisabled(false);
-              // setIsDisabled(false);
-              // setEmailOnEdit(userFormInfo.email);
-              // // setDateOfBirthOnEdit(userFormInfo.dateOfBirth);
-              // setSocialSecNumberOnEdit(userFormInfo.socialSecNb);
-              // setNationalityOnEdit(userFormInfo.nationality);
-              // setPhoneOnEdit(userFormInfo.userPhone);
-              // setAddressOnEdit(userFormInfo.streetAndNbr);
-              // setCityOnEdit(userFormInfo.city);
-              // setZipCodeOnEdit(userFormInfo.postalCode);
-              // setCountryOnEdit(userFormInfo.country);
-              // setMaritalStatusOnEdit(userFormInfo.maritalStatus);
-              // setSosContactfullNameOnEdit(userFormInfo.fullname);
-              // setSosContactPhoneOnEdit(userFormInfo.sosPhone);
-              // setSosContactRelationOnEdit(userFormInfo.relationshipId);
             }}
           >
             edit

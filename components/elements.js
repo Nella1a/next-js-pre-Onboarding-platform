@@ -942,42 +942,71 @@ export const flexStyle = css`
 
 export const sectionFormCompletedLayout = css`
   min-width: 85%;
-  /* background-color: #eae9ee; */
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
+  gap: 2rem;
 
-  gap: 1.5rem;
-
-  /* -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
-  box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16); */
-
-  h1 {
-    margin: 0 0 1.5rem 0;
-    font-size: 20px;
-    background-color: #30b565;
+  h2 {
+    margin: 0;
   }
 
-  article {
+  article:first-of-type {
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    width: 15rem;
+    width: 28rem;
     height: 95%;
     /* padding: 1.5rem; */
     /* border: 1px solid var(--backGroundColorGrey); */
-    gap: 1.8rem;
+    /* gap: 1.5rem; */
     /* flex-wrap: wrap; */
-    margin-bottom: 3rem;
+    /* margin-bottom: 3rem; */
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      gap: 2.1rem;
+      width: 100%;
+    }
 
     label {
       font-weight: bold;
       font-size: 0.9rem;
     }
 
-    div {
+    input,
+    select {
+      padding: 0.5rem;
+      border: 1px solid var(--backGroundColorGrey);
+      min-height: 2.5rem;
+      border: none;
+      background-color: #eae9ee;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+    }
+  }
+
+  article {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 95%;
+    gap: 1rem;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      /* gap: 0.5rem; */
+      width: 100%;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 0.9rem;
     }
 
     input,
@@ -988,22 +1017,18 @@ export const sectionFormCompletedLayout = css`
       min-height: 2.5rem;
       border: none;
       background-color: #eae9ee;
+      margin-bottom: 1.5rem;
     }
 
     p {
       display: flex;
       flex-direction: column;
     }
-
-    button {
-      width: 100%;
-      font-size: 12px;
-      font-weight: 400;
-      border-radius: 5px;
-      min-height: 30px;
-      margin: 0 1rem;
-    }
   }
+`;
+
+export const buttonFlex = css`
+  ${displayFlex('flex', '', 'center', 'center')}
 `;
 
 /* *************************** */
@@ -1077,6 +1102,13 @@ export const formAddNewJoiner = css`
 
 export const fileUploadStyle = css`
   width: 12.5rem;
+`;
+
+export const successStyle = css`
+  color: var(--colorMainBlue);
+  font-weight: 600;
+  text-align: center;
+  margin: 2rem auto;
 `;
 
 /* *************************** */
