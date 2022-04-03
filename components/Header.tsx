@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import header_icon_logout from '../public/img/header_icon_logout.png';
 import logo_header from '../public/img/logo_header.png';
-import placeholderProfileImg from '../public/profile-placeholder.svg';
+import placeholderProfileImg from '../public/profilePlaceholder.svg';
 import { User } from '../util/database';
 import { headerStyle } from './elements';
 

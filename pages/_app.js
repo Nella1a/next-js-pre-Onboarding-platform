@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState();
   const [userFirstName, setUserFirstName] = useState();
   const [userHeaderImage, setUserHeaderImage] = useState(
-    `/profile-placeholder.svg`,
+    `/profilePlaceholder.svg`,
   );
 
   const refreshUserProfile = useCallback(async () => {
