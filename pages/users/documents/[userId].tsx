@@ -173,39 +173,8 @@ export async function getServerSideProps(
     // console.log('userAddress:', userAddress);
     console.log('JoinreadPersonalDetails', readAllUserInfo);
 
-    // const emptyFormInput = {
-    //   dateOfBirth: '',
-    //   socialSecNb: 0,
-    //   nationality: '',
-    //   email: '',
-    //   userPhone: 0,
-    //   streetAndNbr: '',
-    //   city: '',
-    //   postalCode: 0,
-    //   country: '',
-    //   maritalStatusId: 0,
-    //   relationshipId: 0,
-    //   fullname: '',
-    //   sosPhone: 0,
-    // };
-
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readAllUserInfo) {
-      // function dateFormatter(date) {
-      //   date = new Date(date);
-      //   const date_string =
-      //     (date.getDate().toString().length === 2
-      //       ? date.getDate()
-      //       : '0' + date.getDate().toString()) +
-      //     '.' +
-      //     ((date.getMonth() + 1).toString().length === 2
-      //       ? date.getMonth() + 1
-      //       : '0' + (date.getMonth() + 1).toString()) +
-      //     '.' +
-      //     date.getFullYear();
-      //   return date_string;
-      // }
-
       // readAllUserInfo.dateOfBirth = dateFormatter(readAllUserInfo.dateOfBirth);
 
       readAllUserInfo.dateOfBirth = new Date(
@@ -222,8 +191,6 @@ export async function getServerSideProps(
 
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         currentStep: readCurrentFormStep ? readCurrentFormStep.currentStep : 0,
-
-        // currentStep: readCurrentFormStep.currentStep,
       },
     };
   }

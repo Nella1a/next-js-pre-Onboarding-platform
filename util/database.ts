@@ -475,32 +475,33 @@ export type FormUpdateValues = {
 };
 
 // UPDATE
-// export async function updateUserPersonalInfo(
-//   userId: number,
-//   dateOfBirth: Date,
-//   socialSecNb: number,
-//   // nationality: string,
-//   // email: string,
-//   // userPhone: number,
-// ) {
-//   const [updateFormiInput] = await sql<[FormUpdateValues]>`
-// UPDATE
-// user_personal_details
-// SET
-//   date_of_birth = ${dateOfBirth},
-//   social_sec_nb = ${socialSecNb}
-// WHERE
-//   id = ${userId}
-//   RETURNING
-//   date_of_birth,
-//   social_sec_nb
-//   -- nationality,
-//   -- email,
-//   -- user_phone
-// `;
-//   console.log('DB updateFormiInput', updateFormiInput);
-//   return camelcaseKeys(updateFormiInput);
-// }
+export async function updateUserPersonalInfo(
+  userId: number,
+  dateOfBirth: string,
+  socialSecNb: number,
+  nationality: string,
+  email: string,
+  userPhone: number,
+) {
+  const [updateFormiInput] = await sql<[FormUpdateValues]>`
+UPDATE
+user_personal_details
+SET
+social_sec_nb = ${socialSecNb},
+  nationality = ${nationality},
+  email =  ${email},
+  user_phone = ${userPhone}
+WHERE
+user_id = ${userId}
+  RETURNING
+  social_sec_nb,
+  nationality,
+  email,
+  user_phone
+`;
+  console.log('DB updateFormiInput', updateFormiInput);
+  return camelcaseKeys(updateFormiInput);
+}
 
 // READ
 export async function readUserPersonalInfo(userId: number) {

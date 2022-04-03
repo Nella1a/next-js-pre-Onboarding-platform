@@ -20,7 +20,8 @@ export default function FormCompleted({
 }: ChildProps) {
   console.log('gSSP:', readFullUserInfo);
   // console.log('gSSP_info:', props.readAllUserInfo.email);
-
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState('');
   const [emailOnEdit, setEmailOnEdit] = useState(readFullUserInfo.email);
   const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState(
     readFullUserInfo.dateOfBirth,
@@ -52,9 +53,6 @@ export default function FormCompleted({
   const [sosContactRelationOnEdit, setSosContactRelationOnEdit] = useState(
     readFullUserInfo.relationshipId,
   );
-
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [error, setError] = useState('');
 
   // UPDATE
   async function updateUserFormInputs() {
