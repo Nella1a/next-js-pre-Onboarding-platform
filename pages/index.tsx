@@ -13,7 +13,7 @@ import homeDashboard from '../public/img/home/homeDashboard.png';
 import homeDocuments from '../public/img/home/homeDocuments.png';
 import homeNews from '../public/img/home/homeNews.png';
 import homeProfile from '../public/img/home/homeProfile.png';
-import homeTeam from '../public/img/home/homeTeam.png';
+import homeTeamTwo from '../public/img/home/homeTeamTwo.jpeg';
 import iconContract from '../public/img/menu/iconContract.svg';
 import iconDashboard from '../public/img/menu/iconDashboard.svg';
 import iconProfile from '../public/img/menu/iconProfile.png';
@@ -53,7 +53,7 @@ export default function Home(props: Props) {
         <div>
           <div>
             <Image
-              src={homeTeam}
+              src={homeTeamTwo}
               alt="image of a group of co-workers"
               width="460"
               height="320"
@@ -94,38 +94,40 @@ export default function Home(props: Props) {
         </div>
         {/* / *** ** * / */}
         <div>
-          <article>
-            <div>
-              <Image
-                src={homeContract}
-                alt="Illustration of a contract"
-                width="460"
-                height="146"
-              />
-            </div>
-            <div>
-              <h2>Here you'll find your contract</h2>
-              <p>
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum
-              </p>
-              <Link href={`/users/contract/${props.user.id}}`} passHref>
-                <button>
-                  <span>
-                    {' '}
-                    <Image
-                      src={iconContract}
-                      alt="icon of a contract"
-                      width="20"
-                      height="20"
-                    />
-                  </span>
-                  <span>Contract</span>
-                </button>
-              </Link>
-            </div>
-          </article>
+          {props.user.roleId === 2 && (
+            <article>
+              <div>
+                <Image
+                  src={homeContract}
+                  alt="Illustration of a contract"
+                  width="460"
+                  height="146"
+                />
+              </div>
+              <div>
+                <h2>Here you'll find your contract</h2>
+                <p>
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum
+                </p>
+                <Link href={`/users/contract/${props.user.id}}`} passHref>
+                  <button>
+                    <span>
+                      {' '}
+                      <Image
+                        src={iconContract}
+                        alt="icon of a contract"
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <span>Contract</span>
+                  </button>
+                </Link>
+              </div>
+            </article>
+          )}
 
           <article>
             <div>
@@ -161,72 +163,76 @@ export default function Home(props: Props) {
           </article>
         </div>
         {/* / **** *** / */}
-        <div>
-          <article>
-            <div>
-              <Image
-                src={homeDashboard}
-                alt="Illustration of a laptop"
-                width="460"
-                height="146"
-              />
-            </div>
-            <div>
-              <h2>All new joiners</h2>
-              <p>
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum
-              </p>
-              <Link href="/dashboard" passHref>
-                <button>
-                  <span>
-                    {' '}
-                    <Image
-                      src={iconDashboard}
-                      alt="icon of a browser window "
-                      width="20"
-                      height="20"
-                    />
-                  </span>
-                  <span>Dashboard</span>
-                </button>
-              </Link>
-            </div>
-          </article>
-          <article>
-            <div>
-              <Image
-                src={homeNews}
-                alt="illustration of desk with a computer, cup of tee and pad of paper"
-                width="460"
-                height="146"
-              />
-            </div>
-            <div>
-              <h2>Add new joiner</h2>
-              <p>
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum
-              </p>
-              <Link href="/addNewjoiner" passHref>
-                <button>
-                  <span>
-                    {' '}
-                    <Image
-                      src={iconUpdates}
-                      alt="icon of an newspaper"
-                      width="20"
-                      height="20"
-                    />
-                  </span>
-                  <span>Add new joiner</span>
-                </button>
-              </Link>
-            </div>
-          </article>
-        </div>
+
+        {props.user.roleId === 1 && (
+          <div>
+            <article>
+              <div>
+                <Image
+                  src={homeDashboard}
+                  alt="Illustration of a laptop"
+                  width="460"
+                  height="146"
+                />
+              </div>
+              <div>
+                <h2>All new joiners</h2>
+                <p>
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum
+                </p>
+                <Link href="/dashboard" passHref>
+                  <button>
+                    <span>
+                      {' '}
+                      <Image
+                        src={iconDashboard}
+                        alt="icon of a browser window "
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <span>Dashboard</span>
+                  </button>
+                </Link>
+              </div>
+            </article>
+
+            <article>
+              <div>
+                <Image
+                  src={homeNews}
+                  alt="illustration of desk with a computer, cup of tee and pad of paper"
+                  width="460"
+                  height="146"
+                />
+              </div>
+              <div>
+                <h2>Add new joiner</h2>
+                <p>
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum
+                </p>
+                <Link href="/addNewjoiner" passHref>
+                  <button>
+                    <span>
+                      {' '}
+                      <Image
+                        src={iconUpdates}
+                        alt="icon of an newspaper"
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <span>Add new joiner</span>
+                  </button>
+                </Link>
+              </div>
+            </article>
+          </div>
+        )}
       </section>
     </Layout>
   );

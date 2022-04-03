@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import header_icon_logout from '../public/img/header_icon_logout.png';
 import logo_header from '../public/img/logo_header.png';
-import imgTest from '../public/imgTest.png';
+import placeholderProfileImg from '../public/profile-placeholder.svg';
 import { User } from '../util/database';
 import { headerStyle } from './elements';
 
@@ -28,16 +28,6 @@ export default function Header(props: Props) {
           <Image src={logo_header} alt="company logo" width="121" height="26" />
         </Link>
 
-        {/* <Link href="/login">
-          <a>Documents</a>
-        </Link>
-        <Link href="/login">
-          <a>Updates</a>
-        </Link>
-        <Link href="/login">
-          <a>Profile</a>
-        </Link> */}
-
         <div>
           {' '}
           <p>
@@ -53,15 +43,15 @@ export default function Header(props: Props) {
           )}
           <div css={divStyle}>
             <Image
-              src={props.headerImage ? props.headerImage : imgTest}
+              src={
+                props.headerImage ? props.headerImage : placeholderProfileImg
+              }
               alt="user image"
               width="50"
               height="50"
               css={divStyle}
             />
           </div>
-
-          {/* <p>{props.userObject.username}Jane Doe</p> */}
 
           <Link href="/logout" passHref>
             <Image
@@ -71,20 +61,7 @@ export default function Header(props: Props) {
               height="30"
             />
           </Link>
-
-          {/*
-          <a href="/logout">
-            {' '}
-            <Image
-              src={header_icon_logout}
-              alt="icon logout"
-              width="28"
-              height="30"
-            />
-          </a> */}
         </div>
-
-        {/* This should be a normal a link, thus we want the page to relode*/}
       </nav>
     </header>
   );

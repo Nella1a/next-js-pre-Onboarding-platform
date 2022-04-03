@@ -9,7 +9,8 @@ import {
 } from '../../../components/elements';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/Navigation';
-import homeTeam from '../../../public/img/home/homeTeam.png';
+import contract from '../../../public/img/contract.jpeg';
+// import homeTeam from '../../../public/img/home/homeTeam.png';
 import {
   AddContractDetailsRequestBody,
   getUserById,
@@ -104,7 +105,7 @@ export default function UserProfile(props: Props) {
         <article>
           <div>
             <Image
-              src={homeTeam}
+              src={contract}
               alt="image group of employers"
               width="460"
               height="320"
