@@ -126,6 +126,7 @@ export default function Home(props: Props) {
               </Link>
             </div>
           </article>
+
           <article>
             <div>
               <Image

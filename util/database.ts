@@ -133,6 +133,23 @@ export async function getUserById(id: number) {
   return user && camelcaseKeys(user);
 }
 
+// DELETE
+export async function deleteUserById(id: number) {
+  const [user] = await sql<[User | undefined]>`
+    DELETE FROM users
+    WHERE
+    id = ${id}
+    RETURNING
+      id,
+      username,
+      first_name,
+      last_name,
+      role_id
+    `;
+  console.log('User in DB', user);
+  return user && camelcaseKeys(user);
+}
+
 /* *************************** */
 /*       users role table       */
 /* *************************** */
@@ -402,10 +419,11 @@ export type ImgUrl = {
 
 // check if user_id already in table
 export async function getUserByImg(userId: string) {
-  const [user] = await sql<[id: number | undefined]>`
-  SELECT id FROM user_personal_details WHERE user_id = ${userId}
+  const [user] = await sql<[{ userId: number | undefined }]>`
+  SELECT user_id FROM user_personal_details WHERE user_id = ${userId}
   `;
-  return user && camelcaseKeys(user);
+  console.log('DB_USER_ID', user);
+  return camelcaseKeys(user);
 }
 
 // ADD IMAGE
@@ -455,33 +473,34 @@ export type FormUpdateValues = {
   nationality: string;
   userPhone: number;
 };
+
 // UPDATE
-export async function updateUserPersonalInfo(
-  userId: number,
-  // dateOfBirth: string,
-  socialSecNb: number,
-  nationality: string,
-  email: string,
-  userPhone: number,
-) {
-  const [updateFormiInput] = await sql<[FormUpdateValues]>`
-UPDATE
-user_personal_details
-SET
-  social_sec_nb = ${socialSecNb},
-  nationality = ${nationality},
-  email =  ${email},
-  user_phone = ${userPhone}
-WHERE
-  user_Id = ${userId}
-  RETURNING
-  social_sec_nb,
-  nationality,
-  email,
-  user_phone
-`;
-  return camelcaseKeys(updateFormiInput);
-}
+// export async function updateUserPersonalInfo(
+//   userId: number,
+//   dateOfBirth: Date,
+//   socialSecNb: number,
+//   // nationality: string,
+//   // email: string,
+//   // userPhone: number,
+// ) {
+//   const [updateFormiInput] = await sql<[FormUpdateValues]>`
+// UPDATE
+// user_personal_details
+// SET
+//   date_of_birth = ${dateOfBirth},
+//   social_sec_nb = ${socialSecNb}
+// WHERE
+//   id = ${userId}
+//   RETURNING
+//   date_of_birth,
+//   social_sec_nb
+//   -- nationality,
+//   -- email,
+//   -- user_phone
+// `;
+//   console.log('DB updateFormiInput', updateFormiInput);
+//   return camelcaseKeys(updateFormiInput);
+// }
 
 // READ
 export async function readUserPersonalInfo(userId: number) {

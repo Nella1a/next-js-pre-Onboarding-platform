@@ -80,6 +80,10 @@ export default function AddNewJoiner({
           console.log('userID:', registerResponseBody.user.user.id);
           // api response okay ==> update state variable
           console.log('Console REGISSTER:', registerResponseBody);
+          setUsername('');
+          setPassword('');
+          setFirstName('');
+          setLastName('');
           setNewJoinerUserId(registerResponseBody.user.user.id);
         }}
       >
@@ -165,8 +169,10 @@ export default function AddNewJoiner({
               </ul>
             ) : (
               <div css={successStyle}>
-                <p>New user succesfully added</p>
-                <p>Please proceed with the offer details</p>
+                <p>
+                  New user succesfully added.
+                  <br /> Please proceed with the offer details.
+                </p>
               </div>
             )}
           </article>

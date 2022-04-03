@@ -35,17 +35,20 @@ export default function Navigation(props: Props) {
             <a>Profile</a>
           </Link>
         </li>
-        <li>
-          <Image
-            src={iconContract}
-            alt="Documents Icon"
-            width="20"
-            height="20"
-          />
-          <Link href={`/users/contract/${props.userId}`}>
-            <a>Contract</a>
-          </Link>
-        </li>
+        {props.userRole === 2 && (
+          <li>
+            <Image
+              src={iconContract}
+              alt="Documents Icon"
+              width="20"
+              height="20"
+            />
+            <Link href={`/users/contract/${props.userId}`}>
+              <a>Contract</a>
+            </Link>
+          </li>
+        )}
+
         {props.userRole === 1 && (
           <li>
             <Image

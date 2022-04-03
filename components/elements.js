@@ -1043,6 +1043,33 @@ export const addNewJoinerSectionTwoLayout = css`
   gap: 3rem;
 `;
 
+export const addNewJoinerSectionTwoLayoutColumn = css`
+  width: 100%;
+  background-color: var(--backGroundColorGrey);
+  padding: 1.5rem;
+  gap: 3rem;
+`;
+
+export const contractAddNewJoiners = css`
+  width: 100%;
+  background-color: var(--backGroundColorGrey);
+
+  > div:first-of-type {
+    padding: 1.5rem;
+    display: flex;
+    gap: 3rem;
+  }
+  div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    button {
+      text-align: center;
+      width: 13.5rem;
+    }
+  }
+`;
+
 export const formAddNewJoiner = css`
   article {
     width: 30rem;
@@ -1090,11 +1117,10 @@ export const formAddNewJoiner = css`
         width: 100%;
         display: flex;
         justify-content: center;
-
-        button {
-          display: block;
-          width: 50%;
-        }
+      }
+      button {
+        display: block;
+        width: 10rem;
       }
     }
   }
@@ -1120,7 +1146,7 @@ export const dashboardStyle = css`
   padding: 1.5rem;
 
   > div {
-    ${displayFlex('flex', 'column', 'space-between', 'center')}
+    ${displayFlex('flex', 'column', 'space-between', 'flex-start')}
     background-color: #fff;
     width: 85%;
     min-width: 57.5rem;
@@ -1141,7 +1167,7 @@ export const dashboardStyle = css`
         font-weight: 600;
         text-align: center;
         /* margin-right: 0.8rem; */
-        width: 13rem;
+        width: 10.5rem;
         height: 3rem;
         border-radius: 5px;
       }
@@ -1154,10 +1180,27 @@ export const dashboardStyle = css`
         font-weight: 300;
         text-align: center;
         /* margin-right: 0.8rem; */
-        width: 13rem;
+        width: 10.5rem;
         height: 3rem;
         border-radius: 5px;
       }
+      div:nth-of-type(5) {
+        background-color: var(--fontColorWhite);
+        justify-content: flex-start;
+
+        button {
+          border-radius: 5px;
+          font-weight: 900;
+          width: 2rem;
+        }
+      }
     }
+  }
+
+  p {
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+    font-weight: 600;
   }
 `;

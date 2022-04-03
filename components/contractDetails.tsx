@@ -23,27 +23,44 @@ import {
 //   lastName: string;
 // };
 type Errors = { message: string }[];
-type Props = {
+// type Props = {
+//   newJoinerUserId: number;
+//   cloudKey: string;
+//   uploadPreset: string;
+//   setAddNewJoiner: boolean;
+// };
+
+interface ChildProps {
+  apiResponse: boolean;
   newJoinerUserId: number;
   cloudKey: string;
   uploadPreset: string;
-};
+  setAddNewJoiner: React.Dispatch<React.SetStateAction<boolean>>;
+  setApiResponse: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export default function AddContractDetails(props: Props) {
+export default function AddContractDetails({
+  newJoinerUserId,
+  apiResponse,
+  cloudKey,
+  uploadPreset,
+  setAddNewJoiner,
+  setApiResponse,
+}: ChildProps) {
   const [startingDate, setStartingDate] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [salary, setSalary] = useState<number>();
   // const [benefits, setBenefits] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  const [apiResponse, setApiResponse] = useState(false);
+  // const [apiResponse, setApiResponse] = useState(false);
   const [errors, setErrors] = useState<Errors>();
   const [uploadContract, setUploadContract] = useState('');
 
   useEffect(() => {
-    if (props.newJoinerUserId) {
+    if (newJoinerUserId) {
       setIsDisabled(false);
     }
-  }, [props.newJoinerUserId]);
+  }, [newJoinerUserId]);
 
   // send contract to cloud
   const uploadContractToCloud = async (event: any) => {
@@ -51,10 +68,10 @@ export default function AddContractDetails(props: Props) {
     // console.log('userIdFE:', userId);
     const formData = new FormData();
     formData.append('file', event[0]);
-    formData.append('upload_preset', props.uploadPreset);
+    formData.append('upload_preset', uploadPreset);
 
     const cloudinaryResponse = await fetch(
-      `https://api.cloudinary.com/v1_1/${props.cloudKey}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${cloudKey}/image/upload`,
       {
         method: 'POST',
         body: formData,
@@ -71,27 +88,6 @@ export default function AddContractDetails(props: Props) {
 
     setUploadContract(formDataResponse.url);
     console.log('contractUrl StateVariable:', uploadContract);
-
-    // // fetch img-url to api route
-    // const addImageUrlToDB = await fetch(`/api/profile/${userId}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     imageUrl: formDataResponse.url,
-    //     userId: userId,
-    //   }),
-    // });
-    // const addImageUrlToDBResponseBody = await addImageUrlToDB.json();
-
-    // // check for errors in api response
-    // if ('errors' in addImageUrlToDBResponseBody) {
-    // //   setErrors(addImageUrlToDBResponseBody.errors);
-    //   return;
-    // }
-    // console.log('API_Response_IMG:,', addImageUrlToDBResponseBody);
-    // };
   };
 
   return (
@@ -106,14 +102,14 @@ export default function AddContractDetails(props: Props) {
 
           // send forminput to api
           const addContractResponse = await fetch(
-            `/api/contract/${props.newJoinerUserId}}`,
+            `/api/contract/${newJoinerUserId}}`,
             {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                userId: props.newJoinerUserId,
+                userId: newJoinerUserId,
                 startingDate: startingDate,
                 jobTitle: jobTitle,
                 salary: salary,
@@ -131,6 +127,11 @@ export default function AddContractDetails(props: Props) {
           setErrors([]);
 
           if (addContractResponseBody) {
+            setApiResponse(true);
+            setStartingDate('');
+            setJobTitle('');
+            setSalary(0);
+            setUploadContract('');
             setApiResponse(true);
           }
           // props.setAddNewJoiner(addContractResponseBody);
@@ -244,9 +245,12 @@ export default function AddContractDetails(props: Props) {
                 </div>
               </ul>
             ) : (
-              <div css={successStyle}>
-                <p>Offer details succesfully added!</p>
-              </div>
+              (setAddNewJoiner(true),
+              (
+                <div css={successStyle}>
+                  <p>Offer details succesfully added!</p>
+                </div>
+              ))
             )}
           </article>
         </section>
