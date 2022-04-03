@@ -43,7 +43,7 @@ import {
 
 export default function UserProfile(props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
-  const [imageUrl, setImageUrl] = useState(`/profile-placeholder.svg`);
+  const [imageUrl, setImageUrl] = useState(`/profilePlaceholder.svg`);
   // const [userId, setUserId] = useState < number > 0;
   const [userId, setUserId] = useState(0);
   const [errors, setErrors] = useState('');
