@@ -13,11 +13,12 @@ import homeDashboard from '../public/img/home/homeDashboard.png';
 import homeDocuments from '../public/img/home/homeDocuments.png';
 import homeNews from '../public/img/home/homeNews.png';
 import homeProfile from '../public/img/home/homeProfile.png';
-import homeTeam from '../public/img/home/homeTeam.png';
+import homeTeamTwo from '../public/img/home/homeTeamTwo.jpeg';
+import iconAddNew from '../public/img/menu/iconAddNew.svg';
 import iconContract from '../public/img/menu/iconContract.svg';
 import iconDashboard from '../public/img/menu/iconDashboard.svg';
 import iconProfile from '../public/img/menu/iconProfile.png';
-import iconUpdates from '../public/img/menu/iconUpdates.svg';
+// import iconUpdates from '../public/img/menu/iconUpdates.svg';
 import { getUserByValidSessionToken, User } from '../util/database';
 
 type Props = {
@@ -28,6 +29,140 @@ type Props = {
 };
 
 export default function Home(props: Props) {
+  if (props.user.roleId === 2) {
+    return (
+      <Layout
+        userObject={props.userObject}
+        userFirstName={props.userFirstName}
+        headerImage={props.headerImage}
+      >
+        <Head>
+          <title>Welcome</title>
+          <meta name="description" content="Landing page" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
+        <section css={sectionOneLayout}>
+          <Navigation userId={props.user.id} userRole={props.user.roleId} />
+        </section>
+
+        <section css={indexSectionTwoLayout}>
+          <div>
+            <div>
+              <Image
+                src={homeTeamTwo}
+                alt="image of a group of co-workers"
+                width="460"
+                height="320"
+              />
+            </div>
+            <article>
+              <div>
+                <Image
+                  src={homeProfile}
+                  alt="Illustration of a laptop displaying a the cv of a person"
+                  width="460"
+                  height="146"
+                />
+              </div>
+              <div>
+                <h2>This is your profile</h2>
+                <p>
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum
+                </p>
+                <Link href={`/users/profiles/${props.user.id}}`} passHref>
+                  <button>
+                    <span>
+                      {' '}
+                      <Image
+                        src={iconProfile}
+                        alt="icon of a person"
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <span>Profile</span>
+                  </button>
+                </Link>
+              </div>
+            </article>
+          </div>
+          {/* / *** ** * / */}
+          <div>
+            <article>
+              <div>
+                <Image
+                  src={homeContract}
+                  alt="Illustration of a contract"
+                  width="460"
+                  height="146"
+                />
+              </div>
+              <div>
+                <h2>Here you'll find your contract</h2>
+                <p>
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum
+                </p>
+                <Link href={`/users/contract/${props.user.id}}`} passHref>
+                  <button>
+                    <span>
+                      {' '}
+                      <Image
+                        src={iconContract}
+                        alt="icon of a contract"
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <span>Contract</span>
+                  </button>
+                </Link>
+              </div>
+            </article>
+
+            <article>
+              <div>
+                <Image
+                  src={homeDocuments}
+                  alt="Illustration of a file full of documents"
+                  width="460"
+                  height="146"
+                />
+              </div>
+              <div>
+                <h2>Fill out your personal details</h2>
+                <p>
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum
+                </p>
+                <Link href={`/users/documents/${props.user.id}}`} passHref>
+                  <button>
+                    <span>
+                      {' '}
+                      <Image
+                        src={iconProfile}
+                        alt="icon of a person"
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <span>Documents</span>
+                  </button>
+                </Link>
+              </div>
+            </article>
+          </div>
+          {/* / **** *** / */}
+        </section>
+      </Layout>
+    );
+  }
+
   return (
     <Layout
       userObject={props.userObject}
@@ -47,18 +182,16 @@ export default function Home(props: Props) {
       </section>
 
       <section css={indexSectionTwoLayout}>
-        {/* <h1>
-          Hello {props.user.username} User_id: {props.user.id}{' '}
-        </h1> */}
+        {/* <div>
+          <Image
+            src={homeTeamTwo}
+            alt="image of a group of co-workers"
+            width="710,7"
+            height="459,6"
+          />
+        </div> */}
+
         <div>
-          <div>
-            <Image
-              src={homeTeam}
-              alt="image of a group of co-workers"
-              width="460"
-              height="320"
-            />
-          </div>
           <article>
             <div>
               <Image
@@ -91,42 +224,6 @@ export default function Home(props: Props) {
               </Link>
             </div>
           </article>
-        </div>
-        {/* / *** ** * / */}
-        <div>
-          <article>
-            <div>
-              <Image
-                src={homeContract}
-                alt="Illustration of a contract"
-                width="460"
-                height="146"
-              />
-            </div>
-            <div>
-              <h2>Here you'll find your contract</h2>
-              <p>
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum
-              </p>
-              <Link href={`/users/contract/${props.user.id}}`} passHref>
-                <button>
-                  <span>
-                    {' '}
-                    <Image
-                      src={iconContract}
-                      alt="icon of a contract"
-                      width="20"
-                      height="20"
-                    />
-                  </span>
-                  <span>Contract</span>
-                </button>
-              </Link>
-            </div>
-          </article>
-
           <article>
             <div>
               <Image
@@ -161,6 +258,7 @@ export default function Home(props: Props) {
           </article>
         </div>
         {/* / **** *** / */}
+
         <div>
           <article>
             <div>
@@ -194,6 +292,7 @@ export default function Home(props: Props) {
               </Link>
             </div>
           </article>
+
           <article>
             <div>
               <Image
@@ -215,7 +314,7 @@ export default function Home(props: Props) {
                   <span>
                     {' '}
                     <Image
-                      src={iconUpdates}
+                      src={iconAddNew}
                       alt="icon of an newspaper"
                       width="20"
                       height="20"

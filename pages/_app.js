@@ -6,7 +6,9 @@ import theme from '../components/theme';
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState();
   const [userFirstName, setUserFirstName] = useState();
-  const [userHeaderImage, setUserHeaderImage] = useState(`/imgTest.png`);
+  const [userHeaderImage, setUserHeaderImage] = useState(
+    `/profile-placeholder.svg`,
+  );
 
   const refreshUserProfile = useCallback(async () => {
     const response = await fetch('/api/profile');
@@ -45,9 +47,6 @@ function MyApp({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <Global styles={globalStyleBody(theme)} />
-
-        {/* Passing to every component pagesProps, userObject and refresUserProfile */}
-        {/* <FormProvider> */}
         <Component
           {...pageProps}
           userObject={user}

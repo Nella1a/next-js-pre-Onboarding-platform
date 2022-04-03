@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import iconAddNew from '../public/img/menu/iconAddNew.svg';
 import iconContract from '../public/img/menu/iconContract.svg';
 import iconDashboard from '../public/img/menu/iconDashboard.svg';
 import iconDocuments from '../public/img/menu/iconDocuments.svg';
@@ -52,7 +53,7 @@ export default function Navigation(props: Props) {
         {props.userRole === 1 && (
           <li>
             <Image
-              src={iconContract}
+              src={iconAddNew}
               alt="Documents Icon"
               width="20"
               height="20"
