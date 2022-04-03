@@ -68,6 +68,7 @@ export default async function formInputHandler(
 
     const updatePersDetail = await updateUserPersonalInfo(
       formUpdateRequest.userId,
+      formUpdateRequest.dateOfBirth,
       formUpdateRequest.socialSecNb,
       formUpdateRequest.nationality,
       formUpdateRequest.email,
