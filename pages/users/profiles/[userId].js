@@ -41,8 +41,6 @@ import {
 //   readContract: AddContractDetailsRequestBody,
 // };
 
-
-
 export default function UserProfile(props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
   const [imageUrl, setImageUrl] = useState(`/profile-placeholder.svg`);
@@ -203,22 +201,6 @@ export default function UserProfile(props) {
     </Layout>
   );
 }
-
-// type ImageType = {
-//   imgUrl: string,
-// };
-
-// export async function getServerSideProps(
-//   context: GetServerSidePropsContext,
-// ): Promise<
-//   GetServerSidePropsResult<{
-//     user?: User;
-//     cloudKey?: string;
-//     profileImgUrl?: ImageType | '';
-//     uploadPreset?: string;
-//     readContract?: AddContractDetailsRequestBody;
-//   }>
-// > {
 
 export async function getServerSideProps(context) {
   const token = context.req.cookies.sessionToken;
