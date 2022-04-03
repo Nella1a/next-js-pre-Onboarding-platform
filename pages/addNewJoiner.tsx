@@ -4,7 +4,8 @@ import { useState } from 'react';
 import AddNewJoiner from '../components/AddNewJoiner';
 import AddContractDetails from '../components/contractDetails';
 import {
-  addNewJoinerSectionTwoLayout,
+  addNewJoinerSectionTwoLayoutColumn,
+  contractAddNewJoiners,
   sectionOneLayout,
 } from '../components/elements';
 import Layout from '../components/Layout';
@@ -33,6 +34,9 @@ type Props = {
 
 export default function UserProfile(props: Props) {
   const [newJoinerUserId, setNewJoinerUserId] = useState<number>(0);
+  const [addNewJoiner, setAddNewJoiner] = useState(false);
+  const [apiResponse, setApiResponse] = useState(false);
+
   console.log('Props_Profile_oi:', props);
 
   if (!props.user) {
@@ -74,21 +78,41 @@ export default function UserProfile(props: Props) {
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
 
-      <section css={addNewJoinerSectionTwoLayout}>
+      <section
+        css={[addNewJoinerSectionTwoLayoutColumn, contractAddNewJoiners]}
+      >
         {/* <section css={sectionTwoLayout}> */}{' '}
-        <article>
-          <AddNewJoiner
-            setNewJoinerUserId={setNewJoinerUserId}
-            newJoinerUserId={newJoinerUserId}
-          />
-        </article>
-        <article>
-          <AddContractDetails
-            newJoinerUserId={newJoinerUserId}
-            cloudKey={props.cloudKey}
-            uploadPreset={props.uploadPreset}
-          />
-        </article>
+        <div>
+          <article>
+            <AddNewJoiner
+              setNewJoinerUserId={setNewJoinerUserId}
+              newJoinerUserId={newJoinerUserId}
+            />
+          </article>
+          <article>
+            <AddContractDetails
+              apiResponse={apiResponse}
+              setApiResponse={setApiResponse}
+              setAddNewJoiner={setAddNewJoiner}
+              newJoinerUserId={newJoinerUserId}
+              cloudKey={props.cloudKey}
+              uploadPreset={props.uploadPreset}
+            />
+          </article>
+        </div>
+        <div>
+          {addNewJoiner && (
+            <button
+              onClick={() => {
+                setNewJoinerUserId(0);
+                setAddNewJoiner(false);
+                setApiResponse(false);
+              }}
+            >
+              Add New Joiner
+            </button>
+          )}
+        </div>
       </section>
     </Layout>
   );

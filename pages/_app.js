@@ -54,6 +54,7 @@ function MyApp({ Component, pageProps }) {
           userFirstName={userFirstName}
           refreshUserProfile={refreshUserProfile}
           headerImage={userHeaderImage}
+          setUserHeaderImage={setUserHeaderImage}
         />
         {/* </FormProvider> */}
       </ThemeProvider>

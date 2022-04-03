@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { UserAddressResponseBody } from '../pages/api/documents/[userId]';
 import { ReadAllPersonalInfo } from '../util/database';
-import {
-  buttonFlex,
-  flexRow,
-  flexStyle,
-  sectionFormCompletedLayout,
-} from './elements';
+import { buttonFlex, sectionFormCompletedLayout } from './elements';
 
 interface ChildProps {
   readFullUserInfo: ReadAllPersonalInfo;

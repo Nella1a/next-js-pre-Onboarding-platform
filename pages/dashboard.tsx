@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
+import { useState } from 'react';
 import { dashboardStyle, sectionOneLayout } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
@@ -13,8 +14,8 @@ import {
 
 const styleNewHire = css`
   display: flex;
-  gap: 0.5rem;
-  margin: 1rem 1rem;
+  gap: 0.8rem;
+  margin: 1rem 0rem;
 `;
 
 type Props = {
@@ -26,9 +27,32 @@ type Props = {
 };
 
 export default function Dashboard(props: Props) {
-  // const [required, setRequired] = useState(true);
+  const [listOfAllNewHires, setListOfAllNewHires] = useState(props.newJoiners);
 
-  console.log('props.newJoiner:', props.newJoiners);
+  const eventHandlerRemoveUser = (userId: number) => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/dashboard`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: userId,
+        }),
+      });
+      const allNewHires = await response.json();
+      console.log('APIResponseNewHire:', allNewHires);
+      if (allNewHires) {
+        const copyOfNewHireslist = props.newJoiners.filter(
+          (event) => !(event.id === userId),
+        );
+        console.log('FilterNewHiers:', copyOfNewHireslist);
+        setListOfAllNewHires(copyOfNewHireslist);
+      }
+    };
+
+    fetchData().catch(console.error);
+  };
+
+  console.log('ListofallnieHires:', listOfAllNewHires);
   if (!props.user) {
     return (
       <Layout
@@ -69,21 +93,32 @@ export default function Dashboard(props: Props) {
             <div>Last Name</div>
             <div>Start Date</div>
             <div>Job Title</div>
+            <div> </div>
           </article>
-          {props.newJoiners.map((joiner) => {
-            const newStartingDate = new Date(
-              joiner.startingDate,
-            ).toLocaleDateString();
+          {listOfAllNewHires.length === 0 ? (
+            <p> All positions are filled. You have currently no new joiners.</p>
+          ) : (
+            listOfAllNewHires.map((joiner) => {
+              const newStartingDate = new Date(
+                joiner.startingDate,
+              ).toLocaleDateString('de-DE');
 
-            return (
-              <article key={`overview-${joiner.id}`} css={styleNewHire}>
-                <div>{joiner.firstName}</div>
-                <div>{joiner.lastName} </div>
-                <div>{newStartingDate}</div>
-                <div>{joiner.jobTitle}</div>
-              </article>
-            );
-          })}
+              return (
+                <article key={`overview-${joiner.id}`} css={styleNewHire}>
+                  <div>{joiner.firstName}</div>
+                  <div>{joiner.lastName} </div>
+                  <div>{newStartingDate}</div>
+                  <div>{joiner.jobTitle}</div>
+                  <div>
+                    {' '}
+                    <button onClick={() => eventHandlerRemoveUser(joiner.id)}>
+                      X
+                    </button>
+                  </div>
+                </article>
+              );
+            })
+          )}
         </div>
       </section>
     </Layout>

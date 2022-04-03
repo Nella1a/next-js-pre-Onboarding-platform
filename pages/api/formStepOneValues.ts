@@ -61,6 +61,21 @@ export default async function formInputHandler(
       return;
     }
 
+    // // check if imgUrl already exists
+    // const checkUserIdAlreadyInTable = await getUserByImg(request.body.userId);
+    // console.log('API-IMG:', checkUserIdAlreadyInTable);
+
+    // if (checkUserIdAlreadyInTable) {
+    //   const insertUserPersonalDetails = await updateUserPersonalInfo(
+    //     18,
+    //     request.body.dateOfBirth,
+    //     request.body.socialSecNumber,
+    //     // request.body.nationality,
+    //     // request.body.email,
+    //     // request.body.userPhone,
+    //   );
+    //   console.log('Insert UPInfo: ', insertUserPersonalDetails);
+    // }
     // send formInput to database
     const formOneResponse = await formInputPersonalDetails(
       request.body.userId,

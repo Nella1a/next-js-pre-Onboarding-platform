@@ -72,6 +72,7 @@ export default function UserProfile(props) {
     }
 
     setImageUrl(formDataResponse.url);
+    props.setUserHeaderImage(formDataResponse.url);
     console.log('ImageUrl StateVariable:', imageUrl);
 
     // fetch img-url to api route
@@ -190,7 +191,7 @@ export default function UserProfile(props) {
                 <li> {props.readContract.jobTitle}</li>
               </div>
               <div>
-                <li>Starting Date:</li>
+                <li>Start Date:</li>
                 <li>{props.readContract.startingDate}</li>
               </div>
             </ul>
@@ -241,7 +242,7 @@ export async function getServerSideProps(context) {
         if (readContract) {
           readContract.startingDate = new Date(
             readContract.startingDate,
-          ).toLocaleDateString('en-US');
+          ).toLocaleDateString('de-DE');
 
           // readContract.startingDate =
           //   readContract.startingDate.toLocaleDateString('en-US');
