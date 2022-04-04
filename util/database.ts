@@ -314,6 +314,7 @@ export async function readUserAllPersonalInfo(userId: number) {
   users.id = emergency_contact.user_id AND
   users.id = civil_status.user_id
   `;
+  console.log('DB allpersonalInfo:', allPersonalInfo);
   return camelcaseKeys(allPersonalInfo);
 }
 
@@ -450,6 +451,8 @@ export async function updateUserProfileImage(userId: number, imageUrl: string) {
   user_id = ${userId}
   RETURNING image_url
   `;
+  console.log('image in DB:', imgUpdate);
+
   return camelcaseKeys(imgUpdate);
 }
 

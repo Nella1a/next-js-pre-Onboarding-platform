@@ -51,6 +51,7 @@ export default function FormStepThreeValues({
     const responseUrl = formDataResponse.url;
     // cloud response ok ==> update state variable
     setFileUploadOne(responseUrl);
+
     console.log('StateVariable:', responseUrl);
   };
 

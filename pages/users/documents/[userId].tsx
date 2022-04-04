@@ -161,8 +161,6 @@ export async function getServerSideProps(
 
   // 3. If user exists, return user and render page
   if (user) {
-    // const readFormOneValues = await readUserPersonalInfo(user.id);
-
     // get current formstep
     const readCurrentFormStep = await readFormStepDb(user.id);
 
@@ -181,7 +179,7 @@ export async function getServerSideProps(
         readAllUserInfo.dateOfBirth,
       ).toLocaleDateString('de-DE');
     }
-
+    console.log('readAlluserINfo:', readAllUserInfo);
     return {
       props: {
         user: user,

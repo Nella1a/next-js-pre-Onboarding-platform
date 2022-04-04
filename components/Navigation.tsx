@@ -21,7 +21,7 @@ export default function Navigation(props: Props) {
       <ul>
         <li>
           <Image src={iconHome} alt="Home Icon" width="20" height="20" />
-          <Link href="/">
+          <Link href="/" passHref>
             <a>Home</a>
           </Link>
         </li>
@@ -32,7 +32,7 @@ export default function Navigation(props: Props) {
             width="20"
             height="20"
           />
-          <Link href={`/users/profiles/${props.userId}`}>
+          <Link href={`/users/profiles/${props.userId}`} passHref>
             <a>Profile</a>
           </Link>
         </li>
@@ -44,7 +44,7 @@ export default function Navigation(props: Props) {
               width="20"
               height="20"
             />
-            <Link href={`/users/contract/${props.userId}`}>
+            <Link href={`/users/contract/${props.userId}`} passHref>
               <a>Contract</a>
             </Link>
           </li>
@@ -70,7 +70,7 @@ export default function Navigation(props: Props) {
             width="20"
             height="20"
           />
-          <Link href={`/users/documents/${props.userId}`}>
+          <Link href={`/users/documents/${props.userId}`} passHref>
             <a>Documents</a>
           </Link>
         </li>
