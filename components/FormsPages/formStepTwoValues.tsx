@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { User } from '../../util/database';
+
 // import { useForm } from 'react-hook-form';
 import {
   errorStyles,
@@ -11,6 +12,7 @@ import {
 
 interface ChildProps {
   formStep: number;
+
   setFormStep: React.Dispatch<React.SetStateAction<number | undefined>>;
   // prevFormStep: number;
   user: User;

@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { useState } from 'react';
 import { UserAddressResponseBody } from '../pages/api/documents/[userId]';
 import { ReadAllPersonalInfo } from '../util/database';
@@ -20,9 +21,11 @@ export default function FormCompleted({
 }: ChildProps) {
   console.log('gSSP:', readFullUserInfo);
   // console.log('gSSP_info:', props.readAllUserInfo.email);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState('');
   const [emailOnEdit, setEmailOnEdit] = useState(readFullUserInfo.email);
+
   const [dateOfBirthOnEdit, setDateOfBirthOnEdit] = useState(
     readFullUserInfo.dateOfBirth,
   );
@@ -53,6 +56,11 @@ export default function FormCompleted({
   const [sosContactRelationOnEdit, setSosContactRelationOnEdit] = useState(
     readFullUserInfo.relationshipId,
   );
+  if (!readFullUserInfo.email) {
+    Router.reload();
+  }
+  console.log('email:', readFullUserInfo.email);
+  console.log('EmailONEdit:', emailOnEdit);
 
   // UPDATE
   async function updateUserFormInputs() {

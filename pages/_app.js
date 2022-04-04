@@ -29,6 +29,9 @@ function MyApp({ Component, pageProps }) {
       console.log('_app_Image:', data.profileImgUrl.imageUrl);
     }
 
+    if (!data.profileImgUrl.imageUrl) {
+      setUserHeaderImage(`/profilePlaceholder.svg`);
+    }
     // setUserFirstName(usersFirstName);
 
     // if (!data.userImageUrlHeader.imgUrl) {

@@ -59,7 +59,7 @@ export default function FormStepOneValues({
               socialSecNumber: parseInt(socialSecNumber),
               nationality: nationality,
               email: email,
-              phone: parseInt(phone),
+              phone: phone,
               userId: user.id,
               formStep: formStep,
             }),
@@ -154,7 +154,7 @@ export default function FormStepOneValues({
                 min={0}
                 // maxLength={15}
                 value={phone}
-                placeholder="0043 660 0000 00 00"
+                placeholder="0043 660 000 00 00"
                 onChange={(event) => setPhone(event.currentTarget.value)}
               />
             </p>

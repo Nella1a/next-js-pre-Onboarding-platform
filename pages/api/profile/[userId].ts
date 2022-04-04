@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
-  addUserProfileImage,
+  // addUserProfileImage,
   ImgUrl,
+  readUserProfileImage,
   updateUserProfileImage,
 } from '../../../util/database';
 
@@ -51,7 +52,11 @@ export default async function UploadFilesHandler(
     console.log('userIdBE', userId);
 
     // Add image to db
-    const addImgUrlToDB = await addUserProfileImage(
+    // const addImgUrlToDB = await addUserProfileImage(
+    //   request.body.userId,
+    //   request.body.imageUrl,
+    // );
+    const addImgUrlToDB = await updateUserProfileImage(
       request.body.userId,
       request.body.imageUrl,
     );
@@ -86,6 +91,15 @@ export default async function UploadFilesHandler(
     console.log('UpdateImage', addImgUrlToDB);
     response.status(200).json({
       imgUrlInDb: addImgUrlToDB,
+    });
+    return;
+  }
+
+  if (request.method === 'GET') {
+    const profileUserUrl = await readUserProfileImage(userId);
+
+    response.status(405).json({
+      imgUrlInDb: profileUserUrl,
     });
     return;
   }

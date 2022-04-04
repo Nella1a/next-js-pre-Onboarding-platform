@@ -50,7 +50,7 @@ export default async function formInputHandler(
       !request.body.nationality ||
       typeof request.body.email !== 'string' ||
       !request.body.email ||
-      typeof request.body.phone !== 'number' ||
+      typeof request.body.phone !== 'string' ||
       !request.body.phone ||
       typeof request.body.formStep !== 'number'
       // !request.body.formStep
