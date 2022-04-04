@@ -238,7 +238,7 @@ export async function getServerSideProps(
       if (readContract) {
         readContract.startingDate = new Date(
           readContract.startingDate,
-        ).toLocaleDateString('en-US');
+        ).toLocaleDateString('de-DE');
       }
 
       return {

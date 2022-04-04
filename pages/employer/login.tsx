@@ -59,7 +59,7 @@ export default function Login(props: Props) {
 
               <div>
                 <h1>Welcome Back</h1>
-                <p>Login to continue your pre-onboarding </p>
+                <p>Login to continue your pre-onboarding. </p>
               </div>
             </div>
             {/* show error message if username or password does not match  */}
@@ -127,7 +127,7 @@ export default function Login(props: Props) {
               <p>
                 Don't have an account?
                 <Link href="/employer/register">
-                  <a> Register Here</a>
+                  <a> Register here.</a>
                 </Link>
               </p>
             </form>

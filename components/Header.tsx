@@ -32,7 +32,7 @@ export default function Header(props: Props) {
           {' '}
           <p>
             Hello <strong>{props.userFirstName}</strong>, good to have you on
-            the team
+            the team.
           </p>
         </div>
         <div>
