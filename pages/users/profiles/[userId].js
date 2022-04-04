@@ -169,7 +169,7 @@ export default function UserProfile(props) {
                   setCloudinaryUpload(event.target.files[0]);
                 }}
               />
-              <button onClick={uploadImage}>add image</button>
+              <button onClick={uploadImage}>Add image</button>
             </div>
           </article>
           <article>

@@ -175,7 +175,7 @@ export default function FormStepThreeValues({
                 }
               >
                 <option value="0">-- please select ---</option>
-                <option value="1">sigend contract</option>
+                <option value="1">signed contract</option>
                 <option value="2">documents</option>
                 <option value="3">other</option>
               </select>

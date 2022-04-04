@@ -139,7 +139,7 @@ export default function FormStepOneValues({
                 id="nationality"
                 name="nationality"
                 value={nationality}
-                placeholder="Italian"
+                placeholder="Country"
                 onChange={(event) => setNationality(event.currentTarget.value)}
               />
             </p>

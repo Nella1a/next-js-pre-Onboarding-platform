@@ -228,7 +228,7 @@ export default function FormCompleted({
                   <option value="0">-- please select --</option>
                   <option value="1">single</option>
                   <option value="2">married</option>
-                  <option value="3">registered Partnership</option>
+                  <option value="3">registered partnership</option>
                   <option value="4">divorced</option>
                   <option value="5">widowed</option>
                   <option value="6">widowed</option>

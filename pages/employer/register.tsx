@@ -58,7 +58,7 @@ export default function Register(props: Props) {
             </div>
             <div>
               <h1>Create account</h1>
-              <p>Creat your account and start your pre-onboarding </p>
+              <p>Create your account and get started. </p>
             </div>
 
             {/* show error message if username already exists  */}
@@ -185,7 +185,7 @@ export default function Register(props: Props) {
               <p>
                 Already have an account?
                 <Link href="/employer/login">
-                  <a> Login Here</a>
+                  <a> Login here.</a>
                 </Link>
               </p>
             </form>
