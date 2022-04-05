@@ -44,3 +44,13 @@ Create a .env file and include all information for the database (eg password, us
 ## Deployment
 
 Use [Heroku](https://dashboard.heroku.com) to deploy the project.
+
+## Screenshots of the project
+
+<p>
+  <img src="./public/login.png" width="400" alt="screenshot login page">
+</p>
+
+<p>
+  <img src="./public/landingpage.png" width="400" alt="screenshot landing page">
+</p>
