@@ -2,27 +2,7 @@
 import { useState } from 'react';
 import { errorStyles, formAddNewJoiner, successStyle } from './elements';
 
-// type Props = {
-//   user: User | null;
-//   userObject: User;
-//   formStep: number;
-//   nextFormStep: Function;
-//   formValues: object;
-//   setFormValues: object;
-// };
-
-// type FormValuesOne = {
-//   username: string;
-//   password: string;
-//   firstName: string;
-//   lastName: string;
-// };
-
 type Errors = { message: string }[];
-// type Props = {
-//   newJoinerUserId: number;
-//   setNewJoinerUserId(): number;
-// };
 
 interface ChildProps {
   newJoinerUserId: number;
@@ -33,7 +13,6 @@ export default function AddNewJoiner({
   newJoinerUserId,
   setNewJoinerUserId,
 }: ChildProps) {
-  // const requieredTrue = false;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -43,7 +22,6 @@ export default function AddNewJoiner({
 
   return (
     <>
-      {/* show error message if username already exists  */}
       <div css={errorStyles}>
         {errors.map((error) => {
           return <div key={`error-${error.message}`}>{error.message}</div>;

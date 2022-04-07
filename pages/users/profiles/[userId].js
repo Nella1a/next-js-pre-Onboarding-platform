@@ -1,4 +1,3 @@
-// import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -8,17 +7,6 @@ import {
 } from '../../../components/elements';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/Navigation';
-// const divContainerforImage = css`
-//   position: relative;
-//   padding: 1rem;
-//   img {
-//     display: block;
-//     border-radius: 50%;
-//     width: 400px;
-//     height: auto;
-//     margin: 1rem;
-//   }
-// `;
 import {
   getUserById,
   getValidSessionByToken,
@@ -26,25 +14,9 @@ import {
   readUserProfileImage,
 } from '../../../util/database';
 
-// type CloudUrl = {
-//   imageUrl: string,
-// };
-
-// type Props = {
-//   user?: User | null,
-//   userObject: User,
-//   userFirstName: string,
-//   profileImgUrl: CloudUrl,
-//   cloudKey: string,
-//   uploadPreset: string,
-//   headerImage: string,
-//   readContract: AddContractDetailsRequestBody,
-// };
-
 export default function UserProfile(props) {
   const [cloudinaryUpload, setCloudinaryUpload] = useState('');
   const [imageUrl, setImageUrl] = useState(`/profilePlaceholder.svg`);
-  // const [userId, setUserId] = useState < number > 0;
   const [userId, setUserId] = useState(0);
   const [errors, setErrors] = useState('');
   console.log('Props_Profile_oi:', props);
@@ -64,8 +36,6 @@ export default function UserProfile(props) {
     );
 
     const formDataResponse = await cloudinaryResponse.json();
-    // setCloudinaryUpload(formDataResponse);
-    console.log('Cloudinary:Response:', formDataResponse.url);
 
     if ('error' in formDataResponse) {
       console.log('Fehler up dote');
@@ -73,7 +43,6 @@ export default function UserProfile(props) {
 
     setImageUrl(formDataResponse.url);
     props.setUserHeaderImage(formDataResponse.url);
-    console.log('ImageUrl StateVariable:', imageUrl);
 
     // fetch img-url to api route
     const addImageUrlToDB = await fetch(`/api/profile/${userId}`, {
@@ -93,7 +62,6 @@ export default function UserProfile(props) {
       setErrors(addImageUrlToDBResponseBody.errors);
       return;
     }
-    console.log('API_Response_IMG:,', addImageUrlToDBResponseBody);
   };
 
   if (!props.user) {
@@ -136,9 +104,7 @@ export default function UserProfile(props) {
 
       <section css={userProfileSectionTwoLayout}>
         {errors && <p>Message: {errors}</p>}
-        {/* <section css={sectionTwoLayout}> */}
 
-        {/* <p> {`${props.user.username},  userId is: ${props.user.id} `}</p> */}
         <div>
           <article>
             {' '}
@@ -215,7 +181,7 @@ export async function getServerSideProps(context) {
     if (session) {
       // read img url from db
       const profileImgUrl = await readUserProfileImage(session.userId);
-      // User id is not correct type
+      // UserId is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };
       }
@@ -227,17 +193,12 @@ export async function getServerSideProps(context) {
           readContract.startingDate = new Date(
             readContract.startingDate,
           ).toLocaleDateString('de-DE');
-
-          // readContract.startingDate =
-          //   readContract.startingDate.toLocaleDateString('en-US');
         }
         console.log('imageUrlInDB:', profileImgUrl);
         return {
           props: {
             user: user,
-            // readContract: readContract || '',
             readContract: readContract || '',
-            // readContract: JSON.parse(JSON.stringify(readContract)),
             cloudKey: cloudKey,
             profileImgUrl: profileImgUrl || '',
             uploadPreset: uploadPreset,

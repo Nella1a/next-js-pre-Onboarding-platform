@@ -19,7 +19,6 @@ export default async function AddContractHandler(
 ) {
   if (request.method === 'POST') {
     // check if request body not empty
-    console.log('request.body:', request.body);
     if (
       typeof request.body.userId !== 'number' ||
       !request.body.userId ||
@@ -60,7 +59,6 @@ export default async function AddContractHandler(
   if (request.method === 'GET') {
     // * check if userId is a number
     const userId: number = Number(request.query.userId);
-    console.log('userId:', userId);
     if (!userId) {
       response.status(400).json({
         errors: 'no valid userId',
@@ -69,7 +67,6 @@ export default async function AddContractHandler(
     }
 
     const readContract = await readContractDetails(userId);
-    console.log('readContract:', readContract);
 
     response.status(200).json({
       contractSummary: readContract,
@@ -78,6 +75,6 @@ export default async function AddContractHandler(
   }
 
   response.status(405).json({
-    errors: 'Method not supported, try POST instead',
+    errors: 'Method not supported',
   });
 }

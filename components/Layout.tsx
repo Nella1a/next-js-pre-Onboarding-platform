@@ -4,8 +4,6 @@ import { User } from '../util/database';
 import { styleMain } from './elements';
 import Header from './Header';
 
-// import Header from './Header';
-
 const backgroundStyle = css`
   height: 100%;
   width: 100%;
@@ -40,22 +38,11 @@ export default function Layout(props: Props) {
             userFirstName={props.userFirstName}
             headerImage={props.headerImage}
           />
-          <main css={styleMain}>
-            {props.children}
-            {/* <section>{props.children}</section> */}
-          </main>
+          <main css={styleMain}>{props.children}</main>
         </div>
       ) : (
-        <main>
-          {props.children}
-          {/* <section>{props.children}</section> */}
-        </main>
+        <main>{props.children}</main>
       )}
-
-      {/* <main css={styleMain}>
-          {props.children}
-        </main>
- */}
     </>
   );
 }

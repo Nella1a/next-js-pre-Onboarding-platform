@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { User } from '../../util/database';
-// import { useForm } from 'react-hook-form';
 import { formStyle, hideForm, showForm, uploadFormStyle } from '../elements';
 
 interface ChildProps {
-  // userObject: User;
   user: User;
   uploadPreset: string;
   cloudKey: string;
@@ -24,7 +22,6 @@ export default function FormStepThreeValues({
   const [sosContactfullName, setSosContactfullName] = useState('');
   const [sosContactPhone, setSosContactPhone] = useState('');
   const [sosContactRelation, setSosContactRelation] = useState('');
-  // const [responseFileUpload, setResponseFileUpload] = useState(false);
 
   // send file to cloud
   const uploadFile = async (event: any) => {
@@ -41,7 +38,6 @@ export default function FormStepThreeValues({
     );
 
     const formDataResponse = await cloudinaryResponse.json();
-    // setCloudinaryUpload(formDataResponse);
     console.log('Cloudinary Response PDF:', formDataResponse);
 
     if ('error' in formDataResponse) {
@@ -169,7 +165,6 @@ export default function FormStepThreeValues({
                 data-test-id="fileUpload-one"
                 name="fileUploadOnes"
                 value={fileUploadOneSelect}
-                // required={fileUploadOne ? true : false}
                 onChange={(event) =>
                   setFileUploadOneSelect(event.currentTarget.value)
                 }
@@ -181,44 +176,9 @@ export default function FormStepThreeValues({
               </select>
             </p>
           </article>
-          {/* <button onClick={uploadImage}>Upload Image</button> */}
-          {/* {responseFileUpload ? <p>Success</p> : <p>no Success</p>} */}
-          {/* <div>
-            <p>
-              <label htmlFor="fileUploadTwo">Document 2 </label>
-              <input
-                type="file"
-                id="fileUploadTwo"
-                data-test-id="userFileUpload-two"
-                name="fileUploadTwo"
-                // value={fileUploadTwo}
-                onChange={(event) => uploadFile(event)}
-              />
-            </p>
-            <p>
-              <select
-                id="fileUploadTwo"
-                data-test-id="fileUpload-one"
-                name="fileUploadTwo"
-                value={fileUploadOneSelect}
-                onChange={(event) =>
-                  setFileUploadOneSelect(event.currentTarget.value)
-                }
-              >
-                <option value="0">-- please select ---</option>
-                <option value="1">contract</option>
-                <option value="2">ID</option>
-                <option value="2">BankCard</option>
-                <option value="4">other</option>
-              </select>
-            </p>
-          </div> */}
-          {/* <button onClick={uploadFile}>Upload Image</button> */}
         </section>
         <button>Step 4 - Review &#38; Submit </button>
       </form>
-
-      {/* </section> */}
     </>
   );
 }

@@ -10,19 +10,16 @@ import {
   flexCenterWithWidthAndHeight,
 } from '../../components/elements';
 import Layout from '../../components/Layout';
-// import { productionBrowserSourceMaps } from '../../next.config';
 import login_image_left from '../../public/img/login_image_left.png';
 import logo_login from '../../public/img/logo_login.png';
 import { createCsrfToken } from '../../util/auth';
 import { getValidSessionByToken } from '../../util/database';
-// import { deleteSessionByToken } from '../util/database';
 import { LoginResponseBody } from '../api/login';
 
 type Errors = { message: string }[];
 
 type Props = {
   refreshUserProfile: () => void;
-  // userObject?: { username: string };
   csrfToken: string;
 };
 
@@ -62,7 +59,6 @@ export default function Login(props: Props) {
                 <p>Login to continue your pre-onboarding. </p>
               </div>
             </div>
-            {/* show error message if username or password does not match  */}
             <div css={errorStyles}>
               {errors.map((error) => {
                 return (
@@ -108,7 +104,6 @@ export default function Login(props: Props) {
                   id="username"
                   name="username"
                   value={username}
-                  // placeholder="Choose your username"
                   onChange={(event) => setUsername(event.currentTarget.value)}
                 />
               </div>
@@ -119,7 +114,6 @@ export default function Login(props: Props) {
                   type="password"
                   name="password"
                   value={password}
-                  // placeholder="Choose your password"
                   onChange={(event) => setPassword(event.currentTarget.value)}
                 />
               </div>

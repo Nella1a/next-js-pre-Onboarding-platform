@@ -6,13 +6,6 @@ import { css } from '@emotion/react';
 
 export const globalStyleBody = (theme) => css`
   :root {
-    --backgroundColor: #e9e7f1;
-    --fontColorDark: #0e081c;
-    --fontColorParagraphAndLinks: #0e081c;
-    --backgroundColorLightGreen: #b4e5bd;
-    --backgroundColorLightGray: #f0f3f9;
-    --backgroundColorLightBlue: #189fdd;
-    --backGroundColorWhite: #fff;
     --fontColorWhite: #fff;
     --colorMainBlue: #030a45;
     --fontColorGrey: #333333;
@@ -48,7 +41,6 @@ export const globalStyleBody = (theme) => css`
     line-height: 1.5; /* default for browser: 1.4 tends to be very small*/
     font-size: ${theme.typography.medium};
     min-height: 100vh;
-    /* max-width: 1350px; */
     font-family: ${theme.font};
     background-color: var(--colorMainBlue);
     margin: 0 auto;
@@ -88,7 +80,6 @@ export const globalStyleBody = (theme) => css`
     line-height: 1.5;
     letter-spacing: 0.5px;
     border-radius: 20px;
-    /* text-transform: uppercase; */
     font-weight: bold;
     display: block;
     min-height: 2.5rem;
@@ -144,9 +135,8 @@ const displayFlex = (
   return { display, flexDirection, justifyContent, alignItems };
 };
 
-/* +* Layout ** */
+/** Layout ** */
 export const styleMain = css`
-  /* border: 2px solid black; */
   display: flex;
   min-height: 100vh;
 `;
@@ -156,23 +146,12 @@ export const styleMain = css`
 /* *************************** */
 
 export const headerStyle = css`
-  /* max-width: 95%; */
   width: 100%;
-  /* ${marginCenter} */
-  /* position: fixed; */
-  /* background-color: #fff; */
-  /* background-color: #dad3f4; */
   ${marginCenter}
-  /* margin: 1rem 0 auto; */
-  /* border-radius: 15px; */
-
-  /* border: 2px solid blue; */
 
   nav {
     max-width: 95%;
-    /* width: inherit; */
     ${marginCenter}
-    /* margin: 0 auto; */
     gap: 60px;
     align-items: center;
     display: flex;
@@ -202,8 +181,6 @@ export const headerStyle = css`
         text-decoration: none;
         display: block;
         font-weight: bold;
-        /* background-color: #43964f; */
-        /* background-color: #522d95; */
         letter-spacing: 0.5px;
         line-height: 18px;
         text-transform: uppercase;
@@ -211,9 +188,7 @@ export const headerStyle = css`
         font-size: 12px;
         min-height: 40px;
         padding: 10px 16px;
-        /* width: 5rem; */
         text-align: center;
-        /* color: #522d95; */
         color: var(--fontColorParagraphAndLinks);
         border: none;
         border-radius: 4px;
@@ -249,16 +224,10 @@ export const flexCenterWithWidthAndHeight = css`
 
     article:first-of-type {
       position: relative;
-      /* display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center; */
       width: 30%;
       height: 100%;
       padding: 1rem;
       background-color: var(--highlightsPink);
-
-      /* margin: 0.2rem 0 0 0.2rem; */
       border-radius: 1rem 0 0 1rem;
 
       div {
@@ -278,8 +247,6 @@ export const flexCenterWithWidthAndHeight = css`
       gap: 1.8rem;
       align-items: center;
       background-color: #f5f5f5;
-      /* border-radius: 0 5% 5% 0; */
-      /* margin: 0.5rem 0.5rem 0.5rem 0; */
       border-radius: 0 1rem 1rem 0;
 
       form,
@@ -305,7 +272,6 @@ export const flexCenterWithWidthAndHeight = css`
 
       form {
         ${flexCenterColumn}
-        /* width: 60%; */
 
         div + div {
           margin-top: 2rem;
@@ -313,7 +279,6 @@ export const flexCenterWithWidthAndHeight = css`
 
         div {
           ${flexCenterColumn}
-          /* margin-top: 1.2rem; */
           width: 100%;
 
           label {
@@ -330,7 +295,6 @@ export const flexCenterWithWidthAndHeight = css`
           width: 100%;
           min-height: 3rem;
           margin-top: 1.2rem;
-
           font-size: 1.8rem;
           margin: 1rem 0;
         }
@@ -355,7 +319,6 @@ export const registerFlexCenterWithWidthAndHeight = css`
   ${flexCenter}
   width: 70%;
   height: 100vh;
-
   margin: 0 auto;
 
   section {
@@ -363,7 +326,6 @@ export const registerFlexCenterWithWidthAndHeight = css`
     width: 100%;
     height: 80%;
     border-radius: 1rem;
-
     -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
     box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
     background-color: var(--backGroundColorWhite);
@@ -374,16 +336,10 @@ export const registerFlexCenterWithWidthAndHeight = css`
 
     article:first-of-type {
       position: relative;
-      /* display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center; */
       width: 30%;
       height: 100%;
       padding: 1rem;
       background-color: var(--highlightsPink);
-
-      /* margin: 0.2rem 0 0 0.2rem; */
       border-radius: 1rem 0 0 1rem;
 
       div {
@@ -403,8 +359,6 @@ export const registerFlexCenterWithWidthAndHeight = css`
       gap: 1rem;
       align-items: center;
       background-color: #f5f5f5;
-      /* border-radius: 0 5% 5% 0; */
-      /* margin: 0.5rem 0.5rem 0.5rem 0; */
       border-radius: 0 1rem 1rem 0;
 
       form,
@@ -434,17 +388,10 @@ export const registerFlexCenterWithWidthAndHeight = css`
 
       form {
         ${flexCenterColumn}
-        /* width: 60%; */
-
-         /* div + div {
-          margin-bottom: 1rem;
-        } */
 
         div {
           ${displayFlex('flex', 'row', 'space-around', 'center')}
           gap: 1rem;
-
-          /* margin-top: 1.2rem; */
           width: 100%;
 
           label {
@@ -481,7 +428,6 @@ export const navigationStyle = css`
     margin-top: 3rem;
     height: 100%;
     display: flex;
-    /* gap: 2rem; */
     flex-direction: column;
     justify-content: center;
     list-style: none;
@@ -532,9 +478,6 @@ export const sectionTwoLayout = css`
   background-color: #eae9ee;
   padding: 1.5rem;
 
-  /* -webkit-box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16);
-  box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.16); */
-
   > div {
     background-color: #fff;
     height: 95%;
@@ -556,13 +499,6 @@ export const sectionTwoLayout = css`
         font-size: 16px;
       }
 
-      /* article:nth-of-type(1) {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-width: 30%;
-        /* border: 1px solid pink; */
       width: 18rem;
       height: 24rem;
       border-radius: 20px;
@@ -570,10 +506,7 @@ export const sectionTwoLayout = css`
     }
     */ article:nth-of-type(2) {
       width: 28.75rem;
-      /* width: 100%; */
-      /* border: 1px solid red; */
       display: flex;
-      /* flex-direction: column; */
       flex-wrap: wrap;
       gap: 1rem;
       align-items: center;
@@ -584,25 +517,17 @@ export const sectionTwoLayout = css`
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        /* gap: 1rem; */
-        /* background-color: #f3f2f9; */
         background-color: var(--backgroundColorLightGray);
-        /* border-radius: 25px; */
         width: 18rem;
         height: 12rem;
         border-radius: 20px;
         padding: 1rem;
 
-        /* box-shadow: 0 2px 21px 0 rgb(0 0 0 / 10%); */
-
         button {
           width: 100%;
-          /* background-color: #43964f; */
-
           font-size: 12px;
           font-weight: 400;
           border-radius: 5px;
-
           min-height: 30px;
           margin: 0 1rem;
         }
@@ -620,37 +545,21 @@ export const indexSectionTwoLayout = css`
   flex-direction: column;
 
   > div {
-    /* height: 100%; */
-    /* margin: 0 auto; */
-    /* padding: 1.5rem; */
     display: flex;
     margin: 0.5rem;
     gap: 1.5rem;
-    /* border: 1px solid red; */
-    div {
-      /* margin: 0 auto; */
 
-      /* article:nth-of-type(1) {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-width: 30%;
-        /* border: 1px solid pink; */
+    div {
       width: 28.75rem;
-      /* width: 18rem;
-      height: 24rem; */
       border-radius: 20px;
     }
+
     article {
       width: 28.75rem;
       display: flex;
       flex-direction: column;
-      /* flex-wrap: wrap; */
-      /* gap: 1rem; */
       align-items: center;
       justify-content: center;
-      /* border: 2px solid yellow; */
       background-color: var(--fontColorWhite);
 
       div:nth-of-type(2) {
@@ -658,7 +567,6 @@ export const indexSectionTwoLayout = css`
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        /* gap: 1rem; */
         height: 100%;
         padding: 1rem;
 
@@ -671,7 +579,6 @@ export const indexSectionTwoLayout = css`
         p {
           color: var(--fontColorGrey);
           font-size: 0.75rem;
-          /* margin: 1rem 0; */
         }
       }
 
@@ -679,13 +586,13 @@ export const indexSectionTwoLayout = css`
         width: 9.5rem;
         font-size: 12px;
         font-weight: 400;
-
         min-height: 2.1rem;
         margin: 0 1rem;
         align-self: flex-end;
         display: flex;
         gap: 0.15rem;
         padding-left: 0.8rem;
+
         span {
           display: inline-block;
           display: flex;
@@ -712,7 +619,6 @@ export const userProfileSectionTwoLayout = css`
   > div:first-of-type {
     width: 70%;
     ${displayFlex('flex', 'row', '', 'center')}
-    /* border: 2px solid red; */
     gap: 4rem;
 
     article:nth-of-type(1) {
@@ -720,15 +626,11 @@ export const userProfileSectionTwoLayout = css`
       width: 15rem;
       height: 26rem;
       border-radius: 20px;
-      /* background-color: var(--backgroundColorLightGray); */
-      /* padding: 1rem; */
-      /* border: 5px solid lightblue; */
 
       div:first-of-type {
         width: 250px;
         height: 250px;
         border-radius: 50%;
-        /* border: 1px solid grey; */
         margin-bottom: 1rem;
         position: relative;
         padding: 1rem;
@@ -754,9 +656,6 @@ export const userProfileSectionTwoLayout = css`
 
         button {
           width: 10rem;
-          /* height: 1rem; */
-          /* border-radius: 50%; */
-          /* font-size: 1rem; */
         }
       }
     }
@@ -770,7 +669,6 @@ export const userProfileSectionTwoLayout = css`
       height: 100%;
 
       ${displayFlex('flex', 'column', 'flex-end', 'center')};
-      /* border: 5px solid lightblue; */
 
       h2 {
         width: 100%;
@@ -832,7 +730,6 @@ export const sectionTwoLayoutForm = css`
     h1 {
       margin: 0 0 1.5rem 0;
       font-size: 20px;
-      /* background-color: #30b565; */
     }
 
     div {
@@ -896,7 +793,6 @@ export const formStyle = css`
   ${displayFlex('flex', 'column', 'space-between', 'center')}
   gap: 1rem;
   margin-top: 2rem;
-  /* width: 65rem; */
   min-width: 100%;
 
   h1 {
@@ -905,11 +801,6 @@ export const formStyle = css`
 
   section {
     width: 100%;
-    /* background-color: #eae9ee; */
-    /* padding: 1rem; */
-    /* border-radius: 20px; */
-    /* border: 5px solid var(--backGroundColorWhite); */
-    /* margin: 0 auto; */
   }
 
   p,
@@ -921,7 +812,6 @@ export const formStyle = css`
   input,
   select {
     width: 100%;
-    /* height: 40px; */
     border: 1px solid grey;
     border-radius: 12px;
   }
@@ -937,7 +827,7 @@ export const flexStyle = css`
 `;
 
 /* *************************** */
-/*        FormCompleted        */
+/* Compenent: FormCompleted    */
 /* *************************** */
 
 export const sectionFormCompletedLayout = css`
@@ -956,11 +846,6 @@ export const sectionFormCompletedLayout = css`
     background-color: #fff;
     width: 28rem;
     height: 95%;
-    /* padding: 1.5rem; */
-    /* border: 1px solid var(--backGroundColorGrey); */
-    /* gap: 1.5rem; */
-    /* flex-wrap: wrap; */
-    /* margin-bottom: 3rem; */
 
     > div {
       display: flex;
@@ -1011,7 +896,6 @@ export const sectionFormCompletedLayout = css`
 
     input,
     select {
-      /* border-radius: 14px; */
       padding: 0.5rem;
       border: 1px solid var(--backGroundColorGrey);
       min-height: 2.5rem;
@@ -1074,14 +958,10 @@ export const formAddNewJoiner = css`
   article {
     width: 30rem;
     height: 100%;
-
     ${displayFlex('flex', 'column', 'flex-start', 'flex-start')};
-    /* border: 5px solid lightblue; */
 
     h2 {
-      /* font-size: 2rem; */
       width: 100%;
-      /* text-align: center; */
       background-color: var(--colorMainBlue);
       color: var(--backGroundColorGrey);
       padding: 1.5rem;
@@ -1138,7 +1018,7 @@ export const successStyle = css`
 `;
 
 /* *************************** */
-/*       Dashboard      */
+/*       Dashboard             */
 /* *************************** */
 export const dashboardStyle = css`
   min-width: 85%;
@@ -1150,10 +1030,8 @@ export const dashboardStyle = css`
     background-color: #fff;
     width: 85%;
     min-width: 57.5rem;
-    /* height: 95%; */
     padding: 1.5rem;
     border-radius: 20px;
-    /* gap: 3rem; */
 
     article:first-of-type {
       display: flex;
@@ -1166,7 +1044,6 @@ export const dashboardStyle = css`
         color: var(--fontColorWhite);
         font-weight: 600;
         text-align: center;
-        /* margin-right: 0.8rem; */
         width: 10.5rem;
         height: 3rem;
         border-radius: 5px;
@@ -1179,7 +1056,6 @@ export const dashboardStyle = css`
         color: var(--colorMainBlue);
         font-weight: 300;
         text-align: center;
-        /* margin-right: 0.8rem; */
         width: 10.5rem;
         height: 3rem;
         border-radius: 5px;

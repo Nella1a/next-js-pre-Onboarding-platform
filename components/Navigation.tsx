@@ -87,20 +87,7 @@ export default function Navigation(props: Props) {
             </Link>
           </li>
         )}
-        {/* <li>
-          <Image
-            src={iconUpdates}
-            alt="Documents Icon"
-            width="20"
-            height="20"
-          />
-          <Link href="/welcome">
-            <a>Updates</a>
-          </Link>
-        </li> */}
       </ul>
-
-      {/* This should be a normal a link, thus we want the page to relode*/}
     </nav>
   );
 }

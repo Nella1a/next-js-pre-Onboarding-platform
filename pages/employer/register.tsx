@@ -18,7 +18,6 @@ type Errors = { message: string }[];
 
 type Props = {
   refreshUserProfile: () => void;
-  // userObject?: { username: string };
   csrfToken: string;
 };
 
@@ -27,7 +26,6 @@ export default function Register(props: Props) {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  // const [userRole, setUserRole] = useState(1);
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
   const userRole = 1;
@@ -61,7 +59,7 @@ export default function Register(props: Props) {
               <p>Create your account and get started. </p>
             </div>
 
-            {/* show error message if username already exists  */}
+            {/* show error message if username already exist  */}
             <div css={errorStyles}>
               {errors.map((error) => {
                 return (
@@ -164,23 +162,6 @@ export default function Register(props: Props) {
                   />
                 </p>
               </div>
-              {/* <div>
-                <label htmlFor="userRole">Register as</label>
-                <select
-                  id="userRole"
-                  name="userRole"
-                  value={userRole}
-                  data-test-id="registration-userRole"
-                  required
-                  onChange={(event) => {
-                    setUserRole(parseInt(event.currentTarget.value));
-                  }}
-                >
-                  <option value="0"> -- choose role -- </option>
-                  <option value="1">employer</option>
-                  <option value="2">new hire</option>
-                </select>
-              </div> */}
               <button>Sign Up</button>
               <p>
                 Already have an account?

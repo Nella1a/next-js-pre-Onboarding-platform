@@ -7,7 +7,6 @@ import {
   sectionOneLayout,
   sectionTwoLayoutForm,
 } from '../../../components/elements';
-// import FormCard from '../../components/FormCard';
 import FormCompleted from '../../../components/FormCompleted';
 import FormStepOneValues from '../../../components/FormsPages/formStepOneValues';
 import FormStepThreeValues from '../../../components/FormsPages/formStepThreeValues';
@@ -29,11 +28,7 @@ type Props = {
   cloudKey: string;
   uploadPreset: string;
   headerImage: string;
-  // userFormInput?: AllPersonalInfo;
   readAllUserInfo: ReadAllPersonalInfo;
-
-  // readFullUserInfo: ReadAllPersonalInfo;
-  // userFormOne?: FormValuesOne;
   currentStep: number | undefined;
 };
 
@@ -43,10 +38,6 @@ export default function Documents(props: Props) {
   console.log('props Documents', props);
   console.log('props.ReadAllUserInfo:', props.readAllUserInfo);
   console.log('Formstep:', formStep);
-
-  // useEffect(() => {
-  //   setFormStep(props.currentStep.currentStep);
-  // }, [props.currentStep.currentStep]);
 
   if (!formStep) {
     return (
@@ -61,8 +52,6 @@ export default function Documents(props: Props) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        {/* <h1>Welcome X</h1>
-        <p>It's great to have you with us.</p> */}
         <section css={sectionOneLayout}>
           <Navigation userId={props.user.id} userRole={props.user.roleId} />
         </section>
@@ -70,19 +59,11 @@ export default function Documents(props: Props) {
         <section css={sectionTwoLayoutForm}>
           <div>
             <div css={[formStyleContainer, formOneStyle]}>
-              {/* <FormCard
-              currentStep={formStep}
-              prevFormStep={prevFormStep}
-              css={displayFlexDiv}
-            >*/}
-
-              {/* {formStep === 0 && ( */}
               <FormStepOneValues
                 formStep={formStep}
                 setFormStep={setFormStep}
                 user={props.user}
               />
-              {/* )} */}
             </div>
           </div>
         </section>
@@ -101,9 +82,6 @@ export default function Documents(props: Props) {
         <meta name="description" content="Landing page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      {/* <h1>Welcome X</h1>
-      <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
@@ -135,7 +113,6 @@ export default function Documents(props: Props) {
                 formStep={formStep}
               />
             )}
-            {/* </FormCard> */}
           </div>
         </div>
       </section>
@@ -159,17 +136,12 @@ export async function getServerSideProps(
   // 2. Retrieve user by valid sessionToken
   const user = await getUserByValidSessionToken(token);
 
-  // 3. If user exists, return user and render page
+  // 3. If user, return user and render page
   if (user) {
     // get current formstep
     const readCurrentFormStep = await readFormStepDb(user.id);
 
-    // const userAddress = await readUserAddress(user.id);
     const readAllUserInfo = await readUserAllPersonalInfo(user.id);
-
-    console.log('current_FormStep gSSP:', readCurrentFormStep);
-    // console.log('userAddress:', userAddress);
-    console.log('JoinreadPersonalDetails', readAllUserInfo);
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readAllUserInfo) {
@@ -185,7 +157,6 @@ export async function getServerSideProps(
         user: user,
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         readAllUserInfo: readAllUserInfo || null,
-        // readFormOneValues: readFormOneValues || null,
 
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         currentStep: readCurrentFormStep ? readCurrentFormStep.currentStep : 0,

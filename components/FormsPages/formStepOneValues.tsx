@@ -1,6 +1,5 @@
 import { Fragment, useState } from 'react';
 import { User } from '../../util/database';
-// import { useForm } from 'react-hook-form';
 import {
   errorStyles,
   flexStyle,
@@ -73,19 +72,12 @@ export default function FormStepOneValues({
           }
           setErrorsApi([]);
 
-          // const getValuesFromDatabase = async () => {
-          //   const response = await fetch('/api/formStepOneValues');
-          //   const responseBody = await response.json();
-          //   console.log('return formOneValue:', responseBody);
-          // };
-
           // response from api okay ==> update formstep variable
           const nextFormStep = formStep + 1;
           setFormStep(nextFormStep);
         }}
       >
         <section>
-          {/* <h2>Personal Details </h2> */}
           <p>
             <label htmlFor="email">
               <span>E-mail: </span>
@@ -152,7 +144,6 @@ export default function FormStepOneValues({
                 id="phone"
                 name="phone"
                 min={0}
-                // maxLength={15}
                 value={phone}
                 placeholder="0043 660 000 00 00"
                 onChange={(event) => setPhone(event.currentTarget.value)}

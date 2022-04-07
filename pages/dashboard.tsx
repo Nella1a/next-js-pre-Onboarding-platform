@@ -138,7 +138,6 @@ export async function getServerSideProps(
 
   // 2. Retrieve user by valid sessionToken
   const user = await getUserByValidSessionToken(token);
-  // TO DO CHECK ROLE Of USER
 
   // if user exists but does not have the right role redirect to home
   if (user && user.roleId !== 1) {
@@ -150,7 +149,7 @@ export async function getServerSideProps(
     };
   }
 
-  // if user does not exist (= no token) redirect to login
+  // if no token (= no user) redirect to login
   if (!user) {
     return {
       redirect: {
@@ -160,21 +159,15 @@ export async function getServerSideProps(
     };
   }
 
-  // if user exists and has the right role return user and render page
+  // if user and has the right role return user and render page
   if (user.roleId === 1) {
     const userRoleId = 2;
     // get all new joiners
-    // const newJoiners = await getAllNewJoiners(userRoleId);
     const readNewJoiners = await readAllNewJoiners(userRoleId);
-    // console.log('newJoiners gSSP', newJoiners);
-    console.log('readNewJoiner - gSSP:', readNewJoiners);
-
     return {
       props: {
         user: user,
         newJoiners: JSON.parse(JSON.stringify(readNewJoiners)),
-
-        //  Fix the error using JSON.parse() and JSON.stringify()
       },
     };
   }

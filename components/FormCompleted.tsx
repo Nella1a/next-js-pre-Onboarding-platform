@@ -7,21 +7,15 @@ import { buttonFlex, sectionFormCompletedLayout } from './elements';
 interface ChildProps {
   readFullUserInfo: ReadAllPersonalInfo;
   formStep: number;
-  // setFormStep: React.Dispatch<React.SetStateAction<number>>;
-  // user: User;
   userId: number;
 }
 
 export default function FormCompleted({
   readFullUserInfo,
   formStep,
-  // setFormStep,
-  // user,
+
   userId,
 }: ChildProps) {
-  console.log('gSSP:', readFullUserInfo);
-  // console.log('gSSP_info:', props.readAllUserInfo.email);
-
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState('');
   const [emailOnEdit, setEmailOnEdit] = useState(readFullUserInfo.email);
@@ -90,15 +84,11 @@ export default function FormCompleted({
     });
     const putResponseBody =
       (await putResponse.json()) as UserAddressResponseBody;
-    // console.log('putREsponsebody: ', putResponseBody);
 
     if ('errors' in putResponseBody) {
       setError(putResponseBody.errors);
       return;
     }
-    // setUserFormInfo(putResponseBody.userFormInfo);
-    console.log('PUT_Response:', putResponseBody);
-    // State Variables for the on Edit inputs
   }
 
   return (
@@ -106,7 +96,6 @@ export default function FormCompleted({
       <h2> Step {formStep + 1} of 4</h2>
       {/* <h2>Review your inputs! 🎉</h2> */}
       <section css={sectionFormCompletedLayout}>
-        {console.log('userAddress:')}
         <article>
           <h2>Personal Details</h2>
           <div>
@@ -142,8 +131,6 @@ export default function FormCompleted({
                       setDateOfBirthOnEdit(event.currentTarget.value)
                     }
                   />
-                  {console.log('Birthday,', dateOfBirthOnEdit)}
-                  {console.log('Birthday-Typeof,', typeof dateOfBirthOnEdit)}
                 </p>
               ) : (
                 <p>
