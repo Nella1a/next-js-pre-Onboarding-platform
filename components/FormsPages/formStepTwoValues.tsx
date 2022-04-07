@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { User } from '../../util/database';
 
-// import { useForm } from 'react-hook-form';
 import {
   errorStyles,
   flexStyle,
@@ -14,31 +13,8 @@ interface ChildProps {
   formStep: number;
 
   setFormStep: React.Dispatch<React.SetStateAction<number | undefined>>;
-  // prevFormStep: number;
   user: User;
 }
-
-// type FormOneRequestBody = {
-//   address: string;
-//   city: string;
-//   zipCode: number;
-//   country: string;
-//   maritalStatus: number;
-//   sosContactfullName: string;
-//   sosContactPhone: number;
-//   sosContactRelation: string;
-// };
-
-// type FormValuesTwo = {
-//   address: string;
-//   city: string;
-//   zipCode: number;
-//   country: string;
-//   maritalStatus: number;
-//   sosContactfullName: string;
-//   sosContactPhone: number;
-//   sosContactRelation: number;
-// };
 
 type Errors = { message: string }[];
 
@@ -52,14 +28,11 @@ export default function FormStepTwoValues({
   const [zipCode, setZipCode] = useState('');
   const [country, setCountry] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
-  // const requieredTrue = false;
   const [errorsApi, setErrorsApi] = useState<Errors>([]);
-  console.log('maritalStatus:', maritalStatus);
 
   return (
     <>
       <h1> Step {formStep + 1} of 4</h1>
-      {/* show error message if username or password does not match  */}
       <div css={errorStyles}>
         {errorsApi.map((error) => {
           return <div key={`error-${error.message}`}>{error.message}</div>;
@@ -102,7 +75,6 @@ export default function FormStepTwoValues({
         }}
       >
         <section>
-          {/* <h2>Personal Details </h2> */}
           <p>
             <label htmlFor="address">
               <span>Address: </span>
@@ -187,12 +159,8 @@ export default function FormStepTwoValues({
             </p>
           </div>
         </section>
-        {/* <Link href="/users/uploads/" passHref> */}
         <button>Step 3</button>
-        {/* </Link> */}
       </form>
-      {/* </section> */}
-      {/* </Layout> */}
     </>
   );
 }

@@ -18,7 +18,6 @@ import iconAddNew from '../public/img/menu/iconAddNew.svg';
 import iconContract from '../public/img/menu/iconContract.svg';
 import iconDashboard from '../public/img/menu/iconDashboard.svg';
 import iconProfile from '../public/img/menu/iconProfile.png';
-// import iconUpdates from '../public/img/menu/iconUpdates.svg';
 import { getUserByValidSessionToken, User } from '../util/database';
 
 type Props = {
@@ -89,7 +88,6 @@ export default function Home(props: Props) {
               </div>
             </article>
           </div>
-          {/* / *** ** * / */}
           <div>
             <article>
               <div>
@@ -174,23 +172,10 @@ export default function Home(props: Props) {
         <meta name="description" content="Landing page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      {/* <h1>Welcome X</h1>
-      <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
-
       <section css={indexSectionTwoLayout}>
-        {/* <div>
-          <Image
-            src={homeTeamTwo}
-            alt="image of a group of co-workers"
-            width="710,7"
-            height="459,6"
-          />
-        </div> */}
-
         <div>
           <article>
             <div>
@@ -257,8 +242,6 @@ export default function Home(props: Props) {
             </div>
           </article>
         </div>
-        {/* / **** *** / */}
-
         <div>
           <article>
             <div>
@@ -336,7 +319,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const token = context.req.cookies.sessionToken;
   // 2. Retrieve user by valid sessionToken
   const user = await getUserByValidSessionToken(token);
-  // Error Handling: no session token
+  // error handling: no session token
   if (!user) {
     return {
       redirect: {

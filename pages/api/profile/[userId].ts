@@ -48,27 +48,11 @@ export default async function UploadFilesHandler(
 
   // *** POST  ***
   if (request.method === 'POST') {
-    console.log('imageUrl', request.body.imageUrl);
-    console.log('userIdBE', userId);
-
-    // Add image to db
-    // const addImgUrlToDB = await addUserProfileImage(
-    //   request.body.userId,
-    //   request.body.imageUrl,
-    // );
     const addImgUrlToDB = await updateUserProfileImage(
       request.body.userId,
       request.body.imageUrl,
     );
 
-    // if (!addImgUrlToDB) {
-    //   response.status(405).json({
-    //     errors: 'failed to save in db',
-    //   });
-    //   return;
-    // }
-
-    console.log('imgRead:', addImgUrlToDB);
     response.status(200).json({
       imgUrlInDb: addImgUrlToDB,
     });
@@ -76,17 +60,10 @@ export default async function UploadFilesHandler(
   }
   //  *** UPDATE **
   if (request.method === 'PUT') {
-    // Update image
     const addImgUrlToDB = await updateUserProfileImage(
       request.body.userId,
       request.body.imageUrl,
     );
-
-    // if (!addImgUrlToDB) {
-    //   response.status(405).json({
-    //     errors: 'failed to save in db',
-    //   });
-    // }
 
     console.log('UpdateImage', addImgUrlToDB);
     response.status(200).json({

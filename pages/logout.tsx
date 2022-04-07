@@ -38,15 +38,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   // 4. redirect to login if no cookie is set
-
   return {
     redirect: {
       destination: '/employer/login',
       permanent: false,
     },
   };
-
-  // return {
-  //   props: {},
-  // };
 }

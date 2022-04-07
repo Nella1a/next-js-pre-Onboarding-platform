@@ -10,7 +10,6 @@ import {
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/Navigation';
 import contract from '../../../public/img/contract.jpeg';
-// import homeTeam from '../../../public/img/home/homeTeam.png';
 import {
   AddContractDetailsRequestBody,
   getUserById,
@@ -24,17 +23,9 @@ type Props = {
   userFirstName: string;
   headerImage: string;
   user?: User;
-  // readContract: AddContractDetailsRequestBody | string;
 };
 
 export default function UserProfile(props: Props) {
-  // const [jobTitle, setJobTitle] = useState(props.readContract.jobTitle);
-  // const [salary, setSalary] = useState(props.readContract.salary);
-  // const [benefits, setBenefits] = useState(props.readContract.benefits);
-  // const [startingDate, setStartingDate] = useState(
-  //   props.readContract.startingDate,
-  // );
-
   const [jobTitle, setJobTitle] = useState();
   const [salary, setSalary] = useState();
   const [benefits, setBenefits] = useState();
@@ -61,13 +52,6 @@ export default function UserProfile(props: Props) {
     fetchData().catch(() => {});
   }, [props.userObject.id]);
 
-  // const downloadContract = async () => {
-  //   const requestConstract = await fetch(props.readContract.benefits);
-  //   const requestResponse = await requestConstract.json();
-  //   console.log('contract, ', requestResponse);
-  // };
-
-  console.log('props_contract:', props);
   if (!props.user) {
     return (
       <Layout
@@ -160,28 +144,10 @@ export default function UserProfile(props: Props) {
                 />
               </li>
             </div>
-
-            {/* <div>
-              <li>
-                <label htmlFor="benefits">Benefits</label>
-              </li>
-              <li>
-                <input
-                  id="benefits"
-                  type="benefits"
-                  name="benefits"
-                  value={benefits}
-                  disabled={isDisabled}
-                />
-              </li>
-            </div> */}
             <div>
               <li>
                 <label htmlFor="benefits">Contract</label>
               </li>
-              {/* <li>
-                <button onClick={downloadContract}> Download Contract</button>
-              </li> */}
               <li>
                 <button> Read Contract</button>
               </li>
@@ -209,18 +175,10 @@ export async function getServerSideProps(
     // TO DO CHECK ROLE Of USER
     const session = await getValidSessionByToken(token);
 
-    // check if not empty
-    // if (readContract) {
-    //   readContract.startingDate = new Date(
-    //     readContract.startingDate,
-    //   ).toLocaleDateString('en-US');
-    // }
-
-    // console.log('readContract', readContract);
     if (session) {
       const user = await getUserById(session.userId);
 
-      // User id is not correct type
+      // UserId is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };
       }
@@ -228,7 +186,6 @@ export async function getServerSideProps(
       if (!user) {
         context.res.statusCode = 404;
         return {
-          // notFound: true, // also works, but generates a generic error page
           props: {},
         };
       }

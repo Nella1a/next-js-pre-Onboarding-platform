@@ -8,17 +8,6 @@ import {
   UserAddress,
 } from '../../../util/database';
 
-// type FormTwoRequestBody = {
-//   address: string;
-//   city: string;
-//   zipCode: string;
-//   country: string;
-//   maritalStatus: number;
-//   sosContactfullName: string;
-//   sosContactPhone: string;
-//   sosContactRelation: number;
-// };
-
 type FormUpdateValues = {
   // dateOfBirth: string;
   email: string;
@@ -51,7 +40,6 @@ export default async function formInputHandler(
 ) {
   // * check if userId is a number
   const userId = Number(request.query.userId);
-  console.log('userId:', userId);
   if (!userId) {
     response.status(400).json({
       errors: 'no valid userId',
@@ -61,10 +49,8 @@ export default async function formInputHandler(
 
   // *** PUT-Method ** //
   if (request.method === 'PUT') {
-    console.log('Response:', request.body);
     // access the body from the request object
     const formUpdateRequest = request.body.formUpdate;
-    console.log('Formupdate:', formUpdateRequest.email);
 
     const updatePersDetail = await updateUserPersonalInfo(
       formUpdateRequest.userId,
@@ -74,7 +60,6 @@ export default async function formInputHandler(
       formUpdateRequest.email,
       formUpdateRequest.userPhone,
     );
-    console.log('UPDATE_PersDetail:', updatePersDetail);
     const updateAddress = await updateUserAddress(
       formUpdateRequest.userId,
       formUpdateRequest.streetAndNbr,
@@ -82,26 +67,10 @@ export default async function formInputHandler(
       formUpdateRequest.postalCode,
       formUpdateRequest.country,
     );
-    console.log('UPDATE_Addres:', updateAddress);
 
-    // const updateMaritalStatus = await updateUserMaritalStatus(
-    //   formUpdateRequest.userId,
-    //   formUpdateRequest.maritalStatusId,
-    // );
-    // console.log('UPDATE_Marital:', updateMaritalStatus);
-
-    // const updateSosContact = await updateUserEmergencyContact(
-    //   formUpdateRequest.userId,
-    //   formUpdateRequest.fullname,
-    //   formUpdateRequest.sosPhone,
-    //   formUpdateRequest.relationshipId,
-    // );
-    // console.log('UPDATE-SOS:', updateSosContact);
     response.status(200).json({
       updatePers: updatePersDetail,
       updateAddr: updateAddress,
-      // updateCivil: updateMaritalStatus,
-      // updateSos: updateSosContact,
     });
     return;
   }
@@ -110,15 +79,6 @@ export default async function formInputHandler(
   if (request.method === 'GET') {
     // read all personal information from db
     const userAllPersonalInfoResponse = await readUserAllPersonalInfo(userId);
-
-    console.log('P-Info API', userAllPersonalInfoResponse);
-
-    // if (!userAllPersonalInfoResponse) {
-    //   response.status(400).json({
-    //     errors: 'not good',
-    //   });
-    //   return;
-    // }
 
     response.status(201).json({
       userFormInfo: userAllPersonalInfoResponse,

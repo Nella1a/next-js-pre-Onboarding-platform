@@ -10,17 +10,6 @@ import {
 } from '../components/elements';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
-// const divContainerforImage = css`
-//   position: relative;
-//   padding: 1rem;
-//   img {
-//     display: block;
-//     border-radius: 50%;
-//     width: 400px;
-//     height: auto;
-//     margin: 1rem;
-//   }
-// `;
 import { getUserById, getValidSessionByToken, User } from '../util/database';
 
 type Props = {
@@ -72,8 +61,6 @@ export default function UserProfile(props: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <h1>Welcome X</h1>
-      <p>It's great to have you with us.</p> */}
       <section css={sectionOneLayout}>
         <Navigation userId={props.user.id} userRole={props.user.roleId} />
       </section>
@@ -81,7 +68,6 @@ export default function UserProfile(props: Props) {
       <section
         css={[addNewJoinerSectionTwoLayoutColumn, contractAddNewJoiners]}
       >
-        {/* <section css={sectionTwoLayout}> */}{' '}
         <div>
           <article>
             <AddNewJoiner
@@ -140,14 +126,14 @@ export async function getServerSideProps(
 
   if (token) {
     // 2. check if token is valid
-    // TO DO CHECK ROLE Of USER
+    // TO DO CHECK userRole
 
     const session = await getValidSessionByToken(token);
 
     if (session) {
       const user = await getUserById(session.userId);
 
-      // User id is not correct type
+      // UserId is not correct type
       if (!session.userId || Array.isArray(session.userId)) {
         return { props: {} };
       }
@@ -161,7 +147,6 @@ export async function getServerSideProps(
         };
       }
 
-      // Error Handling: if user exists but does not have the right role redirect to home
       // TO DO: should return to the previous page
       if (user.roleId !== 1) {
         return {

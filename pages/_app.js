@@ -32,13 +32,6 @@ function MyApp({ Component, pageProps }) {
     if (!data.profileImgUrl.imageUrl) {
       setUserHeaderImage(`/profilePlaceholder.svg`);
     }
-    // setUserFirstName(usersFirstName);
-
-    // if (!data.userImageUrlHeader.imgUrl) {
-    //   setUserHeaderImage(`../public/imgTest.png`);
-    // } else {
-    //   setUserHeaderImage(data.userImageUrlHeader.imgUrl);
-    // }
   }, []);
 
   console.log('userName _app:', userFirstName);

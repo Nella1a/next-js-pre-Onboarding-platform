@@ -7,28 +7,7 @@ import {
   successStyle,
 } from './elements';
 
-// type Props = {
-//   user: User | null;
-//   userObject: User;
-//   formStep: number;
-//   nextFormStep: Function;
-//   formValues: object;
-//   setFormValues: object;
-// };
-
-// type FormValuesOne = {
-//   username: string;
-//   password: string;
-//   firstName: string;
-//   lastName: string;
-// };
 type Errors = { message: string }[];
-// type Props = {
-//   newJoinerUserId: number;
-//   cloudKey: string;
-//   uploadPreset: string;
-//   setAddNewJoiner: boolean;
-// };
 
 interface ChildProps {
   apiResponse: boolean;
@@ -50,9 +29,7 @@ export default function AddContractDetails({
   const [startingDate, setStartingDate] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [salary, setSalary] = useState<number>();
-  // const [benefits, setBenefits] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  // const [apiResponse, setApiResponse] = useState(false);
   const [errors, setErrors] = useState<Errors>();
   const [uploadContract, setUploadContract] = useState('');
 
@@ -64,8 +41,6 @@ export default function AddContractDetails({
 
   // send contract to cloud
   const uploadContractToCloud = async (event: any) => {
-    // const contractCloudUrl = async () => {
-    // console.log('userIdFE:', userId);
     const formData = new FormData();
     formData.append('file', event[0]);
     formData.append('upload_preset', uploadPreset);
@@ -79,20 +54,16 @@ export default function AddContractDetails({
     );
 
     const formDataResponse = await cloudinaryResponse.json();
-    // setCloudinaryUpload(formDataResponse);
-    console.log('Cloudinary:Response:', formDataResponse.url);
 
     if ('error' in formDataResponse) {
       console.log('failed to upload to cloud');
     }
 
     setUploadContract(formDataResponse.url);
-    console.log('contractUrl StateVariable:', uploadContract);
   };
 
   return (
     <>
-      {/* show error message if username already exists  */}
       <div css={errorStyles}>{errors && <p>{errors}</p>}</div>
 
       <form
@@ -134,7 +105,6 @@ export default function AddContractDetails({
             setUploadContract('');
             setApiResponse(true);
           }
-          // props.setAddNewJoiner(addContractResponseBody);
           console.log('AddContractResponseBody:', addContractResponseBody);
         }}
       >
@@ -197,24 +167,6 @@ export default function AddContractDetails({
                     />
                   </li>
                 </div>
-
-                {/* <div>
-                  <li>
-                    <label htmlFor="benefits">Benefits</label>
-                  </li>
-                  <li>
-                    <input
-                      id="benefits"
-                      type="benefits"
-                      name="benefits"
-                      disabled={isDisabled}
-                      value={benefits}
-                      onChange={(event) =>
-                        setBenefits(event.currentTarget.value)
-                      }
-                    />
-                  </li>
-                </div> */}
                 <div>
                   <li>
                     {' '}
@@ -234,10 +186,6 @@ export default function AddContractDetails({
                       }}
                     />
                   </li>
-
-                  {/* <button onClick={uploadContractToCloud}>
-                      add contract
-                    </button> */}
                 </div>
 
                 <div>
